@@ -1,0 +1,29 @@
+mutation ConnectVirtualPresence($input: ConnectVirtualPresenceInput) {
+  connectVirtualPresence(input: $input) {
+    ...VirtualPresence
+  }
+}
+
+mutation DisconnectVirtualPresence($id: String!) {
+  disconnectVirtualPresence(id: $id) {
+    ...VirtualPresence
+  }
+}
+
+mutation RescanVirtualPresence($id: String!, $options: ScanOptionsInput) {
+  rescanVirtualPresence(id: $id, options: $options) {
+    ...VirtualPresence
+  }
+}
+
+mutation InitiateAction($input: InitiateActionInput!) {
+  initiateAction(input: $input) {
+    ...Action
+  }
+}
+
+mutation ConfirmActionOutcome($id: ID!) {
+  confirmActionOutcome(id: $id) {
+    ...Action
+  }
+}

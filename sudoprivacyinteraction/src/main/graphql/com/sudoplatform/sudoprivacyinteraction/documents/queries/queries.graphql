@@ -1,0 +1,70 @@
+query GetProviderConfiguration {
+  getProviderConfiguration {
+    data
+  }
+}
+
+query ListVirtualPresences($input: ListVirtualPresencesInput) {
+  listVirtualPresences(input: $input) {
+    items {
+      ...VirtualPresence
+    }
+    nextToken
+  }
+}
+
+query GetDataHolder($id: ID!) {
+  getDataHolder(id: $id) {
+    ...DataHolder
+  }
+}
+
+query ListDataHolders($virtualPresenceId: ID!, $limit: Int, $nextToken: String) {
+  listDataHolders(virtualPresenceId: $virtualPresenceId, limit: $limit, nextToken: $nextToken) {
+    items {
+      ...DataHolder
+    }
+    nextToken
+  }
+}
+
+query ListDataHolderScanSummaries($dataHolderId: ID!, $limit: Int, $nextToken: String) {
+  listDataHolderScanSummaries(dataHolderId: $dataHolderId, limit: $limit, nextToken: $nextToken) {
+    items {
+      ...DataHolderScanSummary
+    }
+    nextToken
+  }
+}
+
+
+query GetAnalysisResult($id: ID!) {
+  getAnalysisResult(id: $id) {
+    ...AnalysisResult
+  }
+}
+
+query ListAnalysisResults($virtualPresenceId: ID!, $limit: Int, $nextToken: String) {
+  listAnalysisResults(virtualPresenceId: $virtualPresenceId, limit: $limit, nextToken: $nextToken) {
+    items {
+      ...AnalysisResult
+    }
+    nextToken
+  }
+}
+
+query GetOrganizationAnalysis($domain: String!, $mode: OrganizationAnalysisMode) {
+  getOrganizationAnalysis(domain: $domain, mode: $mode) {
+    ...OrganizationAnalysis
+  }
+}
+
+
+query ListAvailableActions($dataHolderId: ID!) {
+  listAvailableActions(dataHolderId: $dataHolderId) {
+    items {
+      ...AvailableAction
+    }
+    nextToken
+  }
+}

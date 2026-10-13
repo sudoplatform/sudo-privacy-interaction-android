@@ -1,0 +1,40 @@
+/*
+ * Copyright © 2026 Anonyome Labs, Inc. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.sudoplatform.sudoprivacyinteraction.subscription
+
+/**
+ * Generic subscriber interface which allows notification of connection state change.
+ */
+interface Subscriber {
+    /**
+     * Connection state of the subscription.
+     *
+     * @enum ConnectionState
+     */
+    enum class ConnectionState {
+        /**
+         * Connected and receiving updates.
+         */
+        CONNECTED,
+
+        /**
+         * Disconnected and won't receive any updates. When disconnected all subscribers will be
+         * unsubscribed so the consumer must re-subscribe.
+         */
+        DISCONNECTED,
+    }
+
+    /**
+     * Notifies the subscriber that the subscription connection state has changed. The subscriber
+     * won't be notified of subscribed changes until the connection status changes to
+     * [ConnectionState.CONNECTED]. The subscriber will stop receiving change notifications when the
+     * connection state changes to [ConnectionState.DISCONNECTED].
+     *
+     * @param state [ConnectionState] The connection state.
+     */
+    fun connectionStatusChanged(state: ConnectionState)
+}

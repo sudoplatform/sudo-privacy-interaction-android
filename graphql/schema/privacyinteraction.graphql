@@ -1,0 +1,748 @@
+# The provider type of the virtual presence.
+enum ProviderType {
+  EMAIL
+}
+
+# The relationship provider used for discovery on a virtual presence.
+enum RelationshipProvider {
+  GMAIL_PROVIDER
+  TEST_PROVIDER
+}
+
+# The possible states of a virtual presence.
+enum VirtualPresenceState {
+  CONNECTED
+  SCANNING
+  NEEDS_REAUTH
+  ERROR
+  INACTIVE
+}
+
+enum AnalysisResultStatus {
+  PENDING
+  COMPLETE
+  PARTIAL
+  FAILED
+  UNAVAILABLE
+}
+
+# Controls how getOrganizationAnalysis obtains source results when the stored
+# analysis is stale or absent.
+enum OrganizationAnalysisMode {
+  # Read-through: request analysis from the sources, which may compute and
+  # leave the result PENDING until asynchronous work completes.
+  ANALYZE
+  # Pull only the sources' existing values; never request new work. A stale
+  # domain with no existing source value is not moved to PENDING.
+  FETCH
+}
+
+# Tri-state signal value representing confidence in a determination.
+enum SignalValue {
+  YES
+  NO
+  UNKNOWN
+}
+
+# Categories of personal data as identified in a privacy policy.
+enum DataCategory {
+  ACCOUNT_PROFILE
+  AUTHENTICATION
+  BACKGROUND
+  BIOMETRIC
+  COMMUNICATION
+  CONTACTS
+  DEMOGRAPHIC
+  DEVICE_IDENTIFIER
+  FINANCIAL
+  GOVERNMENT_ISSUED
+  HEALTH
+  INFERENCES
+  LOCATION
+  OTHER
+  PII
+  THIRD_PARTY_DATA
+  USAGE
+}
+
+# How the data retention period is measured.
+enum RetentionStyle {
+  INDEFINITE
+  RELATIVE_TO_ACCOUNT_CLOSURE_TIME
+  RELATIVE_TO_DATA_STORAGE_TIME
+  OTHER
+}
+
+# Business category for an organization.
+enum OrganizationCategory {
+  Finance
+  Cryptocurrency
+  Insurance
+  DataBroker
+  AdTechAndMarketing
+  EnergyAndUtilities
+  Communications
+  Government
+  Military
+  RealEstate
+  Shopping
+  ShippingAndDelivery
+  FoodAndDining
+  Automotive
+  Travel
+  Transportation
+  Entertainment
+  News
+  VideoGames
+  Gambling
+  SportsAndFitness
+  SocialMedia
+  Dating
+  CommunityAndCharity
+  Health
+  Education
+  Employment
+  Technology
+  PrivacyAndSecurity
+  PersonalEmail
+  Other
+}
+
+# Brand identity and business categorization for an organization.
+type OrganizationIdentity @aws_cognito_user_pools @aws_iam {
+  # The consumer-facing brand name (e.g. "Facebook").
+  brandName: String
+  # The company that owns the brand (e.g. "Meta").
+  companyName: String
+  # The single most representative business category.
+  primaryCategory: OrganizationCategory
+  # All applicable business categories (includes primary).
+  categories: [OrganizationCategory!]!
+}
+
+# The protection state of a data holder.
+enum DataHolderProtectionState {
+  MONITORED
+  ACTION_REQUESTED
+  RESOLVED
+}
+
+# The user-facing intent of an action. This is a service-owned taxonomy,
+# decoupled from any upstream provider's action vocabulary via boundary mapping.
+#
+# This enum is deliberately minimal and is expected to grow over time. Clients
+# MUST tolerate unknown values: treat an unrecognised intent as OTHER rather than
+# failing, so that newly added intents do not break existing clients.
+enum ActionIntent {
+  # Unsubscribe / opt out of marketing communications.
+  STOP_CONTACT
+  # Data subject access / portability request.
+  ACCESS_MY_DATA
+  # Account deletion / data erasure.
+  DELETE_MY_DATA
+  # Opt out of sale / tracking, manage consent.
+  LIMIT_DATA_USE
+  # Anything unmapped; carries additionalInfo.
+  OTHER
+}
+
+# How an action is fulfilled from the user's perspective. Which internal system
+# performs a delegated action is never surfaced.
+enum ActionFulfilmentMethod {
+  # The service returns structured materials for the client to complete the action.
+  ASSISTED
+  # The service (or a system behind it) performs the action on the user's behalf.
+  DELEGATED
+}
+
+# Which source contributed an available action.
+enum ActionOrigin {
+  # Always-possible action for the virtual presence type.
+  STATIC
+  # Derived from an analysis source's reported actions.
+  ANALYSIS
+  # Derived from a discovery scan (e.g. List-Unsubscribe).
+  DISCOVERY
+}
+
+# Lifecycle status of a persisted Action instance.
+#
+# PENDING -> IN_PROGRESS -> COMPLETED_UNVERIFIED -> COMPLETED_VERIFIED
+#                        \-> FAILED
+#                        \-> REQUIRES_USER_INPUT
+# COMPLETED_* -> CONTRADICTED (subsequent evidence contradicts the action).
+enum ActionStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED_UNVERIFIED
+  COMPLETED_VERIFIED
+  FAILED
+  REQUIRES_USER_INPUT
+  CONTRADICTED
+}
+
+# How data sharing for a category is classified.
+enum ShareStyle {
+  SHARED
+  SHARED_WITH_CONSENT
+  INFERENCE_SHARED
+  NONE
+}
+
+# Retention details for a specific data category.
+type RetentionInfo {
+  # How the retention period is expressed.
+  style: RetentionStyle!
+  # Retention period in days, when specified.
+  timeInDays: Int
+  # Free-text clarification from the policy.
+  additionalInfo: String
+}
+
+# Privacy signals specific to a single data category.
+type CategorySignals {
+  # The data category these signals apply to.
+  category: DataCategory!
+  # Is this category of data collected?
+  collected: SignalValue!
+  # Specific data labels collected within this category (e.g. "GPS location", "payment transactions").
+  dataLabels: [String!]!
+  # Is this category shared with third parties?
+  sharedWithThirdParties: ShareStyle!
+  # Is this category used for advertising/monetization?
+  monetized: SignalValue!
+  # Is this category retained?
+  retained: SignalValue!
+  # Retention details when retained is YES.
+  retention: RetentionInfo
+  # Can the user opt out of this category's collection?
+  userCanOptOut: SignalValue!
+  # Whether this data is required for the core service to function.
+  requiredForService: SignalValue
+  # Whether this data is required for legal or regulatory compliance.
+  requiredForLaw: SignalValue
+}
+
+# Signals derived from privacy actions/capabilities (not category-specific).
+type CapabilitySignals {
+  supportsAccountCreation: SignalValue!
+  supportsAccountDeletion: SignalValue!
+  supportsDataDeletionRequests: SignalValue!
+  supportsDataExport: SignalValue!
+  supportsSubscriptions: SignalValue!
+  sellsPersonalInformation: SignalValue!
+  usesCookiesOrTracking: SignalValue!
+  # Does the organization support two-factor auth for logins?
+  supportsTwoFactorAuth: SignalValue!
+}
+
+# Aggregated risk indicators derived from categories and capabilities.
+type RiskIndicators {
+  # Total number of data categories collected.
+  dataCollectionBreadth: Int!
+  # Sensitive categories collected for non-essential purposes.
+  collectsSensitiveDataForNonEssentialPurposes: SignalValue!
+  # Whether data selling is indicated.
+  sellsPersonalInformation: SignalValue!
+  # Longest known retention period in days across all categories.
+  maxRetentionDays: Int
+  # Whether any category has indefinite retention.
+  hasIndefiniteRetention: SignalValue!
+  # Not determinable from policy analysis alone.
+  encryptionPractices: SignalValue!
+  # Not determinable from policy analysis alone.
+  breachRisk: SignalValue!
+}
+
+# A single scoring aspect and its contribution to the overall score.
+type ScoreContribution {
+  # Identifier for the scoring aspect (e.g. 'dataCollection', 'dataSharing').
+  aspect: String!
+  # Numeric contribution to the score (negative = penalty, positive = bonus).
+  contribution: Float!
+}
+
+# Overall privacy score for an organization.
+type PrivacyScore {
+  # Numeric score (0-100). Higher is better.
+  score: Float!
+  # Breakdown of how each aspect contributed to the score.
+  breakdown: [ScoreContribution!]!
+  # How much of the scoring-relevant input had a known value.
+  coverage: ScoreCoverage!
+}
+
+# How much of the scoring-relevant input had a known value. A low ratio means the
+# score rests on few known signals and should be treated as lower-confidence.
+type ScoreCoverage {
+  # Scoring aspects with a known value.
+  evaluated: Int!
+  # Total scoring aspects the calculator considers.
+  total: Int!
+}
+
+# Concise human-readable summary of privacy-related findings.
+type PrivacySummary {
+  # Up to 5 key takeaways, deterministically generated.
+  bulletPoints: [String!]!
+  # URL of the source material that was analyzed.
+  sourceUrl: String!
+  # When the source material was last updated (as reported by the organization).
+  sourceLastUpdated: String
+}
+
+# The structured data payload for an analysis result.
+type AnalysisResultData {
+  # Overall privacy score for the organization. Null when scoring is disabled.
+  privacyScore: PrivacyScore
+  # Concise human-readable summary.
+  privacySummary: PrivacySummary!
+  # Per-category signal breakdown.
+  categories: [CategorySignals!]!
+  # Action-derived capability signals (not category-specific).
+  capabilities: CapabilitySignals!
+  # Aggregated risk indicators.
+  riskIndicators: RiskIndicators!
+  # Organization identity (brand, company, business categories).
+  organizationIdentity: OrganizationIdentity
+  # Attribution strings crediting each data source that contributed to this result.
+  attribution: [String!]!
+}
+
+# Shared, domain-keyed privacy analysis of an organization. The same underlying
+# analysis is returned to every caller asking about the same domain; it carries
+# only organization-generic signals.
+#
+# id equals the analyzed domain, and owner is the requesting caller. The stored
+# analysis is shared and not owned — id and owner identify this view of it, not a
+# per-owner stored record.
+type OrganizationAnalysis {
+  # Identifies the shared analysis. Equal to the analyzed domain.
+  id: ID!
+  # The analyzed domain (equal to id).
+  domain: String!
+  # Aggregate status. PENDING while an asynchronous source is still resolving;
+  # re-query for the terminal result.
+  status: AnalysisResultStatus!
+  # When the aggregate was last derived.
+  lastAnalyzedAtEpochMs: Float!
+  # Structured analysis payload. Populated when status is COMPLETE or PARTIAL.
+  data: AnalysisResultData
+  # The caller who requested this view. The underlying analysis is shared.
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+type VirtualPresence {
+  # Unique ID of the virtual presence.
+  id: ID!
+
+  # The type of presence (e.g email, social, etc.).
+  providerType: ProviderType!
+
+  # The presence identifier (e.g. email address).
+  identifier: String!
+
+  # Current state (connected, scanning, needs_reauth, error).
+  state: VirtualPresenceState!
+
+  # Which relationship provider to use for discovery.
+  relationshipProvider: RelationshipProvider
+
+  # Time in milliseconds since 1970-01-01T00:00:00Z of most recent scan
+  lastScannedAtEpochMs: Float!
+
+  # Reason the most recent completed scan failed (an error/exception name).
+  # Null when the most recent completed scan succeeded (or none has completed).
+  lastScanFailureReason: String
+
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+type VirtualPresenceConnection {
+  items: [VirtualPresence!]!
+  nextToken: String
+}
+
+type DataHolder {
+  # Unique ID of the data holder.
+  id: ID!
+
+  # ID of the virtual presence this data holder is associated with.
+  virtualPresenceId: ID!
+
+  # Domain name of the data holder (e.g. "google.com").
+  domainName: String!
+
+  # Display name of the data holder (e.g. "Google").
+  name: String!
+
+  # Current protection state.
+  protectionState: DataHolderProtectionState!
+
+  # Whether there is a compliance concern with this data holder.
+  complianceConcern: Boolean!
+
+  # Time in milliseconds since 1970-01-01T00:00:00Z of the most recent interaction.
+  mostRecentInteractionEpochMs: Float!
+
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+type DataHolderConnection {
+  items: [DataHolder!]!
+  nextToken: String
+}
+
+# Email interaction metrics captured during a single scan for a specific data holder.
+type DataHolderScanSummary {
+  dataHolderId: ID!
+  owner: ID!
+  scannedAtEpochMs: Float!
+  scanRangeFromEpochMs: Float!
+  scanRangeToEpochMs: Float!
+  emailCount: Int!
+  readCount: Int!
+  readRate: Float!
+  marketingEmailCount: Int!
+  marketingEmailOpened: Int!
+  marketingOpenRate: Float!
+  categoryBreakdown: AWSJSON!
+  uncategorizedCount: Int!
+}
+
+type DataHolderScanSummaryConnection {
+  items: [DataHolderScanSummary!]!
+  nextToken: String
+}
+
+# Contact materials for an assisted action.
+type ActionContact {
+  email: String
+  phone: String
+  address: String
+}
+
+# An email template returned for an assisted action. The body may contain
+# placeholders (e.g. "{{fullName}}") for fields the user supplies client-side.
+type AssistedEmailTemplate {
+  subject: String
+  body: String!
+}
+
+# Materials for an ASSISTED action, covering the assisted forms: an email
+# template (emailTemplate + toAddress), free-text instructions, or a link
+# (unsubscribeUrl / unsubscribeMailto).
+#
+# The service supplies the organisation contact points (toAddress, contact,
+# jurisdiction) and any source-provided instructions, but never the user's own
+# data. emailTemplate is a deployment-time asset the service returns to the
+# client; the client fills any placeholders from details the user already knows.
+type AssistedPayload {
+  toAddress: String
+  unsubscribeUrl: String
+  unsubscribeMailto: String
+  contact: ActionContact
+  jurisdiction: String
+  # Free-text instructions, potentially provided verbatim by an analysis source.
+  instructions: String
+  # An email template for the action, resolved from a deployment-time template
+  # store. The body may contain placeholders for user-supplied fields.
+  emailTemplate: AssistedEmailTemplate
+}
+
+# A derived, non-persisted action the user could take against a data holder.
+# Produced at query time by merging static, analysis, and discovery sources.
+type AvailableAction {
+  intent: ActionIntent!
+  # Populated when intent is OTHER.
+  additionalInfo: String
+  fulfilmentMethod: ActionFulfilmentMethod!
+  origin: ActionOrigin!
+  # Short presentation hint for the action's title.
+  title: String
+  # Short presentation hint describing the action.
+  description: String
+}
+
+# A persisted, initiated action instance scoped to a data holder relationship.
+# Carries either an assistedPayload or a delegated execution, depending on
+# fulfilmentMethod.
+type Action {
+  id: ID!
+  virtualPresenceId: ID!
+  dataHolderId: ID
+  intent: ActionIntent!
+  # Populated when intent is OTHER.
+  additionalInfo: String
+  fulfilmentMethod: ActionFulfilmentMethod!
+  status: ActionStatus!
+  # Materials for an assisted action. Null for a delegated action.
+  assistedPayload: AssistedPayload
+  # Time in milliseconds since 1970-01-01T00:00:00Z when the action was initiated.
+  initiatedAtEpochMs: Float
+  # Time in milliseconds since 1970-01-01T00:00:00Z when the action completed.
+  completedAtEpochMs: Float
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+type AvailableActionConnection {
+  items: [AvailableAction!]!
+  nextToken: String
+}
+
+type AnalysisResult {
+  id: ID!
+  virtualPresenceId: ID!
+  dataHolderIdentifier: String!
+  status: AnalysisResultStatus!
+  lastAnalyzedAtEpochMs: Float!
+  # Structured analysis data. Populated when status is COMPLETE or PARTIAL.
+  data: AnalysisResultData
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+type AnalysisResultConnection {
+  items: [AnalysisResult!]!
+  nextToken: String
+}
+
+# Lightweight notification payload for subscription updates.
+# Does not include the full data payload — clients should query
+# getAnalysisResult for the complete typed data.
+type AnalysisResultUpdate {
+  id: ID!
+  virtualPresenceId: ID!
+  dataHolderIdentifier: String!
+  status: AnalysisResultStatus!
+  lastAnalyzedAtEpochMs: Float!
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+# A single data holder update item with its change type.
+type DataHolderUpdateItem {
+  id: ID!
+  virtualPresenceId: ID!
+  domainName: String!
+  name: String!
+  protectionState: DataHolderProtectionState!
+  complianceConcern: Boolean!
+  mostRecentInteractionEpochMs: Float!
+  owner: ID!
+  version: Int!
+  createdAtEpochMs: Float!
+  updatedAtEpochMs: Float!
+}
+
+"""
+A batch of data holder updates emitted during discovery.
+Contains all data holders discovered in a single page with their change types.
+"""
+type DataHoldersUpdate {
+  items: [DataHolderUpdateItem!]!
+  owner: ID!
+}
+
+# Opaque provider configuration required by consumers to support the
+# provider OAuth flow. Data is base-64 encoded.
+type ProviderConfiguration {
+  data: ID!
+}
+
+# Input to listVirtualPresences query.
+input ListVirtualPresencesInput {
+  limit: Int
+  nextToken: String
+}
+
+# Input for providing an auth code and redirect uri.
+input AuthCodeInput {
+  authCode: String!
+  redirectUri: String
+}
+
+# Input for providing a pre-obtained refresh token credential.
+input RefreshTokenInput {
+  refreshToken: String!
+  providerIdentity: String!
+  scopes: [String!]
+  expiresInEpochMs: Float
+}
+
+# Input to connectVirtualPresence mutation.
+input ConnectVirtualPresenceInput {
+  authCode: AuthCodeInput
+  refreshToken: RefreshTokenInput
+  relationshipProvider: RelationshipProvider
+}
+
+# Options to control the scope and limits of a rescan.
+input ScanOptionsInput {
+  maximumItemsProcessed: Int
+  earliestScanDate: String
+  latestScanDate: String
+  excludeDomains: [String!]
+  excludeCategories: [String!]
+}
+
+# Input to the initiateAction mutation.
+#
+# The action is scoped to a data holder relationship; the owning virtual
+# presence is derived from it. fulfilmentMethod is the method the client was
+# offered for this intent — initiation fails if the server re-resolves a
+# different method, so a user never initiates a delegated action believing it
+# was assisted (or vice versa).
+input InitiateActionInput {
+  dataHolderId: ID!
+  intent: ActionIntent!
+  fulfilmentMethod: ActionFulfilmentMethod!
+}
+
+type Query {
+  """
+  Get the opaque provider configuration required by consumers to support
+  the provider OAuth flow.
+  """
+  getProviderConfiguration: ProviderConfiguration!
+
+  """
+  List virtual presences for the authenticated user
+  """
+  listVirtualPresences(
+    input: ListVirtualPresencesInput
+  ): VirtualPresenceConnection!
+
+  """
+  Get a single data holder by ID
+  """
+  getDataHolder(id: ID!): DataHolder
+
+  """
+  List data holders by virtual presence
+  """
+  listDataHolders(
+    virtualPresenceId: ID!
+    limit: Int
+    nextToken: String
+  ): DataHolderConnection!
+
+  """
+  Get a full analysis result by ID, including typed data.
+  """
+  getAnalysisResult(id: ID!): AnalysisResult
+
+  """
+  List analysis results for a virtual presence.
+  """
+  listAnalysisResults(
+    virtualPresenceId: ID!
+    limit: Int
+    nextToken: String
+  ): AnalysisResultConnection!
+
+  """
+  Analyze (read-through) and return the shared, organization-generic analysis
+  for a domain. Returns PENDING when an asynchronous source is still resolving;
+  re-query for the terminal result. When mode is omitted, the behaviour is
+  ANALYZE.
+  """
+  getOrganizationAnalysis(
+    domain: String!
+    mode: OrganizationAnalysisMode
+  ): OrganizationAnalysis
+
+  """
+  List scan summaries for a data holder (most recent first)
+  """
+  listDataHolderScanSummaries(
+    dataHolderId: ID!
+    limit: Int
+    nextToken: String
+  ): DataHolderScanSummaryConnection!
+
+  """
+  List the actions currently available for a data holder relationship. Derived
+  at query time by merging static, analysis, and discovery sources; not
+  persisted. The owning virtual presence is derived from the data holder.
+  """
+  listAvailableActions(dataHolderId: ID!): AvailableActionConnection!
+}
+
+type Mutation {
+  """
+  Connect a virtual presence.
+  """
+  connectVirtualPresence(input: ConnectVirtualPresenceInput): VirtualPresence!
+
+  """
+  Disconnect a virtual presence.
+  """
+  disconnectVirtualPresence(id: String!): VirtualPresence!
+
+  """
+  Rescan an existing virtual presence for new data holders.
+  Scans from the last scan date forward.
+  """
+  rescanVirtualPresence(
+    id: String!
+    options: ScanOptionsInput
+  ): VirtualPresence!
+
+  """
+  Initiate an action against a data holder relationship. Delegated actions are
+  performed on the user's behalf; assisted actions return structured materials
+  for the client to complete.
+  """
+  initiateAction(input: InitiateActionInput!): Action!
+
+  """
+  Confirm that an assisted or delegated action was completed, transitioning it
+  from COMPLETED_UNVERIFIED to COMPLETED_VERIFIED.
+  """
+  confirmActionOutcome(id: ID!): Action!
+}
+
+type Subscription {
+  """
+  Subscribe to analysis result updates for the authenticated user.
+  Emitted each time an analysis result is created or updated.
+  Use getAnalysisResult to fetch the full typed data.
+  """
+  onAnalysisResultUpdate(owner: ID!): AnalysisResultUpdate
+
+  """
+  Subscribe to virtual presence state updates for the authenticated user.
+  Emitted when a virtual presence changes state (e.g. to NEEDS_REAUTH).
+  """
+  onVirtualPresenceUpdate(owner: ID!): VirtualPresence
+
+  """
+  Subscribe to batch data holder updates during discovery.
+  Emitted once per discovery page with all data holders found in that page.
+  """
+  onDataHoldersUpdate(owner: ID!): DataHoldersUpdate
+
+  """
+  Subscribe to action status updates for the authenticated user.
+  Emitted each time an action's status changes. Carries the scalar fields of the
+  action; re-query the action to fetch the full assistedPayload.
+  """
+  onActionStatusUpdate(owner: ID!): Action
+}

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>CapabilitySignals</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    sudoprivacyinteraction
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":sudoprivacyinteraction:dokkaHtml/release">androidJvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":sudoprivacyinteraction:dokkaHtml/release"
+                                       data-filter=":sudoprivacyinteraction:dokkaHtml/release"/>
+                                <span class="checkbox--icon"></span>
+                                androidJvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    sudoprivacyinteraction
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="sudoprivacyinteraction::com.sudoplatform.sudoprivacyinteraction.types/CapabilitySignals///PointingToDeclaration//1431723433">
+  <div class="breadcrumbs"><a href="../../../index.html">sudoprivacyinteraction</a><span class="delimiter">/</span><a href="../index.html">com.sudoplatform.sudoprivacyinteraction.types</a><span class="delimiter">/</span><span class="current">CapabilitySignals</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Capability</span><wbr></wbr><span><span>Signals</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">CapabilitySignals</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>supportsAccountCreation<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>supportsAccountDeletion<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>supportsDataDeletionRequests<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>supportsDataExport<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>supportsSubscriptions<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sellsPersonalInformation<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>usesCookiesOrTracking<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>supportsTwoFactorAuth<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></span></span><span class="token punctuation">)</span> : <a href="https://developer.android.com/reference/kotlin/android/os/Parcelable.html">Parcelable</a></div><p class="paragraph">Signals derived from privacy actions and capabilities.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-550333035%2FConstructors%2F1431723433" anchor-label="CapabilitySignals" id="-550333035%2FConstructors%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-capability-signals.html"><span>Capability</span><wbr></wbr><span><span>Signals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-550333035%2FConstructors%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">supportsAccountCreation<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">supportsAccountDeletion<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">supportsDataDeletionRequests<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">supportsDataExport<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">supportsSubscriptions<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">sellsPersonalInformation<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">usesCookiesOrTracking<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a><span class="token punctuation">, </span></span><span class="parameter ">supportsTwoFactorAuth<span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="670868330%2FProperties%2F1431723433" anchor-label="sellsPersonalInformation" id="670868330%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sells-personal-information.html"><span>sells</span><wbr></wbr><span>Personal</span><wbr></wbr><span><span>Information</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="670868330%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="sells-personal-information.html">sellsPersonalInformation</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1653839427%2FProperties%2F1431723433" anchor-label="supportsAccountCreation" id="-1653839427%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-account-creation.html"><span>supports</span><wbr></wbr><span>Account</span><wbr></wbr><span><span>Creation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1653839427%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="supports-account-creation.html">supportsAccountCreation</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-975106130%2FProperties%2F1431723433" anchor-label="supportsAccountDeletion" id="-975106130%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-account-deletion.html"><span>supports</span><wbr></wbr><span>Account</span><wbr></wbr><span><span>Deletion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-975106130%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="supports-account-deletion.html">supportsAccountDeletion</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1190337685%2FProperties%2F1431723433" anchor-label="supportsDataDeletionRequests" id="1190337685%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-data-deletion-requests.html"><span>supports</span><wbr></wbr><span>Data</span><wbr></wbr><span>Deletion</span><wbr></wbr><span><span>Requests</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1190337685%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="supports-data-deletion-requests.html">supportsDataDeletionRequests</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1733123411%2FProperties%2F1431723433" anchor-label="supportsDataExport" id="1733123411%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-data-export.html"><span>supports</span><wbr></wbr><span>Data</span><wbr></wbr><span><span>Export</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1733123411%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="supports-data-export.html">supportsDataExport</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1180528333%2FProperties%2F1431723433" anchor-label="supportsSubscriptions" id="-1180528333%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-subscriptions.html"><span>supports</span><wbr></wbr><span><span>Subscriptions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1180528333%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="supports-subscriptions.html">supportsSubscriptions</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1934121414%2FProperties%2F1431723433" anchor-label="supportsTwoFactorAuth" id="1934121414%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="supports-two-factor-auth.html"><span>supports</span><wbr></wbr><span>Two</span><wbr></wbr><span>Factor</span><wbr></wbr><span><span>Auth</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1934121414%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="supports-two-factor-auth.html">supportsTwoFactorAuth</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1240323288%2FProperties%2F1431723433" anchor-label="usesCookiesOrTracking" id="-1240323288%2FProperties%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="uses-cookies-or-tracking.html"><span>uses</span><wbr></wbr><span>Cookies</span><wbr></wbr><span>Or</span><wbr></wbr><span><span>Tracking</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1240323288%2FProperties%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="uses-cookies-or-tracking.html">usesCookiesOrTracking</a><span class="token operator">: </span><a href="../-signal-value/index.html">SignalValue</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1578325224%2FFunctions%2F1431723433" anchor-label="describeContents" id="-1578325224%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-virtual-presence/index.html#-1578325224%2FFunctions%2F1431723433"><span>describe</span><wbr></wbr><span><span>Contents</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1578325224%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="../-virtual-presence/index.html#-1578325224%2FFunctions%2F1431723433"><span class="token function">describeContents</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1754457655%2FFunctions%2F1431723433" anchor-label="writeToParcel" id="-1754457655%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-virtual-presence/index.html#-1754457655%2FFunctions%2F1431723433"><span>write</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Parcel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1754457655%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="../-virtual-presence/index.html#-1754457655%2FFunctions%2F1431723433"><span class="token function">writeToParcel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Parcel.html">Parcel</a><span class="token punctuation">, </span></span><span class="parameter ">p1<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2026 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

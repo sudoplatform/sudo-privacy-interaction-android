@@ -1,0 +1,1 @@
+sourceset_dependencies='{":sudoprivacyinteraction:dokkaHtml/debug":[],":sudoprivacyinteraction:dokkaHtml/main":[],":sudoprivacyinteraction:dokkaHtml/release":[]}'

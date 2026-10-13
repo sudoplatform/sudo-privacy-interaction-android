@@ -1,0 +1,174 @@
+fragment VirtualPresence on VirtualPresence {
+  id
+  providerType
+  identifier
+  state
+  relationshipProvider
+  lastScannedAtEpochMs
+  owner
+  version
+  createdAtEpochMs
+  updatedAtEpochMs
+}
+
+fragment DataHolder on DataHolder {
+  id
+  virtualPresenceId
+  domainName
+  name
+  protectionState
+  complianceConcern
+  mostRecentInteractionEpochMs
+  owner
+  version
+  createdAtEpochMs
+  updatedAtEpochMs
+}
+
+fragment DataHolderScanSummary on DataHolderScanSummary {
+  dataHolderId
+  owner
+  scannedAtEpochMs
+  scanRangeFromEpochMs
+  scanRangeToEpochMs
+  emailCount
+  readCount
+  readRate
+  marketingEmailCount
+  marketingEmailOpened
+  marketingOpenRate
+  categoryBreakdown
+  uncategorizedCount
+}
+
+
+fragment AnalysisResultData on AnalysisResultData {
+  privacyScore {
+    score
+    breakdown {
+      aspect
+      contribution
+    }
+    coverage {
+      evaluated
+      total
+    }
+  }
+  privacySummary {
+    bulletPoints
+    sourceUrl
+    sourceLastUpdated
+  }
+  categories {
+    category
+    collected
+    dataLabels
+    sharedWithThirdParties
+    monetized
+    retained
+    retention {
+      style
+      timeInDays
+      additionalInfo
+    }
+    userCanOptOut
+    requiredForService
+    requiredForLaw
+  }
+  capabilities {
+    supportsAccountCreation
+    supportsAccountDeletion
+    supportsDataDeletionRequests
+    supportsDataExport
+    supportsSubscriptions
+    sellsPersonalInformation
+    usesCookiesOrTracking
+    supportsTwoFactorAuth
+  }
+  riskIndicators {
+    dataCollectionBreadth
+    collectsSensitiveDataForNonEssentialPurposes
+    sellsPersonalInformation
+    maxRetentionDays
+    hasIndefiniteRetention
+    encryptionPractices
+    breachRisk
+  }
+  organizationIdentity {
+    brandName
+    companyName
+    primaryCategory
+    categories
+  }
+  attribution
+}
+
+fragment AnalysisResult on AnalysisResult {
+  id
+  virtualPresenceId
+  dataHolderIdentifier
+  status
+  lastAnalyzedAtEpochMs
+  data {
+    ...AnalysisResultData
+  }
+  owner
+  version
+  createdAtEpochMs
+  updatedAtEpochMs
+}
+
+fragment OrganizationAnalysis on OrganizationAnalysis {
+  id
+  domain
+  status
+  lastAnalyzedAtEpochMs
+  data {
+    ...AnalysisResultData
+  }
+  owner
+  version
+  createdAtEpochMs
+  updatedAtEpochMs
+}
+
+fragment Action on Action {
+  id
+  virtualPresenceId
+  dataHolderId
+  intent
+  additionalInfo
+  fulfilmentMethod
+  status
+  assistedPayload {
+    toAddress
+    unsubscribeUrl
+    unsubscribeMailto
+    contact {
+      email
+      phone
+      address
+    }
+    jurisdiction
+    instructions
+    emailTemplate {
+      subject
+      body
+    }
+  }
+  initiatedAtEpochMs
+  completedAtEpochMs
+  owner
+  version
+  createdAtEpochMs
+  updatedAtEpochMs
+}
+
+fragment AvailableAction on AvailableAction {
+  intent
+  additionalInfo
+  fulfilmentMethod
+  origin
+  title
+  description
+}

@@ -1,0 +1,44 @@
+subscription OnVirtualPresenceUpdate($owner: ID!) {
+  onVirtualPresenceUpdate(owner: $owner) {
+    ...VirtualPresence
+  }
+}
+
+subscription OnDataHoldersUpdate($owner: ID!) {
+  onDataHoldersUpdate(owner: $owner) {
+    items {
+      id
+      virtualPresenceId
+      domainName
+      name
+      protectionState
+      complianceConcern
+      mostRecentInteractionEpochMs
+      owner
+      version
+      createdAtEpochMs
+      updatedAtEpochMs
+    }
+    owner
+  }
+}
+
+subscription OnAnalysisResultUpdate($owner: ID!) {
+  onAnalysisResultUpdate(owner: $owner) {
+    id
+    virtualPresenceId
+    dataHolderIdentifier
+    status
+    lastAnalyzedAtEpochMs
+    owner
+    version
+    createdAtEpochMs
+    updatedAtEpochMs
+  }
+}
+
+subscription OnActionStatusUpdate($owner: ID!) {
+  onActionStatusUpdate(owner: $owner) {
+    ...Action
+  }
+}

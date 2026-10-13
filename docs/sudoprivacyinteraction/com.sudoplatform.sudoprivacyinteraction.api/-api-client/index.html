@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ApiClient</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+            <a class="library-name--link" href="../../../index.html">
+                    sudoprivacyinteraction
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":sudoprivacyinteraction:dokkaHtml/release">androidJvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                    <div class="dropdown--header"><span>Platform filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":sudoprivacyinteraction:dokkaHtml/release"
+                                       data-filter=":sudoprivacyinteraction:dokkaHtml/release"/>
+                                <span class="checkbox--icon"></span>
+                                androidJvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                        data-role="dropdown-listbox">
+                        <div class="dropdown--header">
+                            <span>
+                                    sudoprivacyinteraction
+                            </span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <div class="sidebar--inner" id="sideMenu"></div>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="sudoprivacyinteraction::com.sudoplatform.sudoprivacyinteraction.api/ApiClient///PointingToDeclaration//1431723433">
+  <div class="breadcrumbs"><a href="../../../index.html">sudoprivacyinteraction</a><span class="delimiter">/</span><a href="../index.html">com.sudoplatform.sudoprivacyinteraction.api</a><span class="delimiter">/</span><span class="current">ApiClient</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Api</span><wbr></wbr><span><span>Client</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">ApiClient</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">graphQLClient<span class="token operator">: </span><a href="https://sudoplatform.github.io/sudo-user-android/sudouser/sudouser/com.sudoplatform.sudouser.amplify/-graph-q-l-client/index.html">GraphQLClient</a><span class="token punctuation">, </span></span><span class="parameter ">logger<span class="token operator">: </span><span data-unresolved-link="com.sudoplatform.sudologging/Logger///PointingToDeclaration/">Logger</span></span></span><span class="token punctuation">)</span></div><p class="paragraph">Wrapper around the <a href="https://sudoplatform.github.io/sudo-user-android/sudouser/sudouser/com.sudoplatform.sudouser.amplify/-graph-q-l-client/index.html">GraphQLClient</a> and its generated queries and mutations. Provides a testable class to handle API requests.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1627029062%2FConstructors%2F1431723433" anchor-label="ApiClient" id="1627029062%2FConstructors%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-api-client.html"><span>Api</span><wbr></wbr><span><span>Client</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1627029062%2FConstructors%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">graphQLClient<span class="token operator">: </span><a href="https://sudoplatform.github.io/sudo-user-android/sudouser/sudouser/com.sudoplatform.sudouser.amplify/-graph-q-l-client/index.html">GraphQLClient</a><span class="token punctuation">, </span></span><span class="parameter ">logger<span class="token operator">: </span><span data-unresolved-link="com.sudoplatform.sudologging/Logger///PointingToDeclaration/">Logger</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1587144993%2FFunctions%2F1431723433" anchor-label="confirmActionOutcomeMutation" id="1587144993%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="confirm-action-outcome-mutation.html"><span>confirm</span><wbr></wbr><span>Action</span><wbr></wbr><span>Outcome</span><wbr></wbr><span><span>Mutation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1587144993%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="confirm-action-outcome-mutation.html"><span class="token function">confirmActionOutcomeMutation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1447917327%2FFunctions%2F1431723433" anchor-label="connectVirtualPresenceMutation" id="1447917327%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="connect-virtual-presence-mutation.html"><span>connect</span><wbr></wbr><span>Virtual</span><wbr></wbr><span>Presence</span><wbr></wbr><span><span>Mutation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1447917327%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="connect-virtual-presence-mutation.html"><span class="token function">connectVirtualPresenceMutation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-885846875%2FFunctions%2F1431723433" anchor-label="disconnectVirtualPresenceMutation" id="-885846875%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="disconnect-virtual-presence-mutation.html"><span>disconnect</span><wbr></wbr><span>Virtual</span><wbr></wbr><span>Presence</span><wbr></wbr><span><span>Mutation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-885846875%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="disconnect-virtual-presence-mutation.html"><span class="token function">disconnectVirtualPresenceMutation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1114535093%2FFunctions%2F1431723433" anchor-label="getAnalysisResultQuery" id="1114535093%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-analysis-result-query.html"><span>get</span><wbr></wbr><span>Analysis</span><wbr></wbr><span>Result</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1114535093%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-analysis-result-query.html"><span class="token function">getAnalysisResultQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1165417416%2FFunctions%2F1431723433" anchor-label="getDataHolderQuery" id="-1165417416%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-data-holder-query.html"><span>get</span><wbr></wbr><span>Data</span><wbr></wbr><span>Holder</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1165417416%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-data-holder-query.html"><span class="token function">getDataHolderQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="408511149%2FFunctions%2F1431723433" anchor-label="getOrganizationAnalysisQuery" id="408511149%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-organization-analysis-query.html"><span>get</span><wbr></wbr><span>Organization</span><wbr></wbr><span>Analysis</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="408511149%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-organization-analysis-query.html"><span class="token function">getOrganizationAnalysisQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">domain<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">mode<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2137097095%2FFunctions%2F1431723433" anchor-label="getProviderConfigurationQuery" id="-2137097095%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-provider-configuration-query.html"><span>get</span><wbr></wbr><span>Provider</span><wbr></wbr><span>Configuration</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2137097095%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="get-provider-configuration-query.html"><span class="token function">getProviderConfigurationQuery</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-525650513%2FFunctions%2F1431723433" anchor-label="initiateActionMutation" id="-525650513%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="initiate-action-mutation.html"><span>initiate</span><wbr></wbr><span>Action</span><wbr></wbr><span><span>Mutation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-525650513%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="initiate-action-mutation.html"><span class="token function">initiateActionMutation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1969114032%2FFunctions%2F1431723433" anchor-label="listAnalysisResultsQuery" id="-1969114032%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-analysis-results-query.html"><span>list</span><wbr></wbr><span>Analysis</span><wbr></wbr><span>Results</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1969114032%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="list-analysis-results-query.html"><span class="token function">listAnalysisResultsQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">virtualPresenceId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">nextToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1351670552%2FFunctions%2F1431723433" anchor-label="listAvailableActionsQuery" id="-1351670552%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-available-actions-query.html"><span>list</span><wbr></wbr><span>Available</span><wbr></wbr><span>Actions</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1351670552%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="list-available-actions-query.html"><span class="token function">listAvailableActionsQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">dataHolderId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2068816647%2FFunctions%2F1431723433" anchor-label="listDataHolderScanSummariesQuery" id="2068816647%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-data-holder-scan-summaries-query.html"><span>list</span><wbr></wbr><span>Data</span><wbr></wbr><span>Holder</span><wbr></wbr><span>Scan</span><wbr></wbr><span>Summaries</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2068816647%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="list-data-holder-scan-summaries-query.html"><span class="token function">listDataHolderScanSummariesQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">dataHolderId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">nextToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="83990611%2FFunctions%2F1431723433" anchor-label="listDataHoldersQuery" id="83990611%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-data-holders-query.html"><span>list</span><wbr></wbr><span>Data</span><wbr></wbr><span>Holders</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="83990611%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="list-data-holders-query.html"><span class="token function">listDataHoldersQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">virtualPresenceId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">limit<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">nextToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1251313138%2FFunctions%2F1431723433" anchor-label="listVirtualPresencesQuery" id="-1251313138%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-virtual-presences-query.html"><span>list</span><wbr></wbr><span>Virtual</span><wbr></wbr><span>Presences</span><wbr></wbr><span><span>Query</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1251313138%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="list-virtual-presences-query.html"><span class="token function">listVirtualPresencesQuery</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="732745721%2FFunctions%2F1431723433" anchor-label="onActionStatusUpdateSubscription" id="732745721%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-action-status-update-subscription.html"><span>on</span><wbr></wbr><span>Action</span><wbr></wbr><span>Status</span><wbr></wbr><span>Update</span><wbr></wbr><span><span>Subscription</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="732745721%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="on-action-status-update-subscription.html"><span class="token function">onActionStatusUpdateSubscription</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionEstablished<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscription<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionCompleted<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Action///PointingToDeclaration/">Action</span><span class="token punctuation">, </span></span><span class="parameter ">onFailure<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api/ApiException///PointingToDeclaration/">ApiException</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLOperation///PointingToDeclaration/">GraphQLOperation</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1405143338%2FFunctions%2F1431723433" anchor-label="onAnalysisResultUpdateSubscription" id="1405143338%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-analysis-result-update-subscription.html"><span>on</span><wbr></wbr><span>Analysis</span><wbr></wbr><span>Result</span><wbr></wbr><span>Update</span><wbr></wbr><span><span>Subscription</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1405143338%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="on-analysis-result-update-subscription.html"><span class="token function">onAnalysisResultUpdateSubscription</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionEstablished<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscription<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionCompleted<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Action///PointingToDeclaration/">Action</span><span class="token punctuation">, </span></span><span class="parameter ">onFailure<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api/ApiException///PointingToDeclaration/">ApiException</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLOperation///PointingToDeclaration/">GraphQLOperation</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1489300748%2FFunctions%2F1431723433" anchor-label="onDataHoldersUpdateSubscription" id="-1489300748%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-data-holders-update-subscription.html"><span>on</span><wbr></wbr><span>Data</span><wbr></wbr><span>Holders</span><wbr></wbr><span>Update</span><wbr></wbr><span><span>Subscription</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1489300748%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="on-data-holders-update-subscription.html"><span class="token function">onDataHoldersUpdateSubscription</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionEstablished<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscription<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionCompleted<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Action///PointingToDeclaration/">Action</span><span class="token punctuation">, </span></span><span class="parameter ">onFailure<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api/ApiException///PointingToDeclaration/">ApiException</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLOperation///PointingToDeclaration/">GraphQLOperation</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="70706251%2FFunctions%2F1431723433" anchor-label="onVirtualPresenceUpdateSubscription" id="70706251%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-virtual-presence-update-subscription.html"><span>on</span><wbr></wbr><span>Virtual</span><wbr></wbr><span>Presence</span><wbr></wbr><span>Update</span><wbr></wbr><span><span>Subscription</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="70706251%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="on-virtual-presence-update-subscription.html"><span class="token function">onVirtualPresenceUpdateSubscription</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">owner<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionEstablished<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscription<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onSubscriptionCompleted<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Action///PointingToDeclaration/">Action</span><span class="token punctuation">, </span></span><span class="parameter ">onFailure<span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.core/Consumer///PointingToDeclaration/">Consumer</span><span class="token operator">&lt;</span><span data-unresolved-link="com.amplifyframework.api/ApiException///PointingToDeclaration/">ApiException</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLOperation///PointingToDeclaration/">GraphQLOperation</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1134183032%2FFunctions%2F1431723433" anchor-label="rescanVirtualPresenceMutation" id="-1134183032%2FFunctions%2F1431723433" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":sudoprivacyinteraction:dokkaHtml/release" data-filterable-set=":sudoprivacyinteraction:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="rescan-virtual-presence-mutation.html"><span>rescan</span><wbr></wbr><span>Virtual</span><wbr></wbr><span>Presence</span><wbr></wbr><span><span>Mutation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1134183032%2FFunctions%2F1431723433"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudoprivacyinteraction:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="rescan-virtual-presence-mutation.html"><span class="token function">rescanVirtualPresenceMutation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amplifyframework.api.graphql/GraphQLResponse///PointingToDeclaration/">GraphQLResponse</span><span class="token operator">&lt;</span><span data-unresolved-link="/&amp;lt;Error class: unknown class&amp;gt;///PointingToDeclaration/">&lt;Error class: unknown class&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+        <span>© 2026 Copyright</span>
+        <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
