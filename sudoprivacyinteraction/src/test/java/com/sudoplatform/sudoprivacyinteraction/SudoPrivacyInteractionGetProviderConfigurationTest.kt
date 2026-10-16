@@ -7,8 +7,8 @@
 package com.sudoplatform.sudoprivacyinteraction
 
 import com.sudoplatform.sudoprivacyinteraction.data.EntityDataFactory
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.configuration.ProviderConfigurationService
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceService
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.UseCaseFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.configuration.GetProviderConfigurationUseCase

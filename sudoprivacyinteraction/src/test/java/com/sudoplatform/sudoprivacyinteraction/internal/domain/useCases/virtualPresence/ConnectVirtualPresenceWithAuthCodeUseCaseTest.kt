@@ -9,7 +9,7 @@ package com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtual
 import com.sudoplatform.sudoprivacyinteraction.BaseTests
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.data.EntityDataFactory
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.RelationshipProviderEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RelationshipProviderEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceService
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe

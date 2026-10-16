@@ -55,7 +55,7 @@ interface SudoPrivacyInteractionClient : AutoCloseable {
         fun builder() = Builder()
 
         /** Name of the service stanza in `sudoplatformconfig.json`. */
-        internal const val CONFIG_PRIVACY_INTERACTION_SERVICE = "privacyInteractionService"
+        internal const val CONFIG_PRIVACY_INTERACTION_SERVICE = "pimService"
     }
 
     /**

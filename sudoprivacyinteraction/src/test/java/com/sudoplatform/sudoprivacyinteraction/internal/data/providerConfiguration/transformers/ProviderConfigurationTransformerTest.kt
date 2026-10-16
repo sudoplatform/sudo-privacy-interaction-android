@@ -8,7 +8,7 @@ package com.sudoplatform.sudoprivacyinteraction.internal.data.providerConfigurat
 
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.data.DataFactory
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.types.ProviderConfiguration
 import com.sudoplatform.sudoprivacyinteraction.types.ProviderType
 import io.kotlintest.shouldBe

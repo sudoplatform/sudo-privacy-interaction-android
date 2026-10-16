@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.sudoplatform.sudoprivacyinteraction.internal.domain.entities
+package com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence
 
 import java.util.Date
 
@@ -19,6 +19,8 @@ import java.util.Date
  * @property providerType [ProviderTypeEntity] The provider type for this virtual presence.
  * @property identifier [String] The presence identifier (e.g. email address).
  * @property state [VirtualPresenceStateEntity] The current state of the virtual presence.
+ * @property relationshipProvider [RelationshipProviderEntity] The relationship provider backing
+ *  this virtual presence connection. `null` when the service did not supply one.
  * @property lastScannedAt [Date] Date for when the virtual presence was last scanned.
  * @property lastScanFailureReason [String] Reason the most recent completed scan failed (an
  *  error/exception name). `null` when the most recent completed scan succeeded (or none has
@@ -33,6 +35,7 @@ internal data class VirtualPresenceEntity(
     val providerType: ProviderTypeEntity,
     val identifier: String,
     val state: VirtualPresenceStateEntity,
+    val relationshipProvider: RelationshipProviderEntity? = null,
     val lastScannedAt: Date,
     val lastScanFailureReason: String? = null,
     val createdAt: Date,

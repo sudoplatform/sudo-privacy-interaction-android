@@ -6,8 +6,6 @@
 
 package com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence
 
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.RelationshipProviderEntity
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.inputs.ScanOptionsEntity
 
 /**

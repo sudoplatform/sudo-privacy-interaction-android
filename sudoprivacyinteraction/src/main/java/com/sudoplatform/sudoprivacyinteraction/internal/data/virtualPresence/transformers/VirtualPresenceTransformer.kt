@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudoprivacyinteraction.internal.data.virtualPresence.transformers
 
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.util.toDate
 import com.sudoplatform.sudoprivacyinteraction.types.VirtualPresence
 import com.sudoplatform.sudoprivacyinteraction.graphql.fragment.VirtualPresence as VirtualPresenceFragment
@@ -30,6 +30,7 @@ internal object VirtualPresenceTransformer {
             providerType = ProviderTypeTransformer.fromGraphQLToEntity(data.providerType),
             identifier = data.identifier,
             state = VirtualPresenceStateTransformer.fromGraphQLToEntity(data.state),
+            relationshipProvider = RelationshipProviderTransformer.fromGraphQLToEntity(data.relationshipProvider),
             lastScannedAt = data.lastScannedAtEpochMs.toDate(),
             lastScanFailureReason = null,
             createdAt = data.createdAtEpochMs.toDate(),
@@ -49,7 +50,7 @@ internal object VirtualPresenceTransformer {
             providerType = ProviderTypeTransformer.fromEntityToApi(entity.providerType),
             identifier = entity.identifier,
             state = VirtualPresenceStateTransformer.fromEntityToApi(entity.state),
-            relationshipProvider = null,
+            relationshipProvider = RelationshipProviderTransformer.fromEntityToApi(entity.relationshipProvider),
             lastScannedAt = entity.lastScannedAt,
             lastScanFailureReason = entity.lastScanFailureReason,
             version = entity.version,

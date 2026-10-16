@@ -12,14 +12,14 @@ import com.sudoplatform.sudoprivacyinteraction.BaseTests
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.api.ApiClient
 import com.sudoplatform.sudoprivacyinteraction.data.DataFactory
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.RelationshipProviderEntity
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceStateEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.inputs.ScanOptionsEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.AuthCodeInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ConnectVirtualPresenceInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ListVirtualPresencesInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RelationshipProviderEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RescanVirtualPresenceInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceStateEntity
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow

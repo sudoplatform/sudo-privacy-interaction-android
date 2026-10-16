@@ -9,8 +9,8 @@ package com.sudoplatform.sudoprivacyinteraction.internal.data.providerConfigurat
 import android.util.Base64
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.internal.data.virtualPresence.transformers.ProviderTypeTransformer
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.configuration.ProviderConfigurationEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.types.ProviderConfiguration
 import org.json.JSONObject
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ProviderType as ProviderTypeGraphQL

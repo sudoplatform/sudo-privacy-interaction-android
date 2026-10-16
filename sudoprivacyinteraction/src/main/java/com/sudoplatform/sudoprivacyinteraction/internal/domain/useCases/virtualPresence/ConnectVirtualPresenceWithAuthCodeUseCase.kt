@@ -7,10 +7,10 @@
 package com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence
 
 import com.sudoplatform.sudologging.Logger
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.RelationshipProviderEntity
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.AuthCodeInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ConnectVirtualPresenceInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RelationshipProviderEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceService
 
 /**

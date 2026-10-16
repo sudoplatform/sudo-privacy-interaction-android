@@ -1,6 +1,6 @@
 package com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.configuration
 
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 
 /**
  * Core entity representation of a provider configuration.

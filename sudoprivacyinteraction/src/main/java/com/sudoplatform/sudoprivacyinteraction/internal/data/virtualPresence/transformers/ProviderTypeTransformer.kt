@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudoprivacyinteraction.internal.data.virtualPresence.transformers
 
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.types.ProviderType
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ProviderType as ProviderTypeGraphQL
 

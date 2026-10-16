@@ -12,7 +12,7 @@ import com.sudoplatform.sudoprivacyinteraction.BaseTests
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.api.ApiClient
 import com.sudoplatform.sudoprivacyinteraction.data.DataFactory
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.shouldThrow
@@ -20,7 +20,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.mock

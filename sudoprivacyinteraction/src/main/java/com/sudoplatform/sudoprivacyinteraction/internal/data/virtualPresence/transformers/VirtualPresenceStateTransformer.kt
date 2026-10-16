@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudoprivacyinteraction.internal.data.virtualPresence.transformers
 
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceStateEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceStateEntity
 import com.sudoplatform.sudoprivacyinteraction.types.VirtualPresenceState
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.VirtualPresenceState as VirtualPresenceStateGraphQL
 

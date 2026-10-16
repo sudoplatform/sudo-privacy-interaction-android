@@ -7,9 +7,9 @@
 package com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence
 
 import com.sudoplatform.sudologging.Logger
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.inputs.ScanOptionsEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RescanVirtualPresenceInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceService
 
 /**

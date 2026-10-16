@@ -6,9 +6,6 @@
 
 package com.sudoplatform.sudoprivacyinteraction.data
 
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.ProviderTypeEntity
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceEntity
-import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.VirtualPresenceStateEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionFulfilmentMethodEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionIntentEntity
@@ -39,6 +36,10 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHold
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHolder.DataHolderProtectionStateEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHolder.DataHolderScanSummaryEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RelationshipProviderEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceStateEntity
 import java.util.Date
 
 /**
@@ -52,6 +53,7 @@ internal object EntityDataFactory {
         providerType: ProviderTypeEntity = ProviderTypeEntity.EMAIL,
         identifier: String = "test@sudoplatform.com",
         state: VirtualPresenceStateEntity = VirtualPresenceStateEntity.CONNECTED,
+        relationshipProvider: RelationshipProviderEntity? = null,
         lastScannedAt: Date = Date(1L),
         lastScanFailureReason: String? = null,
         createdAt: Date = Date(1L),
@@ -64,6 +66,7 @@ internal object EntityDataFactory {
             providerType = providerType,
             identifier = identifier,
             state = state,
+            relationshipProvider = relationshipProvider,
             lastScannedAt = lastScannedAt,
             lastScanFailureReason = lastScanFailureReason,
             createdAt = createdAt,
