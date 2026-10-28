@@ -11,6 +11,7 @@ import com.sudoplatform.sudoprivacyinteraction.BaseIntegrationTest
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.types.AnalysisResultStatus
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysis
+import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisDomainResolution
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisMode
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.GetOrganizationAnalysisInput
 import io.kotlintest.matchers.numerics.shouldBeGreaterThanOrEqual
@@ -77,6 +78,65 @@ class OrganizationAnalysisIntegrationTest : BaseIntegrationTest() {
 
             if (analysis != null) {
                 expectValidAnalysis(analysis, testDomain)
+            }
+        }
+
+    @Test
+    fun analyzesASubdomainVerbatimWithExactResolution() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+            val subdomain = "open.$testDomain"
+
+            // EXACT analyzes the host verbatim rather than reducing it to the registrable domain.
+            val analysis =
+                privacyInteractionClient.getOrganizationAnalysis(
+                    GetOrganizationAnalysisInput(
+                        domain = subdomain,
+                        resolution = OrganizationAnalysisDomainResolution.EXACT,
+                    ),
+                )
+
+            if (analysis != null) {
+                expectValidAnalysis(analysis, subdomain)
+            }
+        }
+
+    @Test
+    fun reducesASubdomainWithRegistrableResolution() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+
+            // REGISTRABLE reduces the host to its eTLD+1 form before analysis.
+            val analysis =
+                privacyInteractionClient.getOrganizationAnalysis(
+                    GetOrganizationAnalysisInput(
+                        domain = "open.$testDomain",
+                        resolution = OrganizationAnalysisDomainResolution.REGISTRABLE,
+                    ),
+                )
+
+            if (analysis != null) {
+                expectValidAnalysis(analysis, testDomain)
+            }
+        }
+
+    @Test
+    fun analyzesByOrganizationNameWhenProvided() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+
+            // The name takes precedence over the domain when it resolves; the domain remains the
+            // fallback, so the result is valid for whichever of the two was used.
+            val analysis =
+                privacyInteractionClient.getOrganizationAnalysis(
+                    GetOrganizationAnalysisInput(domain = testDomain, name = "spotify"),
+                )
+
+            if (analysis != null) {
+                analysis.id shouldBe analysis.domain
+                analysis.status shouldNotBe null
+                AnalysisResultStatus.entries shouldContain analysis.status
+                analysis.owner shouldNotBe null
             }
         }
 

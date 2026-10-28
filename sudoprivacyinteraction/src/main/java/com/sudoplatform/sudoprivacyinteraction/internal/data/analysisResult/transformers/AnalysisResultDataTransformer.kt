@@ -85,7 +85,7 @@ internal object AnalysisResultDataTransformer {
                         supportsDataDeletionRequests = SignalValueTransformer.fromGraphQLToEntity(c.supportsDataDeletionRequests),
                         supportsDataExport = SignalValueTransformer.fromGraphQLToEntity(c.supportsDataExport),
                         supportsSubscriptions = SignalValueTransformer.fromGraphQLToEntity(c.supportsSubscriptions),
-                        sellsPersonalInformation = SignalValueTransformer.fromGraphQLToEntity(c.sellsPersonalInformation),
+                        supportsOptOutOfSale = SignalValueTransformer.fromGraphQLToEntity(c.supportsOptOutOfSale),
                         usesCookiesOrTracking = SignalValueTransformer.fromGraphQLToEntity(c.usesCookiesOrTracking),
                         supportsTwoFactorAuth = SignalValueTransformer.fromGraphQLToEntity(c.supportsTwoFactorAuth),
                     )
@@ -168,7 +168,10 @@ internal object AnalysisResultDataTransformer {
                         supportsDataDeletionRequests = SignalValueTransformer.fromEntityToApi(c.supportsDataDeletionRequests),
                         supportsDataExport = SignalValueTransformer.fromEntityToApi(c.supportsDataExport),
                         supportsSubscriptions = SignalValueTransformer.fromEntityToApi(c.supportsSubscriptions),
-                        sellsPersonalInformation = SignalValueTransformer.fromEntityToApi(c.sellsPersonalInformation),
+                        supportsOptOutOfSale = SignalValueTransformer.fromEntityToApi(c.supportsOptOutOfSale),
+                        // Deprecated: surfaced for backward compatibility, populated from
+                        // `supportsOptOutOfSale`.
+                        sellsPersonalInformation = SignalValueTransformer.fromEntityToApi(c.supportsOptOutOfSale),
                         usesCookiesOrTracking = SignalValueTransformer.fromEntityToApi(c.usesCookiesOrTracking),
                         supportsTwoFactorAuth = SignalValueTransformer.fromEntityToApi(c.supportsTwoFactorAuth),
                     )

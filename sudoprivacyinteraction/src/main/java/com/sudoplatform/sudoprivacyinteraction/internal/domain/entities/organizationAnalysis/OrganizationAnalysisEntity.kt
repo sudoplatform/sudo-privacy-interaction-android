@@ -33,3 +33,15 @@ internal enum class OrganizationAnalysisModeEntity {
     ANALYZE,
     FETCH,
 }
+
+/**
+ * Controls how an organization analysis treats the requested domain before sources query their
+ * backing services.
+ */
+internal enum class OrganizationAnalysisDomainResolutionEntity {
+    /** Reduce the domain to its registrable (eTLD+1) form before analysis. */
+    REGISTRABLE,
+
+    /** Analyze the domain verbatim, without reducing it to a registrable domain. */
+    EXACT,
+}

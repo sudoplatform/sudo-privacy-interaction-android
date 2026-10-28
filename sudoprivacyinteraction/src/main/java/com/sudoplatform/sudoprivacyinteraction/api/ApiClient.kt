@@ -13,9 +13,11 @@ import com.amplifyframework.core.Action
 import com.amplifyframework.core.Consumer
 import com.apollographql.apollo.api.Optional
 import com.sudoplatform.sudologging.Logger
+import com.sudoplatform.sudoprivacyinteraction.graphql.ArchiveDataHolderMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.ConfirmActionOutcomeMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.ConnectVirtualPresenceMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.DisconnectVirtualPresenceMutation
+import com.sudoplatform.sudoprivacyinteraction.graphql.GetActionQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetAnalysisResultQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetDataHolderQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetOrganizationAnalysisQuery
@@ -31,10 +33,11 @@ import com.sudoplatform.sudoprivacyinteraction.graphql.OnAnalysisResultUpdateSub
 import com.sudoplatform.sudoprivacyinteraction.graphql.OnDataHoldersUpdateSubscription
 import com.sudoplatform.sudoprivacyinteraction.graphql.OnVirtualPresenceUpdateSubscription
 import com.sudoplatform.sudoprivacyinteraction.graphql.RescanVirtualPresenceMutation
+import com.sudoplatform.sudoprivacyinteraction.graphql.UnarchiveDataHolderMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ConnectVirtualPresenceInput
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.InitiateActionInput
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ListVirtualPresencesInput
-import com.sudoplatform.sudoprivacyinteraction.graphql.type.OrganizationAnalysisMode
+import com.sudoplatform.sudoprivacyinteraction.graphql.type.OrganizationAnalysisOptions
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ScanOptionsInput
 import com.sudoplatform.sudouser.amplify.GraphQLClient
 
@@ -118,13 +121,15 @@ open class ApiClient(
 
     open suspend fun getOrganizationAnalysisQuery(
         domain: String,
-        mode: OrganizationAnalysisMode?,
+        name: String?,
+        options: OrganizationAnalysisOptions?,
     ): GraphQLResponse<GetOrganizationAnalysisQuery.Data> =
         this.graphQLClient.query<GetOrganizationAnalysisQuery, GetOrganizationAnalysisQuery.Data>(
             GetOrganizationAnalysisQuery.OPERATION_DOCUMENT,
             mapOf(
                 "domain" to domain,
-                "mode" to Optional.presentIfNotNull(mode),
+                "name" to Optional.presentIfNotNull(name),
+                "options" to Optional.presentIfNotNull(options),
             ),
         )
 
@@ -132,6 +137,12 @@ open class ApiClient(
         this.graphQLClient.query<ListAvailableActionsQuery, ListAvailableActionsQuery.Data>(
             ListAvailableActionsQuery.OPERATION_DOCUMENT,
             mapOf("dataHolderId" to dataHolderId),
+        )
+
+    open suspend fun getActionQuery(id: String): GraphQLResponse<GetActionQuery.Data> =
+        this.graphQLClient.query<GetActionQuery, GetActionQuery.Data>(
+            GetActionQuery.OPERATION_DOCUMENT,
+            mapOf("id" to id),
         )
 
     // Mutations
@@ -159,6 +170,18 @@ open class ApiClient(
                 "id" to id,
                 "options" to Optional.presentIfNotNull(options),
             ),
+        )
+
+    open suspend fun archiveDataHolderMutation(id: String): GraphQLResponse<ArchiveDataHolderMutation.Data> =
+        this.graphQLClient.mutate<ArchiveDataHolderMutation, ArchiveDataHolderMutation.Data>(
+            ArchiveDataHolderMutation.OPERATION_DOCUMENT,
+            mapOf("id" to id),
+        )
+
+    open suspend fun unarchiveDataHolderMutation(id: String): GraphQLResponse<UnarchiveDataHolderMutation.Data> =
+        this.graphQLClient.mutate<UnarchiveDataHolderMutation, UnarchiveDataHolderMutation.Data>(
+            UnarchiveDataHolderMutation.OPERATION_DOCUMENT,
+            mapOf("id" to id),
         )
 
     open suspend fun initiateActionMutation(input: InitiateActionInput): GraphQLResponse<InitiateActionMutation.Data> =

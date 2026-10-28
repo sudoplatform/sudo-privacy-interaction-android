@@ -8,6 +8,7 @@ package com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.organiz
 
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.GetOrganizationAnalysisInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisDomainResolutionEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisModeEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisService
@@ -17,7 +18,9 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organiza
  */
 internal data class GetOrganizationAnalysisUseCaseInput(
     val domain: String,
+    val name: String? = null,
     val mode: OrganizationAnalysisModeEntity? = null,
+    val resolution: OrganizationAnalysisDomainResolutionEntity? = null,
 )
 
 /**
@@ -32,7 +35,9 @@ internal class GetOrganizationAnalysisUseCase(
         return organizationAnalysisService.getOrganizationAnalysis(
             GetOrganizationAnalysisInput(
                 domain = input.domain,
+                name = input.name,
                 mode = input.mode,
+                resolution = input.resolution,
             ),
         )
     }

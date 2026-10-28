@@ -26,6 +26,8 @@ import java.util.Date
  * @property lastScanFailureReason [String] Reason the most recent completed scan failed (an
  *  error/exception name). `null` when the most recent completed scan succeeded (or none has
  *  completed).
+ * @property dataHolderCount [DataHolderCount] Counts of this virtual presence's data holders,
+ *  broken down by protection state.
  * @property version [Int] Current version of the virtual presence. Increments on update.
  * @property createdAt [Date] When the virtual presence was created.
  * @property updatedAt [Date] When the virtual presence was last updated.
@@ -40,9 +42,33 @@ data class VirtualPresence(
     val relationshipProvider: RelationshipProvider?,
     val lastScannedAt: Date,
     val lastScanFailureReason: String? = null,
+    val dataHolderCount: DataHolderCount,
     val version: Int,
     val createdAt: Date,
     val updatedAt: Date,
+) : Parcelable
+
+/**
+ * Counts of a [VirtualPresence]'s data holders, broken down by protection state.
+ *
+ * @property count [Int] Active (non-archived) data holders: the sum of [monitored],
+ *  [initiatedActions], and [completedActions]. Excludes [archived].
+ * @property monitored [Int] Data holders the system has identified (protection state
+ *  [DataHolderProtectionState.MONITORED]).
+ * @property initiatedActions [Int] Data holders with an action in progress (protection state
+ *  [DataHolderProtectionState.ACTION_REQUESTED]).
+ * @property completedActions [Int] Data holders whose action has completed (protection state
+ *  [DataHolderProtectionState.RESOLVED]).
+ * @property archived [Int] Data holders the user has archived (protection state
+ *  [DataHolderProtectionState.ARCHIVED]).
+ */
+@Parcelize
+data class DataHolderCount(
+    val count: Int,
+    val monitored: Int,
+    val initiatedActions: Int,
+    val completedActions: Int,
+    val archived: Int,
 ) : Parcelable
 
 /**

@@ -60,3 +60,21 @@ enum class OrganizationAnalysisMode {
      */
     FETCH,
 }
+
+/**
+ * Controls how `getOrganizationAnalysis` treats the requested domain before sources query their
+ * backing services.
+ */
+enum class OrganizationAnalysisDomainResolution {
+    /**
+     * Reduce the domain to its registrable (eTLD+1) form before analysis, e.g.
+     * `mail.sub.example.co.uk` becomes `example.co.uk`.
+     */
+    REGISTRABLE,
+
+    /**
+     * Analyze the domain verbatim, without reducing it to a registrable domain. Used to analyze a
+     * specific host/subdomain rather than the organization.
+     */
+    EXACT,
+}

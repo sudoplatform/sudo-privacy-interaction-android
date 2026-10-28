@@ -84,7 +84,7 @@ internal data class CapabilitySignalsEntity(
     val supportsDataDeletionRequests: SignalValueEntity,
     val supportsDataExport: SignalValueEntity,
     val supportsSubscriptions: SignalValueEntity,
-    val sellsPersonalInformation: SignalValueEntity,
+    val supportsOptOutOfSale: SignalValueEntity,
     val usesCookiesOrTracking: SignalValueEntity,
     val supportsTwoFactorAuth: SignalValueEntity,
 )
@@ -160,6 +160,7 @@ internal enum class RetentionStyleEntity {
 
 internal enum class OrganizationCategoryEntity {
     AD_TECH_AND_MARKETING,
+    ADULT_ENTERTAINMENT,
     AUTOMOTIVE,
     COMMUNICATIONS,
     COMMUNITY_AND_CHARITY,

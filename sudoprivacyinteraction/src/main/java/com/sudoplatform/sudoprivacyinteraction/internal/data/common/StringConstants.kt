@@ -34,6 +34,7 @@ internal object StringConstants {
     const val NO_VIRTUAL_PRESENCE_ERROR_MSG = "No virtual presence returned."
     const val NO_PROVIDER_CONFIGURATION_ERROR_MSG = "No provider configuration returned."
     const val DATA_HOLDER_NOT_FOUND_MSG = "Data holder not found"
+    const val NO_DATA_HOLDER_ERROR_MSG = "No data holder returned."
     const val ANALYSIS_RESULT_NOT_FOUND_MSG = "Analysis result not found"
     const val ACTION_NOT_FOUND_MSG = "Action not found"
     const val DATA_HOLDER_NOT_FOUND_FOR_ACTION_MSG = "Data holder not found"

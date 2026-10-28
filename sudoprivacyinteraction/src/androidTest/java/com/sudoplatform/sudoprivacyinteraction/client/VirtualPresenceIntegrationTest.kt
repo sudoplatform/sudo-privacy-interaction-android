@@ -74,6 +74,22 @@ class VirtualPresenceIntegrationTest : BaseIntegrationTest() {
             connectedVp.providerType shouldNotBe null
             connectedVp.version shouldBeGreaterThanOrEqual 1
 
+            // Data holder counts are always returned, broken down by protection state.
+            connectedVp.dataHolderCount shouldNotBe null
+            connectedVp.dataHolderCount.count shouldBeGreaterThanOrEqual 0
+            connectedVp.dataHolderCount.monitored shouldBeGreaterThanOrEqual 0
+            connectedVp.dataHolderCount.initiatedActions shouldBeGreaterThanOrEqual 0
+            connectedVp.dataHolderCount.completedActions shouldBeGreaterThanOrEqual 0
+            connectedVp.dataHolderCount.archived shouldBeGreaterThanOrEqual 0
+
+            // The active count excludes archived data holders.
+            connectedVp.dataHolderCount.count shouldBe
+                (
+                    connectedVp.dataHolderCount.monitored +
+                        connectedVp.dataHolderCount.initiatedActions +
+                        connectedVp.dataHolderCount.completedActions
+                )
+
             // Disconnect the virtual presence.
             val disconnectedVp = privacyInteractionClient.disconnectVirtualPresence(connectedVp.id)
             connectedIds.remove(disconnectedVp.id)

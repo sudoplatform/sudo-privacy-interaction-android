@@ -69,6 +69,23 @@ internal interface DataHolderService {
     suspend fun get(id: String): DataHolderEntity?
 
     /**
+     * Archive a data holder, removing it from the user's active list.
+     *
+     * @param id [String] The unique identifier of the data holder to archive.
+     * @return The archived [DataHolderEntity].
+     */
+    suspend fun archive(id: String): DataHolderEntity
+
+    /**
+     * Unarchive a previously archived data holder, returning it to the monitored state. Only a
+     * data holder in the archived state may be unarchived.
+     *
+     * @param id [String] The unique identifier of the data holder to unarchive.
+     * @return The unarchived [DataHolderEntity].
+     */
+    suspend fun unarchive(id: String): DataHolderEntity
+
+    /**
      * Retrieve a list of data holders associated with a virtual presence.
      *
      * @param input [ListDataHoldersInput] Parameters used to list data holders.

@@ -25,6 +25,8 @@ import java.util.Date
  * @property lastScanFailureReason [String] Reason the most recent completed scan failed (an
  *  error/exception name). `null` when the most recent completed scan succeeded (or none has
  *  completed).
+ * @property dataHolderCount [DataHolderCountEntity] Counts of this virtual presence's data
+ *  holders, broken down by protection state.
  * @property createdAt [Date] Date for when the virtual presence was created.
  * @property updatedAt [Date] Date for when the virtual presence was last updated.
  */
@@ -38,8 +40,28 @@ internal data class VirtualPresenceEntity(
     val relationshipProvider: RelationshipProviderEntity? = null,
     val lastScannedAt: Date,
     val lastScanFailureReason: String? = null,
+    val dataHolderCount: DataHolderCountEntity,
     val createdAt: Date,
     val updatedAt: Date,
+)
+
+/**
+ * Core entity representation of a virtual presence's data holder counts, broken down by
+ * protection state.
+ *
+ * @property count [Int] Active (non-archived) data holders: the sum of [monitored],
+ *  [initiatedActions], and [completedActions]. Excludes [archived].
+ * @property monitored [Int] Data holders the system has identified.
+ * @property initiatedActions [Int] Data holders with an action in progress.
+ * @property completedActions [Int] Data holders whose action has completed.
+ * @property archived [Int] Data holders the user has archived.
+ */
+internal data class DataHolderCountEntity(
+    val count: Int,
+    val monitored: Int,
+    val initiatedActions: Int,
+    val completedActions: Int,
+    val archived: Int,
 )
 
 /**

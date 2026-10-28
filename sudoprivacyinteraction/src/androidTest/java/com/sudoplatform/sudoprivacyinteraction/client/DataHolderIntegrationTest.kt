@@ -109,6 +109,39 @@ class DataHolderIntegrationTest : BaseIntegrationTest() {
         }
 
     @Test
+    fun archivesADataHolderSuccessfully() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+            val connectedVp = connectVirtualPresence("dataholder-archive")
+            val dataHolderId = awaitFirstDataHolderId(connectedVp.id) ?: return@runBlocking
+
+            val archived = privacyInteractionClient.archiveDataHolder(dataHolderId)
+
+            archived.id shouldBe dataHolderId
+            archived.virtualPresenceId shouldBe connectedVp.id
+            archived.protectionState shouldBe DataHolderProtectionState.ARCHIVED
+            archived.updatedAt shouldNotBe null
+        }
+
+    @Test
+    fun archivesThenUnarchivesADataHolderBackToMonitored() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+            val connectedVp = connectVirtualPresence("dataholder-unarchive")
+            val dataHolderId = awaitFirstDataHolderId(connectedVp.id) ?: return@runBlocking
+
+            val archived = privacyInteractionClient.archiveDataHolder(dataHolderId)
+            archived.id shouldBe dataHolderId
+            archived.protectionState shouldBe DataHolderProtectionState.ARCHIVED
+
+            // Only an archived data holder may be unarchived; it returns to MONITORED.
+            val unarchived = privacyInteractionClient.unarchiveDataHolder(dataHolderId)
+            unarchived.id shouldBe dataHolderId
+            unarchived.protectionState shouldBe DataHolderProtectionState.MONITORED
+            unarchived.updatedAt shouldNotBe null
+        }
+
+    @Test
     fun returnsNullForNonExistentDataHolder() =
         runBlocking<Unit> {
             val result = privacyInteractionClient.getDataHolder("non-existent-data-holder-id")

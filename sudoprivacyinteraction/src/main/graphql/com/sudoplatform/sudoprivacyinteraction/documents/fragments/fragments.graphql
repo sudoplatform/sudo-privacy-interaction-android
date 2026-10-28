@@ -5,6 +5,13 @@ fragment VirtualPresence on VirtualPresence {
   state
   relationshipProvider
   lastScannedAtEpochMs
+  dataHolderCount {
+    count
+    monitored
+    initiatedActions
+    completedActions
+    archived
+  }
   owner
   version
   createdAtEpochMs
@@ -81,7 +88,7 @@ fragment AnalysisResultData on AnalysisResultData {
     supportsDataDeletionRequests
     supportsDataExport
     supportsSubscriptions
-    sellsPersonalInformation
+    supportsOptOutOfSale
     usesCookiesOrTracking
     supportsTwoFactorAuth
   }

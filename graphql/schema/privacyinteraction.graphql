@@ -37,6 +37,29 @@ enum OrganizationAnalysisMode {
   FETCH
 }
 
+# Controls how getOrganizationAnalysis treats the requested domain before
+# sources query their backing services.
+enum OrganizationAnalysisDomainResolution {
+  # Reduce the domain to its registrable (eTLD+1) form before analysis, e.g.
+  # `mail.sub.example.co.uk` becomes `example.co.uk`. This is the default.
+  REGISTRABLE
+  # Analyze the domain verbatim, without reducing it to a registrable domain.
+  # Used to analyze a specific host/subdomain rather than the organization.
+  EXACT
+}
+
+# Options controlling how getOrganizationAnalysis obtains and scopes its result.
+# When provided, its fields take precedence over the deprecated top-level
+# arguments of the same name.
+input OrganizationAnalysisOptions {
+  # How source results are obtained when the stored analysis is stale or
+  # absent. Defaults to ANALYZE when omitted.
+  mode: OrganizationAnalysisMode
+  # How the requested domain is treated before sources query their backing
+  # services. Defaults to REGISTRABLE when omitted.
+  resolution: OrganizationAnalysisDomainResolution
+}
+
 # Tri-state signal value representing confidence in a determination.
 enum SignalValue {
   YES
@@ -98,6 +121,7 @@ enum OrganizationCategory {
   SportsAndFitness
   SocialMedia
   Dating
+  AdultEntertainment
   CommunityAndCharity
   Health
   Education
@@ -125,6 +149,7 @@ enum DataHolderProtectionState {
   MONITORED
   ACTION_REQUESTED
   RESOLVED
+  ARCHIVED
 }
 
 # The user-facing intent of an action. This is a service-owned taxonomy,
@@ -230,9 +255,8 @@ type CapabilitySignals {
   supportsDataDeletionRequests: SignalValue!
   supportsDataExport: SignalValue!
   supportsSubscriptions: SignalValue!
-  sellsPersonalInformation: SignalValue!
+  supportsOptOutOfSale: SignalValue!
   usesCookiesOrTracking: SignalValue!
-  # Does the organization support two-factor auth for logins?
   supportsTwoFactorAuth: SignalValue!
 }
 
@@ -335,6 +359,21 @@ type OrganizationAnalysis {
   updatedAtEpochMs: Float!
 }
 
+# Counts of a virtual presence's data holders, broken down by protection state.
+type DataHolderCount {
+  # Active (non-archived) data holders: the sum of MONITORED, ACTION_REQUESTED,
+  # and RESOLVED. Excludes ARCHIVED.
+  count: Int!
+  # Data holders which the system has identified (protectionState MONITORED).
+  monitored: Int!
+  # Data holders with an action in progress (protectionState ACTION_REQUESTED).
+  initiatedActions: Int!
+  # Data holders whose action has completed (protectionState RESOLVED).
+  completedActions: Int!
+  # Data holders the user has archived (protectionState ARCHIVED).
+  archived: Int!
+}
+
 type VirtualPresence {
   # Unique ID of the virtual presence.
   id: ID!
@@ -357,6 +396,10 @@ type VirtualPresence {
   # Reason the most recent completed scan failed (an error/exception name).
   # Null when the most recent completed scan succeeded (or none has completed).
   lastScanFailureReason: String
+
+  # Counts of this virtual presence's data holders, broken down by protection
+  # state.
+  dataHolderCount: DataHolderCount!
 
   owner: ID!
   version: Int!
@@ -660,12 +703,21 @@ type Query {
   """
   Analyze (read-through) and return the shared, organization-generic analysis
   for a domain. Returns PENDING when an asynchronous source is still resolving;
-  re-query for the terminal result. When mode is omitted, the behaviour is
-  ANALYZE.
+  re-query for the terminal result.
+
+  Pass `options` to control the analysis mode and domain resolution. When no
+  mode is supplied the behaviour is ANALYZE, and resolution defaults to
+  REGISTRABLE.
+
+  Pass `name` to analyze by organization name (e.g. "amazon", "stripe"). The
+  name is resolved to a domain and takes precedence over `domain` when it
+  resolves; `domain` remains required and is used as the fallback when the name
+  cannot be resolved (including when name resolution is unavailable).
   """
   getOrganizationAnalysis(
     domain: String!
-    mode: OrganizationAnalysisMode
+    name: String
+    options: OrganizationAnalysisOptions
   ): OrganizationAnalysis
 
   """
@@ -683,6 +735,14 @@ type Query {
   persisted. The owning virtual presence is derived from the data holder.
   """
   listAvailableActions(dataHolderId: ID!): AvailableActionConnection!
+
+  """
+  Read a single initiated action by id. Resolves an in-flight delegated action
+  on read: if the action is still in progress, its outcome is polled and, once
+  terminal, the action is updated to its verified result before being returned.
+  Returns null when no action with the given id exists for the user.
+  """
+  getAction(id: ID!): Action
 }
 
 type Mutation {
@@ -704,6 +764,18 @@ type Mutation {
     id: String!
     options: ScanOptionsInput
   ): VirtualPresence!
+
+  """
+  Archive a data holder, removing it from the user's active list.
+  """
+  archiveDataHolder(id: ID!): DataHolder!
+
+  """
+  Unarchive a previously archived data holder, clearing the user's archive
+  setting and returning it to the MONITORED state. Only a data holder in the
+  ARCHIVED state may be unarchived.
+  """
+  unarchiveDataHolder(id: ID!): DataHolder!
 
   """
   Initiate an action against a data holder relationship. Delegated actions are

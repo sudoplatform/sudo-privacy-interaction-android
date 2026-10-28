@@ -259,4 +259,78 @@ class GraphQLActionServiceTest : BaseTests() {
 
             verify(mockApiClient).listAvailableActionsQuery(any())
         }
+
+    @Test
+    fun `get() should return the action entity when successful`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking { getActionQuery(any()) } doReturn DataFactory.getActionQueryResponse()
+            }
+
+            val result = instanceUnderTest.get(mockActionId)
+
+            result shouldNotBe null
+            result!!.id shouldBe mockActionId
+
+            verify(mockApiClient).getActionQuery(eq(mockActionId))
+        }
+
+    @Test
+    fun `get() should return null when the action is not found`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking { getActionQuery(any()) } doReturn DataFactory.getActionQueryResponse(action = null)
+            }
+
+            instanceUnderTest.get(mockActionId) shouldBe null
+
+            verify(mockApiClient).getActionQuery(eq(mockActionId))
+        }
+
+    @Test
+    fun `get() should return null when result data is null`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking { getActionQuery(any()) } doReturn GraphQLResponse(null, null)
+            }
+
+            instanceUnderTest.get(mockActionId) shouldBe null
+
+            verify(mockApiClient).getActionQuery(eq(mockActionId))
+        }
+
+    @Test
+    fun `get() should throw ActionNotFoundException for not found error response`() =
+        runTest {
+            val testError =
+                GraphQLResponse.Error(
+                    "Test generated error",
+                    emptyList(),
+                    emptyList(),
+                    mapOf("errorType" to "sudoplatform.privacy-interaction.ActionNotFound"),
+                )
+            mockApiClient.stub {
+                onBlocking { getActionQuery(any()) } doReturn GraphQLResponse(null, listOf(testError))
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.ActionException.ActionNotFoundException> {
+                instanceUnderTest.get(mockActionId)
+            }
+
+            verify(mockApiClient).getActionQuery(eq(mockActionId))
+        }
+
+    @Test
+    fun `get() should throw AuthenticationException when not authorized`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking { getActionQuery(any()) } doThrow NotAuthorizedException("not authorized")
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.ActionException.AuthenticationException> {
+                instanceUnderTest.get(mockActionId)
+            }
+
+            verify(mockApiClient).getActionQuery(eq(mockActionId))
+        }
 }

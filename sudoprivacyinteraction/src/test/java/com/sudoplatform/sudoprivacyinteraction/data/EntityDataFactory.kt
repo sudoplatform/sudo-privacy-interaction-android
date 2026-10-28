@@ -36,6 +36,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHold
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHolder.DataHolderProtectionStateEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHolder.DataHolderScanSummaryEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.DataHolderCountEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.ProviderTypeEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.RelationshipProviderEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceEntity
@@ -58,6 +59,14 @@ internal object EntityDataFactory {
         lastScanFailureReason: String? = null,
         createdAt: Date = Date(1L),
         updatedAt: Date = Date(1L),
+        dataHolderCount: DataHolderCountEntity =
+            DataHolderCountEntity(
+                count = 6,
+                monitored = 1,
+                initiatedActions = 2,
+                completedActions = 3,
+                archived = 4,
+            ),
     ): VirtualPresenceEntity =
         VirtualPresenceEntity(
             id = id,
@@ -69,6 +78,7 @@ internal object EntityDataFactory {
             relationshipProvider = relationshipProvider,
             lastScannedAt = lastScannedAt,
             lastScanFailureReason = lastScanFailureReason,
+            dataHolderCount = dataHolderCount,
             createdAt = createdAt,
             updatedAt = updatedAt,
         )
@@ -183,7 +193,7 @@ internal object EntityDataFactory {
                     supportsDataDeletionRequests = SignalValueEntity.YES,
                     supportsDataExport = SignalValueEntity.NO,
                     supportsSubscriptions = SignalValueEntity.NO,
-                    sellsPersonalInformation = SignalValueEntity.NO,
+                    supportsOptOutOfSale = SignalValueEntity.NO,
                     usesCookiesOrTracking = SignalValueEntity.YES,
                     supportsTwoFactorAuth = SignalValueEntity.YES,
                 ),

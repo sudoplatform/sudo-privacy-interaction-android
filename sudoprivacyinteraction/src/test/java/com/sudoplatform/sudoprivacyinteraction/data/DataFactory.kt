@@ -8,9 +8,11 @@ package com.sudoplatform.sudoprivacyinteraction.data
 
 import android.util.Base64.encodeToString
 import com.amplifyframework.api.graphql.GraphQLResponse
+import com.sudoplatform.sudoprivacyinteraction.graphql.ArchiveDataHolderMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.ConfirmActionOutcomeMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.ConnectVirtualPresenceMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.DisconnectVirtualPresenceMutation
+import com.sudoplatform.sudoprivacyinteraction.graphql.GetActionQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetAnalysisResultQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetDataHolderQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetOrganizationAnalysisQuery
@@ -22,6 +24,7 @@ import com.sudoplatform.sudoprivacyinteraction.graphql.ListDataHolderScanSummari
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListDataHoldersQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListVirtualPresencesQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.RescanVirtualPresenceMutation
+import com.sudoplatform.sudoprivacyinteraction.graphql.UnarchiveDataHolderMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.fragment.Action
 import com.sudoplatform.sudoprivacyinteraction.graphql.fragment.AnalysisResult
 import com.sudoplatform.sudoprivacyinteraction.graphql.fragment.AnalysisResultData
@@ -58,6 +61,14 @@ object DataFactory {
         state: VirtualPresenceState = VirtualPresenceState.CONNECTED,
         relationshipProvider: RelationshipProvider? = null,
         lastScannedAtEpochMs: Double = 1.0,
+        dataHolderCount: VirtualPresence.DataHolderCount =
+            VirtualPresence.DataHolderCount(
+                count = 6,
+                monitored = 1,
+                initiatedActions = 2,
+                completedActions = 3,
+                archived = 4,
+            ),
         createdAtEpochMs: Double = 1.0,
         updatedAtEpochMs: Double = 1.0,
     ): VirtualPresence =
@@ -68,6 +79,7 @@ object DataFactory {
             state = state,
             relationshipProvider = relationshipProvider,
             lastScannedAtEpochMs = lastScannedAtEpochMs,
+            dataHolderCount = dataHolderCount,
             owner = owner,
             version = version,
             createdAtEpochMs = createdAtEpochMs,
@@ -181,6 +193,17 @@ object DataFactory {
             version = version,
             createdAtEpochMs = createdAtEpochMs,
             updatedAtEpochMs = updatedAtEpochMs,
+        )
+
+    fun archiveDataHolderMutationResponse(
+        dataHolder: DataHolder =
+            getDataHolderFragment(protectionState = DataHolderProtectionState.ARCHIVED),
+    ): GraphQLResponse<ArchiveDataHolderMutation.Data> =
+        GraphQLResponse(
+            ArchiveDataHolderMutation.Data(
+                ArchiveDataHolderMutation.ArchiveDataHolder("DataHolder", dataHolder),
+            ),
+            null,
         )
 
     fun getDataHolderScanSummaryFragment(
@@ -299,7 +322,7 @@ object DataFactory {
                     supportsDataDeletionRequests = SignalValue.YES,
                     supportsDataExport = SignalValue.NO,
                     supportsSubscriptions = SignalValue.NO,
-                    sellsPersonalInformation = SignalValue.NO,
+                    supportsOptOutOfSale = SignalValue.NO,
                     usesCookiesOrTracking = SignalValue.YES,
                     supportsTwoFactorAuth = SignalValue.YES,
                 ),
@@ -508,6 +531,25 @@ object DataFactory {
         GraphQLResponse(
             ConfirmActionOutcomeMutation.Data(
                 ConfirmActionOutcomeMutation.ConfirmActionOutcome("Action", action),
+            ),
+            null,
+        )
+
+    fun getActionQueryResponse(action: Action? = getActionFragment()): GraphQLResponse<GetActionQuery.Data> =
+        GraphQLResponse(
+            GetActionQuery.Data(
+                action?.let { GetActionQuery.GetAction("Action", it) },
+            ),
+            null,
+        )
+
+    fun unarchiveDataHolderMutationResponse(
+        dataHolder: DataHolder =
+            getDataHolderFragment(protectionState = DataHolderProtectionState.MONITORED),
+    ): GraphQLResponse<UnarchiveDataHolderMutation.Data> =
+        GraphQLResponse(
+            UnarchiveDataHolderMutation.Data(
+                UnarchiveDataHolderMutation.UnarchiveDataHolder("DataHolder", dataHolder),
             ),
             null,
         )

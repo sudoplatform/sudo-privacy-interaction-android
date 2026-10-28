@@ -14,6 +14,7 @@ import com.sudoplatform.sudoprivacyinteraction.api.ApiClient
 import com.sudoplatform.sudoprivacyinteraction.data.DataFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultStatusEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.GetOrganizationAnalysisInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisDomainResolutionEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisModeEntity
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -24,6 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.check
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.eq
@@ -32,6 +34,7 @@ import org.mockito.kotlin.stub
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.robolectric.RobolectricTestRunner
+import com.sudoplatform.sudoprivacyinteraction.graphql.type.OrganizationAnalysisDomainResolution as OrganizationAnalysisDomainResolutionGraphQL
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.OrganizationAnalysisMode as OrganizationAnalysisModeGraphQL
 
 /**
@@ -59,7 +62,7 @@ class GraphQLOrganizationAnalysisServiceTest : BaseTests() {
         runTest {
             mockApiClient.stub {
                 onBlocking {
-                    getOrganizationAnalysisQuery(any(), anyOrNull())
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
                 } doReturn DataFactory.getOrganizationAnalysisQueryResponse()
             }
 
@@ -77,22 +80,70 @@ class GraphQLOrganizationAnalysisServiceTest : BaseTests() {
 
             verify(mockApiClient).getOrganizationAnalysisQuery(
                 eq(mockDomain),
-                eq(OrganizationAnalysisModeGraphQL.FETCH),
+                eq(null),
+                check { options ->
+                    options shouldNotBe null
+                    options!!.mode.getOrNull() shouldBe OrganizationAnalysisModeGraphQL.FETCH
+                    options.resolution.getOrNull() shouldBe null
+                },
             )
         }
 
     @Test
-    fun `getOrganizationAnalysis() should pass null mode through`() =
+    fun `getOrganizationAnalysis() should map resolution into options`() =
         runTest {
             mockApiClient.stub {
                 onBlocking {
-                    getOrganizationAnalysisQuery(any(), anyOrNull())
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
+                } doReturn DataFactory.getOrganizationAnalysisQueryResponse()
+            }
+
+            instanceUnderTest.getOrganizationAnalysis(
+                GetOrganizationAnalysisInput(
+                    domain = mockDomain,
+                    resolution = OrganizationAnalysisDomainResolutionEntity.EXACT,
+                ),
+            )
+
+            verify(mockApiClient).getOrganizationAnalysisQuery(
+                eq(mockDomain),
+                eq(null),
+                check { options ->
+                    options shouldNotBe null
+                    options!!.resolution.getOrNull() shouldBe OrganizationAnalysisDomainResolutionGraphQL.EXACT
+                    options.mode.getOrNull() shouldBe null
+                },
+            )
+        }
+
+    @Test
+    fun `getOrganizationAnalysis() should pass name through`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
+                } doReturn DataFactory.getOrganizationAnalysisQueryResponse()
+            }
+
+            instanceUnderTest.getOrganizationAnalysis(
+                GetOrganizationAnalysisInput(domain = mockDomain, name = "amazon"),
+            )
+
+            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), eq("amazon"), eq(null))
+        }
+
+    @Test
+    fun `getOrganizationAnalysis() should omit options when neither mode nor resolution is set`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
                 } doReturn DataFactory.getOrganizationAnalysisQueryResponse()
             }
 
             instanceUnderTest.getOrganizationAnalysis(GetOrganizationAnalysisInput(domain = mockDomain))
 
-            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), eq(null))
+            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), eq(null), eq(null))
         }
 
     @Test
@@ -100,13 +151,13 @@ class GraphQLOrganizationAnalysisServiceTest : BaseTests() {
         runTest {
             mockApiClient.stub {
                 onBlocking {
-                    getOrganizationAnalysisQuery(any(), anyOrNull())
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
                 } doReturn DataFactory.getOrganizationAnalysisQueryResponse(organizationAnalysis = null)
             }
 
             instanceUnderTest.getOrganizationAnalysis(GetOrganizationAnalysisInput(domain = mockDomain)) shouldBe null
 
-            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), anyOrNull())
+            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), anyOrNull(), anyOrNull())
         }
 
     @Test
@@ -114,13 +165,13 @@ class GraphQLOrganizationAnalysisServiceTest : BaseTests() {
         runTest {
             mockApiClient.stub {
                 onBlocking {
-                    getOrganizationAnalysisQuery(any(), anyOrNull())
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
                 } doReturn GraphQLResponse(null, null)
             }
 
             instanceUnderTest.getOrganizationAnalysis(GetOrganizationAnalysisInput(domain = mockDomain)) shouldBe null
 
-            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), anyOrNull())
+            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), anyOrNull(), anyOrNull())
         }
 
     @Test
@@ -128,7 +179,7 @@ class GraphQLOrganizationAnalysisServiceTest : BaseTests() {
         runTest {
             mockApiClient.stub {
                 onBlocking {
-                    getOrganizationAnalysisQuery(any(), anyOrNull())
+                    getOrganizationAnalysisQuery(any(), anyOrNull(), anyOrNull())
                 } doThrow NotAuthorizedException("not authorized")
             }
 
@@ -136,6 +187,6 @@ class GraphQLOrganizationAnalysisServiceTest : BaseTests() {
                 instanceUnderTest.getOrganizationAnalysis(GetOrganizationAnalysisInput(domain = mockDomain))
             }
 
-            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), anyOrNull())
+            verify(mockApiClient).getOrganizationAnalysisQuery(eq(mockDomain), anyOrNull(), anyOrNull())
         }
 }

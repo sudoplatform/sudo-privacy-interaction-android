@@ -183,6 +183,11 @@ data class RetentionInfo(
 
 /**
  * Signals derived from privacy actions and capabilities.
+ *
+ * @property supportsOptOutOfSale [SignalValue] Whether the organization exposes an
+ *  opt-out-of-sale control to users.
+ * @property sellsPersonalInformation [SignalValue] Whether the organization sells personal
+ *  information. Populated from [supportsOptOutOfSale].
  */
 @Parcelize
 data class CapabilitySignals(
@@ -191,6 +196,11 @@ data class CapabilitySignals(
     val supportsDataDeletionRequests: SignalValue,
     val supportsDataExport: SignalValue,
     val supportsSubscriptions: SignalValue,
+    val supportsOptOutOfSale: SignalValue,
+    @Deprecated(
+        message = "Use supportsOptOutOfSale instead. Populated from the supportsOptOutOfSale value.",
+        replaceWith = ReplaceWith("supportsOptOutOfSale"),
+    )
     val sellsPersonalInformation: SignalValue,
     val usesCookiesOrTracking: SignalValue,
     val supportsTwoFactorAuth: SignalValue,
@@ -310,6 +320,7 @@ enum class RetentionStyle {
  */
 enum class OrganizationCategory {
     AD_TECH_AND_MARKETING,
+    ADULT_ENTERTAINMENT,
     AUTOMOTIVE,
     COMMUNICATIONS,
     COMMUNITY_AND_CHARITY,

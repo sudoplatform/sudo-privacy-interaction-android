@@ -53,8 +53,12 @@ query ListAnalysisResults($virtualPresenceId: ID!, $limit: Int, $nextToken: Stri
   }
 }
 
-query GetOrganizationAnalysis($domain: String!, $mode: OrganizationAnalysisMode) {
-  getOrganizationAnalysis(domain: $domain, mode: $mode) {
+query GetOrganizationAnalysis(
+  $domain: String!
+  $name: String
+  $options: OrganizationAnalysisOptions
+) {
+  getOrganizationAnalysis(domain: $domain, name: $name, options: $options) {
     ...OrganizationAnalysis
   }
 }
@@ -66,5 +70,11 @@ query ListAvailableActions($dataHolderId: ID!) {
       ...AvailableAction
     }
     nextToken
+  }
+}
+
+query GetAction($id: ID!) {
+  getAction(id: $id) {
+    ...Action
   }
 }

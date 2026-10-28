@@ -23,6 +23,7 @@ internal object DataHolderProtectionStateTransformer {
         when (data) {
             DataHolderProtectionStateGraphQL.MONITORED -> DataHolderProtectionStateEntity.MONITORED
             DataHolderProtectionStateGraphQL.ACTION_REQUESTED -> DataHolderProtectionStateEntity.ACTION_REQUESTED
+            DataHolderProtectionStateGraphQL.ARCHIVED -> DataHolderProtectionStateEntity.ARCHIVED
             DataHolderProtectionStateGraphQL.RESOLVED -> DataHolderProtectionStateEntity.RESOLVED
             else -> DataHolderProtectionStateEntity.UNKNOWN
         }
@@ -35,6 +36,7 @@ internal object DataHolderProtectionStateTransformer {
         when (entity) {
             DataHolderProtectionStateEntity.MONITORED -> DataHolderProtectionState.MONITORED
             DataHolderProtectionStateEntity.ACTION_REQUESTED -> DataHolderProtectionState.ACTION_REQUESTED
+            DataHolderProtectionStateEntity.ARCHIVED -> DataHolderProtectionState.ARCHIVED
             DataHolderProtectionStateEntity.RESOLVED -> DataHolderProtectionState.RESOLVED
             DataHolderProtectionStateEntity.UNKNOWN -> DataHolderProtectionState.UNKNOWN
         }

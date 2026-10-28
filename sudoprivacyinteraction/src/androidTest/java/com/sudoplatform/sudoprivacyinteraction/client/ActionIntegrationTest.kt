@@ -100,9 +100,22 @@ class ActionIntegrationTest : BaseIntegrationTest() {
             initiated.intent shouldBe available.intent
             initiated.status shouldNotBe null
 
+            val fetched = privacyInteractionClient.getAction(initiated.id)
+            fetched shouldNotBe null
+            fetched!!.id shouldBe initiated.id
+            fetched.intent shouldBe initiated.intent
+
             val confirmed = privacyInteractionClient.confirmActionOutcome(initiated.id)
             confirmed shouldNotBe null
             confirmed.id shouldBe initiated.id
+        }
+
+    @Test
+    fun returnsNullForNonExistentAction() =
+        runBlocking<Unit> {
+            val result = privacyInteractionClient.getAction("non-existent-action-id")
+
+            result shouldBe null
         }
 
     @Test

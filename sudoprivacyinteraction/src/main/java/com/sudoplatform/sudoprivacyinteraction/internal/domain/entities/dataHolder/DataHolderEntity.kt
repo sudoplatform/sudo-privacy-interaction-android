@@ -49,6 +49,9 @@ internal enum class DataHolderProtectionStateEntity {
     /** An action has been requested against this data holder. */
     ACTION_REQUESTED,
 
+    /** The data holder has been archived by the user. */
+    ARCHIVED,
+
     /** The data holder has been resolved. */
     RESOLVED,
     UNKNOWN,

@@ -7,10 +7,13 @@
 package com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis
 
 import com.amazonaws.services.cognitoidentity.model.NotAuthorizedException
+import com.apollographql.apollo.api.Optional
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.api.ApiClient
+import com.sudoplatform.sudoprivacyinteraction.graphql.type.OrganizationAnalysisOptions
 import com.sudoplatform.sudoprivacyinteraction.internal.data.common.transformers.ErrorTransformer
+import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers.OrganizationAnalysisDomainResolutionTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers.OrganizationAnalysisModeTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers.OrganizationAnalysisTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.GetOrganizationAnalysisInput
@@ -31,9 +34,25 @@ internal class GraphQLOrganizationAnalysisService(
         logger.debug("getOrganizationAnalysis input: $input")
 
         val mode = input.mode?.let { OrganizationAnalysisModeTransformer.fromEntityToGraphQL(it) }
+        val resolution =
+            input.resolution?.let {
+                OrganizationAnalysisDomainResolutionTransformer.fromEntityToGraphQL(it)
+            }
+
+        // Only send `options` when at least one of its fields is set, so the service applies its
+        // own defaults otherwise.
+        val options =
+            if (mode != null || resolution != null) {
+                OrganizationAnalysisOptions(
+                    mode = Optional.presentIfNotNull(mode),
+                    resolution = Optional.presentIfNotNull(resolution),
+                )
+            } else {
+                null
+            }
 
         try {
-            val queryResponse = apiClient.getOrganizationAnalysisQuery(input.domain, mode)
+            val queryResponse = apiClient.getOrganizationAnalysisQuery(input.domain, input.name, options)
 
             if (queryResponse.hasErrors()) {
                 logger.error("errors = ${queryResponse.errors}")

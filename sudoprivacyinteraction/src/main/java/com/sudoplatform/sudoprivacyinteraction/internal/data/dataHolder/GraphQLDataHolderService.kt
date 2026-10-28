@@ -10,6 +10,7 @@ import com.amazonaws.services.cognitoidentity.model.NotAuthorizedException
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.api.ApiClient
+import com.sudoplatform.sudoprivacyinteraction.internal.data.common.StringConstants
 import com.sudoplatform.sudoprivacyinteraction.internal.data.common.transformers.ErrorTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.dataHolder.transformers.DataHolderScanSummaryTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.dataHolder.transformers.DataHolderTransformer
@@ -43,6 +44,68 @@ internal class GraphQLDataHolderService(
 
             val result = queryResponse.data?.getDataHolder?.dataHolder ?: return null
             return DataHolderTransformer.fromGraphQLToEntity(result)
+        } catch (e: Throwable) {
+            logger.error("unexpected error $e")
+            when (e) {
+                is NotAuthorizedException ->
+                    throw SudoPrivacyInteractionClient.DataHolderException.AuthenticationException(
+                        cause = e,
+                    )
+                else -> throw ErrorTransformer.interpretDataHolderException(e)
+            }
+        }
+    }
+
+    override suspend fun archive(id: String): DataHolderEntity {
+        logger.debug("archive input: $id")
+
+        try {
+            val mutationResponse = apiClient.archiveDataHolderMutation(id)
+
+            if (mutationResponse.hasErrors()) {
+                logger.error("errors = ${mutationResponse.errors}")
+                throw ErrorTransformer.interpretDataHolderError(mutationResponse.errors.first())
+            }
+
+            val result = mutationResponse.data?.archiveDataHolder?.dataHolder
+            result?.let {
+                return DataHolderTransformer.fromGraphQLToEntity(it)
+            }
+            logger.error("no data holder returned")
+            throw SudoPrivacyInteractionClient.DataHolderException.FailedException(
+                StringConstants.NO_DATA_HOLDER_ERROR_MSG,
+            )
+        } catch (e: Throwable) {
+            logger.error("unexpected error $e")
+            when (e) {
+                is NotAuthorizedException ->
+                    throw SudoPrivacyInteractionClient.DataHolderException.AuthenticationException(
+                        cause = e,
+                    )
+                else -> throw ErrorTransformer.interpretDataHolderException(e)
+            }
+        }
+    }
+
+    override suspend fun unarchive(id: String): DataHolderEntity {
+        logger.debug("unarchive input: $id")
+
+        try {
+            val mutationResponse = apiClient.unarchiveDataHolderMutation(id)
+
+            if (mutationResponse.hasErrors()) {
+                logger.error("errors = ${mutationResponse.errors}")
+                throw ErrorTransformer.interpretDataHolderError(mutationResponse.errors.first())
+            }
+
+            val result = mutationResponse.data?.unarchiveDataHolder?.dataHolder
+            result?.let {
+                return DataHolderTransformer.fromGraphQLToEntity(it)
+            }
+            logger.error("no data holder returned")
+            throw SudoPrivacyInteractionClient.DataHolderException.FailedException(
+                StringConstants.NO_DATA_HOLDER_ERROR_MSG,
+            )
         } catch (e: Throwable) {
             logger.error("unexpected error $e")
             when (e) {

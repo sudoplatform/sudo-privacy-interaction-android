@@ -427,6 +427,26 @@ interface SudoPrivacyInteractionClient : AutoCloseable {
     fun unsubscribeAllFromVirtualPresence()
 
     /**
+     * Archive a data holder, removing it from the user's active list.
+     *
+     * @param id [String] The unique identifier of the data holder to archive.
+     * @return The archived [DataHolder].
+     */
+    @Throws(DataHolderException::class)
+    suspend fun archiveDataHolder(id: String): DataHolder
+
+    /**
+     * Unarchive a previously archived data holder, returning it to the
+     * [DataHolderProtectionState.MONITORED] state. Only a data holder in the
+     * [DataHolderProtectionState.ARCHIVED] state may be unarchived.
+     *
+     * @param id [String] The unique identifier of the data holder to unarchive.
+     * @return The unarchived [DataHolder].
+     */
+    @Throws(DataHolderException::class)
+    suspend fun unarchiveDataHolder(id: String): DataHolder
+
+    /**
      * Retrieve a single data holder by ID.
      *
      * @param id [String] The unique identifier of the data holder.
@@ -535,7 +555,10 @@ interface SudoPrivacyInteractionClient : AutoCloseable {
      *
      * Returns a result with a PENDING status when an asynchronous source is still resolving;
      * re-query for the terminal result. When [GetOrganizationAnalysisInput.mode] is omitted, the
-     * backend behaves as [com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisMode.ANALYZE].
+     * backend behaves as [OrganizationAnalysisMode.ANALYZE].
+     *
+     * When [GetOrganizationAnalysisInput.resolution] is omitted, the domain is analyzed verbatim
+     * ([OrganizationAnalysisDomainResolution.EXACT]).
      *
      * @param input [GetOrganizationAnalysisInput] Parameters used to obtain the analysis.
      * @return The [OrganizationAnalysis], or `null` if not found.
@@ -562,6 +585,17 @@ interface SudoPrivacyInteractionClient : AutoCloseable {
      */
     @Throws(ActionException::class)
     suspend fun confirmActionOutcome(id: String): Action
+
+    /**
+     * Read a single initiated action by ID. Resolves an in-flight delegated action on read: if
+     * the action is still in progress, its outcome is polled and, once terminal, the action is
+     * updated to its verified result before being returned.
+     *
+     * @param id [String] The unique identifier of the action.
+     * @return The [Action], or `null` if no action with the given ID exists for the user.
+     */
+    @Throws(ActionException::class)
+    suspend fun getAction(id: String): Action?
 
     /**
      * List the actions currently available for a data holder relationship.

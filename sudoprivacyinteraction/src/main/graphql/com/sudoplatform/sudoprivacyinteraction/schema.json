@@ -1410,22 +1410,6 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "sellsPersonalInformation",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "ENUM",
-                "name": "SignalValue",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "supportsAccountCreation",
             "description": null,
             "args": [],
@@ -1475,6 +1459,22 @@
           },
           {
             "name": "supportsDataExport",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "SignalValue",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "supportsOptOutOfSale",
             "description": null,
             "args": [],
             "type": {
@@ -2110,6 +2110,98 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "DataHolderCount",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "archived",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "completedActions",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "initiatedActions",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "monitored",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "DataHolderProtectionState",
         "description": null,
@@ -2120,6 +2212,12 @@
         "enumValues": [
           {
             "name": "ACTION_REQUESTED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ARCHIVED",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -2783,6 +2881,39 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "archiveDataHolder",
+            "description": "Archive a data holder, removing it from the user's active list.",
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "DataHolder",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "confirmActionOutcome",
             "description": "Confirm that an assisted or delegated action was completed, transitioning it\nfrom COMPLETED_UNVERIFIED to COMPLETED_VERIFIED.",
             "args": [
@@ -2954,6 +3085,39 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "unarchiveDataHolder",
+            "description": "Unarchive a previously archived data holder, clearing the user's archive\nsetting and returning it to the MONITORED state. Only a data holder in the\nARCHIVED state may be unarchived.",
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "DataHolder",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -3115,6 +3279,30 @@
       },
       {
         "kind": "ENUM",
+        "name": "OrganizationAnalysisDomainResolution",
+        "description": null,
+        "isOneOf": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "EXACT",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "REGISTRABLE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
         "name": "OrganizationAnalysisMode",
         "description": null,
         "isOneOf": null,
@@ -3138,6 +3326,42 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "OrganizationAnalysisOptions",
+        "description": null,
+        "isOneOf": false,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "mode",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "OrganizationAnalysisMode",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "resolution",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "OrganizationAnalysisDomainResolution",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "OrganizationCategory",
         "description": null,
@@ -3148,6 +3372,12 @@
         "enumValues": [
           {
             "name": "AdTechAndMarketing",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "AdultEntertainment",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -3592,6 +3822,35 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "getAction",
+            "description": "Read a single initiated action by id. Resolves an in-flight delegated action\non read: if the action is still in progress, its outcome is polled and, once\nterminal, the action is updated to its verified result before being returned.\nReturns null when no action with the given id exists for the user.",
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Action",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "getAnalysisResult",
             "description": "Get a full analysis result by ID, including typed data.",
             "args": [
@@ -3651,7 +3910,7 @@
           },
           {
             "name": "getOrganizationAnalysis",
-            "description": "Analyze (read-through) and return the shared, organization-generic analysis\nfor a domain. Returns PENDING when an asynchronous source is still resolving;\nre-query for the terminal result. When mode is omitted, the behaviour is\nANALYZE.",
+            "description": "Analyze (read-through) and return the shared, organization-generic analysis\nfor a domain. Returns PENDING when an asynchronous source is still resolving;\nre-query for the terminal result.\n\nPass `options` to control the analysis mode and domain resolution. When no\nmode is supplied the behaviour is ANALYZE, and resolution defaults to\nREGISTRABLE.\n\nPass `name` to analyze by organization name (e.g. \"amazon\", \"stripe\"). The\nname is resolved to a domain and takes precedence over `domain` when it\nresolves; `domain` remains required and is used as the fallback when the name\ncannot be resolved (including when name resolution is unavailable).",
             "args": [
               {
                 "name": "domain",
@@ -3670,11 +3929,23 @@
                 "deprecationReason": null
               },
               {
-                "name": "mode",
+                "name": "name",
                 "description": null,
                 "type": {
-                  "kind": "ENUM",
-                  "name": "OrganizationAnalysisMode",
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "options",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "OrganizationAnalysisOptions",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -4650,6 +4921,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Float",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "dataHolderCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "DataHolderCount",
                 "ofType": null
               }
             },

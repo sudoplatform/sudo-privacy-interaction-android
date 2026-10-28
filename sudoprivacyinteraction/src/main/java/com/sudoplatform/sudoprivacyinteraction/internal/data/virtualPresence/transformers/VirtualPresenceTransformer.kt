@@ -6,8 +6,10 @@
 
 package com.sudoplatform.sudoprivacyinteraction.internal.data.virtualPresence.transformers
 
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.DataHolderCountEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.util.toDate
+import com.sudoplatform.sudoprivacyinteraction.types.DataHolderCount
 import com.sudoplatform.sudoprivacyinteraction.types.VirtualPresence
 import com.sudoplatform.sudoprivacyinteraction.graphql.fragment.VirtualPresence as VirtualPresenceFragment
 
@@ -33,6 +35,16 @@ internal object VirtualPresenceTransformer {
             relationshipProvider = RelationshipProviderTransformer.fromGraphQLToEntity(data.relationshipProvider),
             lastScannedAt = data.lastScannedAtEpochMs.toDate(),
             lastScanFailureReason = null,
+            dataHolderCount =
+                data.dataHolderCount.let {
+                    DataHolderCountEntity(
+                        count = it.count,
+                        monitored = it.monitored,
+                        initiatedActions = it.initiatedActions,
+                        completedActions = it.completedActions,
+                        archived = it.archived,
+                    )
+                },
             createdAt = data.createdAtEpochMs.toDate(),
             updatedAt = data.updatedAtEpochMs.toDate(),
         )
@@ -53,6 +65,16 @@ internal object VirtualPresenceTransformer {
             relationshipProvider = RelationshipProviderTransformer.fromEntityToApi(entity.relationshipProvider),
             lastScannedAt = entity.lastScannedAt,
             lastScanFailureReason = entity.lastScanFailureReason,
+            dataHolderCount =
+                entity.dataHolderCount.let {
+                    DataHolderCount(
+                        count = it.count,
+                        monitored = it.monitored,
+                        initiatedActions = it.initiatedActions,
+                        completedActions = it.completedActions,
+                        archived = it.archived,
+                    )
+                },
             version = entity.version,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,

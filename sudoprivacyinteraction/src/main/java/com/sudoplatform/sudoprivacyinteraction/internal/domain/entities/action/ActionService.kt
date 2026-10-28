@@ -53,6 +53,16 @@ internal interface ActionService {
     suspend fun initiate(input: InitiateActionInput): ActionEntity
 
     /**
+     * Read a single initiated action by ID. Resolves an in-flight delegated action on read: if
+     * the action is still in progress, its outcome is polled and, once terminal, the action is
+     * updated to its verified result before being returned.
+     *
+     * @param id [String] The unique identifier of the action.
+     * @return The [ActionEntity], or `null` if no action with the given ID exists for the user.
+     */
+    suspend fun get(id: String): ActionEntity?
+
+    /**
      * Confirm that an assisted or delegated action was completed.
      *
      * @param id [String] The unique identifier of the action to confirm.

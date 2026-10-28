@@ -343,4 +343,160 @@ class GraphQLDataHolderServiceTest : BaseTests() {
 
             verify(mockApiClient).listDataHolderScanSummariesQuery(eq(mockDataHolderId), anyOrNull(), anyOrNull())
         }
+
+    @Test
+    fun `archive() should return archived data holder entity when successful`() =
+        runTest {
+            val mutationResponse = DataFactory.archiveDataHolderMutationResponse()
+            mockApiClient.stub {
+                onBlocking { archiveDataHolderMutation(any()) } doReturn mutationResponse
+            }
+
+            val result = instanceUnderTest.archive(mockDataHolderId)
+
+            result.id shouldBe mockDataHolderId
+            result.protectionState shouldBe DataHolderProtectionStateEntity.ARCHIVED
+            verify(mockApiClient).archiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `archive() should throw FailedException when result data is null`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    archiveDataHolderMutation(any())
+                } doReturn GraphQLResponse(null, null)
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.FailedException> {
+                instanceUnderTest.archive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).archiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `archive() should throw DataHolderNotFoundException for not found response`() =
+        runTest {
+            val testError =
+                GraphQLResponse.Error(
+                    "Test generated error",
+                    emptyList(),
+                    emptyList(),
+                    mapOf("errorType" to "sudoplatform.privacy-interaction.DataHolderNotFound"),
+                )
+            mockApiClient.stub {
+                onBlocking {
+                    archiveDataHolderMutation(any())
+                } doReturn GraphQLResponse(null, listOf(testError))
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.DataHolderNotFoundException> {
+                instanceUnderTest.archive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).archiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `archive() should throw AuthenticationException when not authorized`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    archiveDataHolderMutation(any())
+                } doThrow NotAuthorizedException("not authorized")
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.AuthenticationException> {
+                instanceUnderTest.archive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).archiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `archive() should throw UnknownException for unexpected errors`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    archiveDataHolderMutation(any())
+                } doThrow RuntimeException("unexpected")
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.UnknownException> {
+                instanceUnderTest.archive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).archiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `unarchive() should return the data holder returned to monitored when successful`() =
+        runTest {
+            val mutationResponse = DataFactory.unarchiveDataHolderMutationResponse()
+            mockApiClient.stub {
+                onBlocking { unarchiveDataHolderMutation(any()) } doReturn mutationResponse
+            }
+
+            val result = instanceUnderTest.unarchive(mockDataHolderId)
+
+            result.id shouldBe mockDataHolderId
+            result.protectionState shouldBe DataHolderProtectionStateEntity.MONITORED
+            verify(mockApiClient).unarchiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `unarchive() should throw FailedException when result data is null`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    unarchiveDataHolderMutation(any())
+                } doReturn GraphQLResponse(null, null)
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.FailedException> {
+                instanceUnderTest.unarchive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).unarchiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `unarchive() should throw DataHolderNotFoundException for not found response`() =
+        runTest {
+            val testError =
+                GraphQLResponse.Error(
+                    "Test generated error",
+                    emptyList(),
+                    emptyList(),
+                    mapOf("errorType" to "sudoplatform.privacy-interaction.DataHolderNotFound"),
+                )
+            mockApiClient.stub {
+                onBlocking {
+                    unarchiveDataHolderMutation(any())
+                } doReturn GraphQLResponse(null, listOf(testError))
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.DataHolderNotFoundException> {
+                instanceUnderTest.unarchive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).unarchiveDataHolderMutation(eq(mockDataHolderId))
+        }
+
+    @Test
+    fun `unarchive() should throw AuthenticationException when not authorized`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    unarchiveDataHolderMutation(any())
+                } doThrow NotAuthorizedException("not authorized")
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.DataHolderException.AuthenticationException> {
+                instanceUnderTest.unarchive(mockDataHolderId)
+            }
+
+            verify(mockApiClient).unarchiveDataHolderMutation(eq(mockDataHolderId))
+        }
 }

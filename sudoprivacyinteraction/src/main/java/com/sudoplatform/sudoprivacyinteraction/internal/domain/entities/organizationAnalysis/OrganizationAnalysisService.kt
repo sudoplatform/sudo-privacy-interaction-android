@@ -10,12 +10,19 @@ package com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organiz
  * Input for [OrganizationAnalysisService.getOrganizationAnalysis].
  *
  * @property domain [String] The domain to analyze.
+ * @property name [String] Organization name to analyze. When it resolves to a domain it takes
+ *  precedence over [domain]; [domain] remains required and is used as the fallback when the name
+ *  cannot be resolved.
  * @property mode [OrganizationAnalysisModeEntity] How to obtain source results. When `null`, the
  *  backend behaves as [OrganizationAnalysisModeEntity.ANALYZE].
+ * @property resolution [OrganizationAnalysisDomainResolutionEntity] How the requested domain is
+ *  treated before analysis.
  */
 internal data class GetOrganizationAnalysisInput(
     val domain: String,
+    val name: String? = null,
     val mode: OrganizationAnalysisModeEntity? = null,
+    val resolution: OrganizationAnalysisDomainResolutionEntity? = null,
 )
 
 /**

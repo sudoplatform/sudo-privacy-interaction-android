@@ -14,14 +14,17 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.dataHold
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisService
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualPresence.VirtualPresenceService
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ConfirmActionOutcomeUseCase
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.GetActionUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.InitiateActionUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListAvailableActionsUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.analysisResult.GetAnalysisResultUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.analysisResult.ListAnalysisResultsUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.configuration.GetProviderConfigurationUseCase
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.dataHolder.ArchiveDataHolderUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.dataHolder.GetDataHolderUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.dataHolder.ListDataHolderScanSummariesUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.dataHolder.ListDataHoldersUseCase
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.dataHolder.UnarchiveDataHolderUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.organizationAnalysis.GetOrganizationAnalysisUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.ConnectVirtualPresenceWithAuthCodeUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.ConnectVirtualPresenceWithRefreshTokenUseCase
@@ -46,6 +49,10 @@ internal interface UseCaseFactory {
 
     fun createListVirtualPresencesUseCase(): ListVirtualPresencesUseCase
 
+    fun createArchiveDataHolderUseCase(): ArchiveDataHolderUseCase
+
+    fun createUnarchiveDataHolderUseCase(): UnarchiveDataHolderUseCase
+
     fun createGetDataHolderUseCase(): GetDataHolderUseCase
 
     fun createListDataHoldersUseCase(): ListDataHoldersUseCase
@@ -63,6 +70,8 @@ internal interface UseCaseFactory {
     fun createInitiateActionUseCase(): InitiateActionUseCase
 
     fun createConfirmActionOutcomeUseCase(): ConfirmActionOutcomeUseCase
+
+    fun createGetActionUseCase(): GetActionUseCase
 }
 
 internal class DefaultUseCaseFactory(
@@ -107,6 +116,18 @@ internal class DefaultUseCaseFactory(
     override fun createRescanVirtualPresenceUseCase(): RescanVirtualPresenceUseCase =
         RescanVirtualPresenceUseCase(
             virtualPresenceService = virtualPresenceService,
+            logger = logger,
+        )
+
+    override fun createArchiveDataHolderUseCase(): ArchiveDataHolderUseCase =
+        ArchiveDataHolderUseCase(
+            dataHolderService = dataHolderService,
+            logger = logger,
+        )
+
+    override fun createUnarchiveDataHolderUseCase(): UnarchiveDataHolderUseCase =
+        UnarchiveDataHolderUseCase(
+            dataHolderService = dataHolderService,
             logger = logger,
         )
 
@@ -160,6 +181,12 @@ internal class DefaultUseCaseFactory(
 
     override fun createConfirmActionOutcomeUseCase(): ConfirmActionOutcomeUseCase =
         ConfirmActionOutcomeUseCase(
+            actionService = actionService,
+            logger = logger,
+        )
+
+    override fun createGetActionUseCase(): GetActionUseCase =
+        GetActionUseCase(
             actionService = actionService,
             logger = logger,
         )

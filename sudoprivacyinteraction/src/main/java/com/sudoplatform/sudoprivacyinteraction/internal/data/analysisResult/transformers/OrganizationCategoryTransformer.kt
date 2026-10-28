@@ -18,6 +18,7 @@ internal object OrganizationCategoryTransformer {
     fun fromGraphQLToEntity(data: OrganizationCategoryGraphQL): OrganizationCategoryEntity =
         when (data) {
             OrganizationCategoryGraphQL.AdTechAndMarketing -> OrganizationCategoryEntity.AD_TECH_AND_MARKETING
+            OrganizationCategoryGraphQL.AdultEntertainment -> OrganizationCategoryEntity.ADULT_ENTERTAINMENT
             OrganizationCategoryGraphQL.Automotive -> OrganizationCategoryEntity.AUTOMOTIVE
             OrganizationCategoryGraphQL.Communications -> OrganizationCategoryEntity.COMMUNICATIONS
             OrganizationCategoryGraphQL.CommunityAndCharity -> OrganizationCategoryEntity.COMMUNITY_AND_CHARITY
@@ -54,6 +55,7 @@ internal object OrganizationCategoryTransformer {
     fun fromEntityToApi(entity: OrganizationCategoryEntity): OrganizationCategory =
         when (entity) {
             OrganizationCategoryEntity.AD_TECH_AND_MARKETING -> OrganizationCategory.AD_TECH_AND_MARKETING
+            OrganizationCategoryEntity.ADULT_ENTERTAINMENT -> OrganizationCategory.ADULT_ENTERTAINMENT
             OrganizationCategoryEntity.AUTOMOTIVE -> OrganizationCategory.AUTOMOTIVE
             OrganizationCategoryEntity.COMMUNICATIONS -> OrganizationCategory.COMMUNICATIONS
             OrganizationCategoryEntity.COMMUNITY_AND_CHARITY -> OrganizationCategory.COMMUNITY_AND_CHARITY

@@ -67,6 +67,29 @@ internal class GraphQLActionService(
         }
     }
 
+    override suspend fun get(id: String): ActionEntity? {
+        logger.debug("get input: $id")
+
+        try {
+            val queryResponse = apiClient.getActionQuery(id)
+
+            if (queryResponse.hasErrors()) {
+                logger.error("errors = ${queryResponse.errors}")
+                throw ErrorTransformer.interpretActionError(queryResponse.errors.first())
+            }
+
+            val result = queryResponse.data?.getAction?.action ?: return null
+            return ActionTransformer.fromGraphQLToEntity(result)
+        } catch (e: Throwable) {
+            logger.error("unexpected error $e")
+            when (e) {
+                is NotAuthorizedException ->
+                    throw SudoPrivacyInteractionClient.ActionException.AuthenticationException(cause = e)
+                else -> throw ErrorTransformer.interpretActionException(e)
+            }
+        }
+    }
+
     override suspend fun confirmOutcome(id: String): ActionEntity {
         logger.debug("confirmOutcome input: $id")
 

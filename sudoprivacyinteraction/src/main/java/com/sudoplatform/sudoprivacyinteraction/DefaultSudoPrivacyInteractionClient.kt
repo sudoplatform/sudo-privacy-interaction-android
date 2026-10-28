@@ -22,6 +22,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.data.dataHolder.GraphQLD
 import com.sudoplatform.sudoprivacyinteraction.internal.data.dataHolder.transformers.DataHolderScanSummaryTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.dataHolder.transformers.DataHolderTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.GraphQLOrganizationAnalysisService
+import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers.OrganizationAnalysisDomainResolutionTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers.OrganizationAnalysisModeTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers.OrganizationAnalysisTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.providerConfiguration.GraphQLProviderConfigurationService
@@ -61,6 +62,7 @@ import com.sudoplatform.sudoprivacyinteraction.types.DataHolder
 import com.sudoplatform.sudoprivacyinteraction.types.DataHolderScanSummary
 import com.sudoplatform.sudoprivacyinteraction.types.ListOutput
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysis
+import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisDomainResolution
 import com.sudoplatform.sudoprivacyinteraction.types.ProviderConfiguration
 import com.sudoplatform.sudoprivacyinteraction.types.VirtualPresence
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ConnectVirtualPresenceWithAuthCodeInput
@@ -278,6 +280,22 @@ internal class DefaultSudoPrivacyInteractionClient(
         subscriptionService.unsubscribeAllFromVirtualPresence()
     }
 
+    override suspend fun archiveDataHolder(id: String): DataHolder {
+        logger.debug("archiveDataHolder")
+        ensureSignedIn()
+        val useCase = useCaseFactory.createArchiveDataHolderUseCase()
+        val result = useCase.execute(id)
+        return DataHolderTransformer.fromEntityToApi(result)
+    }
+
+    override suspend fun unarchiveDataHolder(id: String): DataHolder {
+        logger.debug("unarchiveDataHolder")
+        ensureSignedIn()
+        val useCase = useCaseFactory.createUnarchiveDataHolderUseCase()
+        val result = useCase.execute(id)
+        return DataHolderTransformer.fromEntityToApi(result)
+    }
+
     override suspend fun getDataHolder(
         id: String,
         options: GetDataHolderOptions,
@@ -430,7 +448,12 @@ internal class DefaultSudoPrivacyInteractionClient(
             useCase.execute(
                 GetOrganizationAnalysisUseCaseInput(
                     domain = input.domain,
+                    name = input.name,
                     mode = input.mode?.let { OrganizationAnalysisModeTransformer.fromApiToEntity(it) },
+                    resolution =
+                        OrganizationAnalysisDomainResolutionTransformer.fromApiToEntity(
+                            input.resolution ?: OrganizationAnalysisDomainResolution.EXACT,
+                        ),
                 ),
             ) ?: return null
         return OrganizationAnalysisTransformer.fromEntityToApi(result)
@@ -456,6 +479,14 @@ internal class DefaultSudoPrivacyInteractionClient(
         ensureSignedIn()
         val useCase = useCaseFactory.createConfirmActionOutcomeUseCase()
         val result = useCase.execute(id)
+        return ActionTransformer.fromEntityToApi(result)
+    }
+
+    override suspend fun getAction(id: String): Action? {
+        logger.debug("getAction")
+        ensureSignedIn()
+        val useCase = useCaseFactory.createGetActionUseCase()
+        val result = useCase.execute(id) ?: return null
         return ActionTransformer.fromEntityToApi(result)
     }
 

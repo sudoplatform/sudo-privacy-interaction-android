@@ -7,11 +7,13 @@
 package com.sudoplatform.sudoprivacyinteraction
 
 import com.sudoplatform.sudoprivacyinteraction.data.EntityDataFactory
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisDomainResolutionEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisModeEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisService
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.UseCaseFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.organizationAnalysis.GetOrganizationAnalysisUseCase
 import com.sudoplatform.sudoprivacyinteraction.types.AnalysisResultStatus
+import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisDomainResolution
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisMode
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.GetOrganizationAnalysisInput
 import com.sudoplatform.sudouser.SignInGuard
@@ -129,6 +131,55 @@ class SudoPrivacyInteractionGetOrganizationAnalysisTest : BaseTests() {
                 check { useCaseInput ->
                     useCaseInput.domain shouldBe mockDomain
                     useCaseInput.mode shouldBe null
+                    // Resolution defaults to EXACT when omitted.
+                    useCaseInput.resolution shouldBe OrganizationAnalysisDomainResolutionEntity.EXACT
+                    useCaseInput.name shouldBe null
+                },
+            )
+            verify(mockSignInGuard).ensureSignedIn()
+        }
+
+    @Test
+    fun `getOrganizationAnalysis() should pass an explicit resolution through`() =
+        runTest {
+            val deferredResult =
+                async(StandardTestDispatcher(testScheduler)) {
+                    client.getOrganizationAnalysis(
+                        GetOrganizationAnalysisInput(
+                            domain = mockDomain,
+                            resolution = OrganizationAnalysisDomainResolution.REGISTRABLE,
+                        ),
+                    )
+                }
+            deferredResult.start()
+            deferredResult.await()
+
+            verify(mockUseCaseFactory).createGetOrganizationAnalysisUseCase()
+            verify(mockUseCase).execute(
+                check { useCaseInput ->
+                    useCaseInput.resolution shouldBe OrganizationAnalysisDomainResolutionEntity.REGISTRABLE
+                },
+            )
+            verify(mockSignInGuard).ensureSignedIn()
+        }
+
+    @Test
+    fun `getOrganizationAnalysis() should pass name through`() =
+        runTest {
+            val deferredResult =
+                async(StandardTestDispatcher(testScheduler)) {
+                    client.getOrganizationAnalysis(
+                        GetOrganizationAnalysisInput(domain = mockDomain, name = "amazon"),
+                    )
+                }
+            deferredResult.start()
+            deferredResult.await()
+
+            verify(mockUseCaseFactory).createGetOrganizationAnalysisUseCase()
+            verify(mockUseCase).execute(
+                check { useCaseInput ->
+                    useCaseInput.domain shouldBe mockDomain
+                    useCaseInput.name shouldBe "amazon"
                 },
             )
             verify(mockSignInGuard).ensureSignedIn()
