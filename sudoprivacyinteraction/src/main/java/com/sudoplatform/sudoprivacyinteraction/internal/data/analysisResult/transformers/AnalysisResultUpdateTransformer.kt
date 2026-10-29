@@ -29,6 +29,10 @@ internal object AnalysisResultUpdateTransformer {
                 AnalysisResultStatusTransformer.fromEntityToApi(
                     AnalysisResultStatusTransformer.fromGraphQLToEntity(data.status),
                 ),
+            statusReason =
+                AnalysisResultStatusReasonTransformer.fromEntityToApi(
+                    AnalysisResultStatusReasonTransformer.fromGraphQLToEntity(data.statusReason),
+                ),
             lastAnalyzedAt = data.lastAnalyzedAtEpochMs.toDate(),
             version = data.version,
             createdAt = data.createdAtEpochMs.toDate(),

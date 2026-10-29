@@ -8,6 +8,7 @@ package com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organiz
 
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultDataEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultStatusEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultStatusReasonEntity
 import java.util.Date
 
 /**
@@ -17,6 +18,7 @@ internal data class OrganizationAnalysisEntity(
     val id: String,
     val domain: String,
     val status: AnalysisResultStatusEntity,
+    val statusReason: AnalysisResultStatusReasonEntity? = null,
     val lastAnalyzedAt: Date,
     val data: AnalysisResultDataEntity? = null,
     val owner: String,

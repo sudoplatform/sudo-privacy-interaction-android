@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sudoplatform.sudoprivacyinteraction.BaseIntegrationTest
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.types.AnalysisResultStatus
+import com.sudoplatform.sudoprivacyinteraction.types.AnalysisResultStatusReason
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAnalysisResultsInput
 import io.kotlintest.matchers.numerics.shouldBeGreaterThanOrEqual
 import io.kotlintest.shouldBe
@@ -52,6 +53,8 @@ class AnalysisResultIntegrationTest : BaseIntegrationTest() {
                 item.dataHolderIdentifier shouldNotBe null
                 item.status shouldNotBe null
                 AnalysisResultStatus.entries shouldContain item.status
+                // statusReason is optional; when present it must be a known value.
+                item.statusReason?.let { AnalysisResultStatusReason.entries shouldContain it }
                 item.lastAnalyzedAt shouldNotBe null
                 item.owner shouldNotBe null
                 item.version shouldBeGreaterThanOrEqual 1
@@ -75,6 +78,8 @@ class AnalysisResultIntegrationTest : BaseIntegrationTest() {
             fetched.virtualPresenceId shouldBe connectedVp.id
             fetched.dataHolderIdentifier shouldNotBe null
             fetched.status shouldNotBe null
+            // statusReason is optional; when present it must be a known value.
+            fetched.statusReason?.let { AnalysisResultStatusReason.entries shouldContain it }
             fetched.lastAnalyzedAt shouldNotBe null
 
             if (fetched.status == AnalysisResultStatus.COMPLETE || fetched.status == AnalysisResultStatus.PARTIAL) {

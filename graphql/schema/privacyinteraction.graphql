@@ -26,6 +26,14 @@ enum AnalysisResultStatus {
   UNAVAILABLE
 }
 
+enum AnalysisResultStatusReason {
+  INVALID_DOMAIN
+  POLICY_UNAVAILABLE
+  MALICIOUS
+  NOT_ATTEMPTED
+  OTHER
+}
+
 # Controls how getOrganizationAnalysis obtains source results when the stored
 # analysis is stale or absent.
 enum OrganizationAnalysisMode {
@@ -348,6 +356,8 @@ type OrganizationAnalysis {
   # Aggregate status. PENDING while an asynchronous source is still resolving;
   # re-query for the terminal result.
   status: AnalysisResultStatus!
+  # Any reason for the status
+  statusReason: AnalysisResultStatusReason
   # When the aggregate was last derived.
   lastAnalyzedAtEpochMs: Float!
   # Structured analysis payload. Populated when status is COMPLETE or PARTIAL.
@@ -550,6 +560,7 @@ type AnalysisResult {
   virtualPresenceId: ID!
   dataHolderIdentifier: String!
   status: AnalysisResultStatus!
+  statusReason: AnalysisResultStatusReason
   lastAnalyzedAtEpochMs: Float!
   # Structured analysis data. Populated when status is COMPLETE or PARTIAL.
   data: AnalysisResultData
@@ -572,6 +583,7 @@ type AnalysisResultUpdate {
   virtualPresenceId: ID!
   dataHolderIdentifier: String!
   status: AnalysisResultStatus!
+  statusReason: AnalysisResultStatusReason
   lastAnalyzedAtEpochMs: Float!
   owner: ID!
   version: Int!

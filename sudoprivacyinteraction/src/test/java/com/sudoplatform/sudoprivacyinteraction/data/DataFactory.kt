@@ -38,6 +38,7 @@ import com.sudoplatform.sudoprivacyinteraction.graphql.type.ActionIntent
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ActionOrigin
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ActionStatus
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.AnalysisResultStatus
+import com.sudoplatform.sudoprivacyinteraction.graphql.type.AnalysisResultStatusReason
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.DataCategory
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.DataHolderProtectionState
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.OrganizationCategory
@@ -352,6 +353,7 @@ object DataFactory {
         virtualPresenceId: String = "mockVirtualPresenceId",
         dataHolderIdentifier: String = "netflix.com",
         status: AnalysisResultStatus = AnalysisResultStatus.COMPLETE,
+        statusReason: AnalysisResultStatusReason? = null,
         lastAnalyzedAtEpochMs: Double = 1.0,
         data: AnalysisResultData? = getAnalysisResultDataFragment(),
         version: Int = 1,
@@ -363,6 +365,7 @@ object DataFactory {
             virtualPresenceId = virtualPresenceId,
             dataHolderIdentifier = dataHolderIdentifier,
             status = status,
+            statusReason = statusReason,
             lastAnalyzedAtEpochMs = lastAnalyzedAtEpochMs,
             data = data?.let { AnalysisResult.Data("AnalysisResultData", it) },
             owner = owner,
@@ -402,6 +405,7 @@ object DataFactory {
         id: String = "netflix.com",
         domain: String = "netflix.com",
         status: AnalysisResultStatus = AnalysisResultStatus.COMPLETE,
+        statusReason: AnalysisResultStatusReason? = null,
         lastAnalyzedAtEpochMs: Double = 1.0,
         data: AnalysisResultData? = getAnalysisResultDataFragment(),
         owner: String = "mockOwner",
@@ -413,6 +417,7 @@ object DataFactory {
             id = id,
             domain = domain,
             status = status,
+            statusReason = statusReason,
             lastAnalyzedAtEpochMs = lastAnalyzedAtEpochMs,
             data = data?.let { OrganizationAnalysis.Data("AnalysisResultData", it) },
             owner = owner,

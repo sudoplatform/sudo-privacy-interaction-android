@@ -29,6 +29,7 @@ subscription OnAnalysisResultUpdate($owner: ID!) {
     virtualPresenceId
     dataHolderIdentifier
     status
+    statusReason
     lastAnalyzedAtEpochMs
     owner
     version

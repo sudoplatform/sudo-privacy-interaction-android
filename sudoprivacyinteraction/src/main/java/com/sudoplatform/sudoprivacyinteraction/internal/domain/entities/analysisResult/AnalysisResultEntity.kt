@@ -17,6 +17,7 @@ internal data class AnalysisResultEntity(
     val virtualPresenceId: String,
     val dataHolderIdentifier: String,
     val status: AnalysisResultStatusEntity,
+    val statusReason: AnalysisResultStatusReasonEntity? = null,
     val lastAnalyzedAt: Date,
     val data: AnalysisResultDataEntity? = null,
     val version: Int,
@@ -112,6 +113,15 @@ internal enum class AnalysisResultStatusEntity {
     PARTIAL,
     FAILED,
     UNAVAILABLE,
+    UNKNOWN,
+}
+
+internal enum class AnalysisResultStatusReasonEntity {
+    INVALID_DOMAIN,
+    POLICY_UNAVAILABLE,
+    MALICIOUS,
+    NOT_ATTEMPTED,
+    OTHER,
     UNKNOWN,
 }
 

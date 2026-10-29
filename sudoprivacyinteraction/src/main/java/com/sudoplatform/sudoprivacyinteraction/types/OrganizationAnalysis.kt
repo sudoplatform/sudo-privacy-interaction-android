@@ -22,6 +22,8 @@ import java.util.Date
  * @property domain [String] The analyzed domain (equal to [id]).
  * @property status [AnalysisResultStatus] Aggregate status. PENDING while an asynchronous source
  *  is still resolving; re-query for the terminal result.
+ * @property statusReason [AnalysisResultStatusReason] Reason associated with the current [status].
+ *  `null` when no reason is provided.
  * @property lastAnalyzedAt [Date] When the aggregate was last derived.
  * @property data [AnalysisResultData] Structured analysis payload. Populated when status is
  *  COMPLETE or PARTIAL, otherwise `null`.
@@ -35,6 +37,7 @@ data class OrganizationAnalysis(
     val id: String,
     val domain: String,
     val status: AnalysisResultStatus,
+    val statusReason: AnalysisResultStatusReason? = null,
     val lastAnalyzedAt: Date,
     val data: AnalysisResultData? = null,
     val owner: String,

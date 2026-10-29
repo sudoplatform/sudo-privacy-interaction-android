@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sudoplatform.sudoprivacyinteraction.BaseIntegrationTest
 import com.sudoplatform.sudoprivacyinteraction.SudoPrivacyInteractionClient
 import com.sudoplatform.sudoprivacyinteraction.types.AnalysisResultStatus
+import com.sudoplatform.sudoprivacyinteraction.types.AnalysisResultStatusReason
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysis
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisDomainResolution
 import com.sudoplatform.sudoprivacyinteraction.types.OrganizationAnalysisMode
@@ -136,8 +137,31 @@ class OrganizationAnalysisIntegrationTest : BaseIntegrationTest() {
                 analysis.id shouldBe analysis.domain
                 analysis.status shouldNotBe null
                 AnalysisResultStatus.entries shouldContain analysis.status
+                // statusReason is optional; when present it must be a known value.
+                analysis.statusReason?.let { AnalysisResultStatusReason.entries shouldContain it }
                 analysis.owner shouldNotBe null
             }
+        }
+
+    @Test
+    fun reportsInvalidDomainStatusReasonForAnInvalidDomain() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+            val invalidDomain = "not-a-real-domain.invalid"
+
+            // ANALYZE the domain verbatim (EXACT). An unresolvable domain yields a terminal
+            // analysis whose statusReason identifies the input as invalid.
+            val analysis =
+                privacyInteractionClient.getOrganizationAnalysis(
+                    GetOrganizationAnalysisInput(
+                        domain = invalidDomain,
+                        mode = OrganizationAnalysisMode.ANALYZE,
+                        resolution = OrganizationAnalysisDomainResolution.EXACT,
+                    ),
+                )
+
+            analysis shouldNotBe null
+            analysis!!.statusReason shouldBe AnalysisResultStatusReason.INVALID_DOMAIN
         }
 
     /**
@@ -151,6 +175,8 @@ class OrganizationAnalysisIntegrationTest : BaseIntegrationTest() {
         analysis.domain shouldBe domain
         analysis.status shouldNotBe null
         AnalysisResultStatus.entries shouldContain analysis.status
+        // statusReason is optional; when present it must be a known value.
+        analysis.statusReason?.let { AnalysisResultStatusReason.entries shouldContain it }
         analysis.lastAnalyzedAt shouldNotBe null
         analysis.owner shouldNotBe null
         analysis.version shouldBeGreaterThanOrEqual 1

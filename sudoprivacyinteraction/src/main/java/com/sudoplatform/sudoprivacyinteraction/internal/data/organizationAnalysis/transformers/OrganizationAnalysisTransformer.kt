@@ -7,6 +7,7 @@
 package com.sudoplatform.sudoprivacyinteraction.internal.data.organizationAnalysis.transformers
 
 import com.sudoplatform.sudoprivacyinteraction.internal.data.analysisResult.transformers.AnalysisResultDataTransformer
+import com.sudoplatform.sudoprivacyinteraction.internal.data.analysisResult.transformers.AnalysisResultStatusReasonTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.data.analysisResult.transformers.AnalysisResultStatusTransformer
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.organizationAnalysis.OrganizationAnalysisEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.util.toDate
@@ -23,6 +24,7 @@ internal object OrganizationAnalysisTransformer {
             id = data.id,
             domain = data.domain,
             status = AnalysisResultStatusTransformer.fromGraphQLToEntity(data.status),
+            statusReason = AnalysisResultStatusReasonTransformer.fromGraphQLToEntity(data.statusReason),
             lastAnalyzedAt = data.lastAnalyzedAtEpochMs.toDate(),
             data = data.data?.let { AnalysisResultDataTransformer.fromGraphQLToEntity(it.analysisResultData) },
             owner = data.owner,
@@ -36,6 +38,7 @@ internal object OrganizationAnalysisTransformer {
             id = entity.id,
             domain = entity.domain,
             status = AnalysisResultStatusTransformer.fromEntityToApi(entity.status),
+            statusReason = AnalysisResultStatusReasonTransformer.fromEntityToApi(entity.statusReason),
             lastAnalyzedAt = entity.lastAnalyzedAt,
             data = entity.data?.let { AnalysisResultDataTransformer.fromEntityToApi(it) },
             owner = entity.owner,

@@ -641,6 +641,18 @@
             "deprecationReason": null
           },
           {
+            "name": "statusReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "AnalysisResultStatusReason",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "updatedAtEpochMs",
             "description": null,
             "args": [],
@@ -917,6 +929,48 @@
         "possibleTypes": null
       },
       {
+        "kind": "ENUM",
+        "name": "AnalysisResultStatusReason",
+        "description": null,
+        "isOneOf": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "INVALID_DOMAIN",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "MALICIOUS",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "NOT_ATTEMPTED",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "OTHER",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "POLICY_UNAVAILABLE",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "AnalysisResultUpdate",
         "description": null,
@@ -1014,6 +1068,18 @@
                 "name": "AnalysisResultStatus",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "statusReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "AnalysisResultStatusReason",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3235,6 +3301,18 @@
                 "name": "AnalysisResultStatus",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "statusReason",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "AnalysisResultStatusReason",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

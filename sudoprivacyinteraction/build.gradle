@@ -52,6 +52,17 @@ android {
     }
 
     testOptions {
+        managedDevices {
+            localDevices {
+                googleAtdApi33 {
+                    device = "Pixel 7"
+                    apiLevel = 33
+                    systemImageSource = "google-atd"
+                    testedAbi = "x86_64"
+                }
+            }
+        }
+
         unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {

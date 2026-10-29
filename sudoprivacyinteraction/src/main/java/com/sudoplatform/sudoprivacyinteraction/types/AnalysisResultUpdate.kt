@@ -18,6 +18,8 @@ import java.util.Date
  * @property virtualPresenceId [String] The virtual presence this analysis is associated with.
  * @property dataHolderIdentifier [String] The data holder domain that this analysis is about.
  * @property status [AnalysisResultStatus] Current status of the analysis.
+ * @property statusReason [AnalysisResultStatusReason] Reason associated with the current [status].
+ *  `null` when no reason is provided.
  * @property lastAnalyzedAt [Date] Date for when the analysis was last performed.
  * @property version [Int] Version of this entity. Increments on update.
  * @property createdAt [Date] Date for when the analysis result was created.
@@ -30,6 +32,7 @@ data class AnalysisResultUpdate(
     val virtualPresenceId: String,
     val dataHolderIdentifier: String,
     val status: AnalysisResultStatus,
+    val statusReason: AnalysisResultStatusReason? = null,
     val lastAnalyzedAt: Date,
     val version: Int,
     val createdAt: Date,

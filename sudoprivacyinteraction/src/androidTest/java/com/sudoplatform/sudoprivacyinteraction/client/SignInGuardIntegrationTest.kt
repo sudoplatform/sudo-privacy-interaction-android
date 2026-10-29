@@ -84,7 +84,7 @@ class SignInGuardIntegrationTest : BaseIntegrationTest() {
     @Test
     fun notSignedInWithNoCallbackShouldThrow() =
         runBlocking<Unit> {
-            userClient.globalSignOut()
+            userClient.signOut()
             userClient.isSignedIn() shouldBe false
 
             shouldThrow<SudoPrivacyInteractionClient.VirtualPresenceException> {
@@ -95,7 +95,7 @@ class SignInGuardIntegrationTest : BaseIntegrationTest() {
     @Test
     fun notSignedInWithCallbackShouldInvokeCallbackAndSucceedAfterSignIn() =
         runBlocking<Unit> {
-            userClient.globalSignOut()
+            userClient.signOut()
             userClient.isSignedIn() shouldBe false
 
             var callbackInvoked = false
@@ -119,7 +119,7 @@ class SignInGuardIntegrationTest : BaseIntegrationTest() {
     @Test
     fun callbackExceptionShouldPropagateToCallerWhenNotSignedIn() =
         runBlocking<Unit> {
-            userClient.globalSignOut()
+            userClient.signOut()
             userClient.isSignedIn() shouldBe false
 
             guardedClient.setSignInCallback(
@@ -138,7 +138,7 @@ class SignInGuardIntegrationTest : BaseIntegrationTest() {
     @Test
     fun clearingCallbackShouldStopEnforcement() =
         runBlocking<Unit> {
-            userClient.globalSignOut()
+            userClient.signOut()
             userClient.isSignedIn() shouldBe false
 
             var callbackInvoked = false

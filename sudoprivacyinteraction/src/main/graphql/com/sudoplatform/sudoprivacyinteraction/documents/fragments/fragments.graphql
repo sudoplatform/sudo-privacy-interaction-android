@@ -115,6 +115,7 @@ fragment AnalysisResult on AnalysisResult {
   virtualPresenceId
   dataHolderIdentifier
   status
+  statusReason
   lastAnalyzedAtEpochMs
   data {
     ...AnalysisResultData
@@ -129,6 +130,7 @@ fragment OrganizationAnalysis on OrganizationAnalysis {
   id
   domain
   status
+  statusReason
   lastAnalyzedAtEpochMs
   data {
     ...AnalysisResultData

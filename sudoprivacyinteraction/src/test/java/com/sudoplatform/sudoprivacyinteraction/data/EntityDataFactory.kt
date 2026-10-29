@@ -17,6 +17,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.A
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultDataEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultStatusEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.AnalysisResultStatusReasonEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.CapabilitySignalsEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.CategorySignalsEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.analysisResult.DataCategoryEntity
@@ -223,6 +224,7 @@ internal object EntityDataFactory {
         virtualPresenceId: String = "mockVirtualPresenceId",
         dataHolderIdentifier: String = "netflix.com",
         status: AnalysisResultStatusEntity = AnalysisResultStatusEntity.COMPLETE,
+        statusReason: AnalysisResultStatusReasonEntity? = null,
         lastAnalyzedAt: Date = Date(1L),
         data: AnalysisResultDataEntity? = getAnalysisResultDataEntity(),
         version: Int = 1,
@@ -235,6 +237,7 @@ internal object EntityDataFactory {
             virtualPresenceId = virtualPresenceId,
             dataHolderIdentifier = dataHolderIdentifier,
             status = status,
+            statusReason = statusReason,
             lastAnalyzedAt = lastAnalyzedAt,
             data = data,
             version = version,
@@ -246,6 +249,7 @@ internal object EntityDataFactory {
         id: String = "netflix.com",
         domain: String = "netflix.com",
         status: AnalysisResultStatusEntity = AnalysisResultStatusEntity.COMPLETE,
+        statusReason: AnalysisResultStatusReasonEntity? = null,
         lastAnalyzedAt: Date = Date(1L),
         data: AnalysisResultDataEntity? = getAnalysisResultDataEntity(),
         owner: String = "mockOwner",
@@ -257,6 +261,7 @@ internal object EntityDataFactory {
             id = id,
             domain = domain,
             status = status,
+            statusReason = statusReason,
             lastAnalyzedAt = lastAnalyzedAt,
             data = data,
             owner = owner,
