@@ -40,6 +40,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualP
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.DefaultUseCaseFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.UseCaseFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.InitiateActionUseCaseInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListActionsForDataHolderUseCaseInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListAvailableActionsUseCaseInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.analysisResult.ListAnalysisResultsUseCaseInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.dataHolder.ListDataHolderScanSummariesUseCaseInput
@@ -70,6 +71,7 @@ import com.sudoplatform.sudoprivacyinteraction.types.inputs.ConnectVirtualPresen
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.GetDataHolderOptions
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.GetOrganizationAnalysisInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.InitiateActionInput
+import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListActionsForDataHolderInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAnalysisResultsInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAvailableActionsInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListDataHolderScanSummariesInput
@@ -242,6 +244,14 @@ internal class DefaultSudoPrivacyInteractionClient(
                         },
                 ),
             )
+        return VirtualPresenceTransformer.fromEntityToApi(result)
+    }
+
+    override suspend fun refreshVirtualPresenceState(id: String): VirtualPresence {
+        logger.debug("refreshVirtualPresenceState")
+        ensureSignedIn()
+        val useCase = useCaseFactory.createRefreshVirtualPresenceStateUseCase()
+        val result = useCase.execute(id)
         return VirtualPresenceTransformer.fromEntityToApi(result)
     }
 
@@ -494,9 +504,33 @@ internal class DefaultSudoPrivacyInteractionClient(
         logger.debug("listAvailableActions")
         ensureSignedIn()
         val useCase = useCaseFactory.createListAvailableActionsUseCase()
-        val result = useCase.execute(ListAvailableActionsUseCaseInput(dataHolderId = input.dataHolderId))
+        val result =
+            useCase.execute(
+                ListAvailableActionsUseCaseInput(
+                    dataHolderId = input.dataHolderId,
+                    includeCompleted = input.includeCompleted,
+                ),
+            )
         return ListOutput(
             items = result.items.map { AvailableActionTransformer.fromEntityToApi(it) },
+            nextToken = result.nextToken,
+        )
+    }
+
+    override suspend fun listActionsForDataHolder(input: ListActionsForDataHolderInput): ListOutput<Action> {
+        logger.debug("listActionsForDataHolder")
+        ensureSignedIn()
+        val useCase = useCaseFactory.createListActionsForDataHolderUseCase()
+        val result =
+            useCase.execute(
+                ListActionsForDataHolderUseCaseInput(
+                    dataHolderId = input.dataHolderId,
+                    limit = input.limit,
+                    nextToken = input.nextToken,
+                ),
+            )
+        return ListOutput(
+            items = result.items.map { ActionTransformer.fromEntityToApi(it) },
             nextToken = result.nextToken,
         )
     }

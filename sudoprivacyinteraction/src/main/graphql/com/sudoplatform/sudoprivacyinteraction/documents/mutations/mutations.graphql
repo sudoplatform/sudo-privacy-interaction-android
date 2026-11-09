@@ -16,6 +16,12 @@ mutation RescanVirtualPresence($id: String!, $options: ScanOptionsInput) {
   }
 }
 
+mutation RefreshVirtualPresenceState($id: String!) {
+  refreshVirtualPresenceState(id: $id) {
+    ...VirtualPresence
+  }
+}
+
 
 mutation ArchiveDataHolder($id: ID!) {
   archiveDataHolder(id: $id) {

@@ -16,6 +16,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.L
  */
 internal data class ListAvailableActionsUseCaseInput(
     val dataHolderId: String,
+    val includeCompleted: Boolean? = null,
 )
 
 /**
@@ -28,7 +29,10 @@ internal class ListAvailableActionsUseCase(
     suspend fun execute(input: ListAvailableActionsUseCaseInput): ListAvailableActionsOutput {
         logger.debug(this::class.java.simpleName)
         return actionService.listAvailable(
-            ListAvailableActionsInput(dataHolderId = input.dataHolderId),
+            ListAvailableActionsInput(
+                dataHolderId = input.dataHolderId,
+                includeCompleted = input.includeCompleted,
+            ),
         )
     }
 }

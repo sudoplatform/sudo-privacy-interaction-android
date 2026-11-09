@@ -17,6 +17,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.A
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionOriginEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionStatusEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.InitiateActionInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListActionsForDataHolderInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListAvailableActionsInput
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -26,6 +27,7 @@ import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.check
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.doThrow
@@ -216,7 +218,7 @@ class GraphQLActionServiceTest : BaseTests() {
                     nextToken = "mockNextToken",
                 )
             mockApiClient.stub {
-                onBlocking { listAvailableActionsQuery(any()) } doReturn queryResponse
+                onBlocking { listAvailableActionsQuery(any(), anyOrNull()) } doReturn queryResponse
             }
 
             val result = instanceUnderTest.listAvailable(ListAvailableActionsInput(dataHolderId = mockDataHolderId))
@@ -228,14 +230,14 @@ class GraphQLActionServiceTest : BaseTests() {
             result.items[1].intent shouldBe ActionIntentEntity.ACCESS_MY_DATA
             result.nextToken shouldBe "mockNextToken"
 
-            verify(mockApiClient).listAvailableActionsQuery(eq(mockDataHolderId))
+            verify(mockApiClient).listAvailableActionsQuery(eq(mockDataHolderId), anyOrNull())
         }
 
     @Test
     fun `listAvailable() should return empty list when result is null`() =
         runTest {
             mockApiClient.stub {
-                onBlocking { listAvailableActionsQuery(any()) } doReturn GraphQLResponse(null, null)
+                onBlocking { listAvailableActionsQuery(any(), anyOrNull()) } doReturn GraphQLResponse(null, null)
             }
 
             val result = instanceUnderTest.listAvailable(ListAvailableActionsInput(dataHolderId = mockDataHolderId))
@@ -243,21 +245,86 @@ class GraphQLActionServiceTest : BaseTests() {
             result.items.size shouldBe 0
             result.nextToken shouldBe null
 
-            verify(mockApiClient).listAvailableActionsQuery(any())
+            verify(mockApiClient).listAvailableActionsQuery(any(), anyOrNull())
         }
 
     @Test
     fun `listAvailable() should throw AuthenticationException when not authorized`() =
         runTest {
             mockApiClient.stub {
-                onBlocking { listAvailableActionsQuery(any()) } doThrow NotAuthorizedException("not authorized")
+                onBlocking { listAvailableActionsQuery(any(), anyOrNull()) } doThrow NotAuthorizedException("not authorized")
             }
 
             shouldThrow<SudoPrivacyInteractionClient.ActionException.AuthenticationException> {
                 instanceUnderTest.listAvailable(ListAvailableActionsInput(dataHolderId = mockDataHolderId))
             }
 
-            verify(mockApiClient).listAvailableActionsQuery(any())
+            verify(mockApiClient).listAvailableActionsQuery(any(), anyOrNull())
+        }
+
+    @Test
+    fun `listForDataHolder() should return actions when successful`() =
+        runTest {
+            val queryResponse =
+                DataFactory.listActionsForDataHolderQueryResponse(
+                    actions =
+                        listOf(
+                            DataFactory.getActionFragment(),
+                            DataFactory.getActionFragment(
+                                id = "mockActionId2",
+                                intent = ActionIntentGraphQL.ACCESS_MY_DATA,
+                            ),
+                        ),
+                    nextToken = "mockNextToken",
+                )
+            mockApiClient.stub {
+                onBlocking { listActionsForDataHolderQuery(any(), anyOrNull(), anyOrNull()) } doReturn queryResponse
+            }
+
+            val result =
+                instanceUnderTest.listForDataHolder(ListActionsForDataHolderInput(dataHolderId = mockDataHolderId))
+
+            result.items.size shouldBe 2
+            result.items[0].id shouldBe mockActionId
+            result.items[0].intent shouldBe ActionIntentEntity.DELETE_MY_DATA
+            result.items[0].status shouldBe ActionStatusEntity.PENDING
+            result.items[1].id shouldBe "mockActionId2"
+            result.items[1].intent shouldBe ActionIntentEntity.ACCESS_MY_DATA
+            result.nextToken shouldBe "mockNextToken"
+
+            verify(mockApiClient).listActionsForDataHolderQuery(eq(mockDataHolderId), anyOrNull(), anyOrNull())
+        }
+
+    @Test
+    fun `listForDataHolder() should return empty list when result is null`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking { listActionsForDataHolderQuery(any(), anyOrNull(), anyOrNull()) } doReturn GraphQLResponse(null, null)
+            }
+
+            val result =
+                instanceUnderTest.listForDataHolder(ListActionsForDataHolderInput(dataHolderId = mockDataHolderId))
+
+            result.items.size shouldBe 0
+            result.nextToken shouldBe null
+
+            verify(mockApiClient).listActionsForDataHolderQuery(any(), anyOrNull(), anyOrNull())
+        }
+
+    @Test
+    fun `listForDataHolder() should throw AuthenticationException when not authorized`() =
+        runTest {
+            mockApiClient.stub {
+                onBlocking {
+                    listActionsForDataHolderQuery(any(), anyOrNull(), anyOrNull())
+                } doThrow NotAuthorizedException("not authorized")
+            }
+
+            shouldThrow<SudoPrivacyInteractionClient.ActionException.AuthenticationException> {
+                instanceUnderTest.listForDataHolder(ListActionsForDataHolderInput(dataHolderId = mockDataHolderId))
+            }
+
+            verify(mockApiClient).listActionsForDataHolderQuery(any(), anyOrNull(), anyOrNull())
         }
 
     @Test

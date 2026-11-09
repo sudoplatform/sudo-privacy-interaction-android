@@ -180,4 +180,5 @@ fragment AvailableAction on AvailableAction {
   origin
   title
   description
+  status
 }

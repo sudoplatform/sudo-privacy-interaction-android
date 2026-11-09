@@ -15,7 +15,9 @@ import com.sudoplatform.sudoprivacyinteraction.types.Action
 import com.sudoplatform.sudoprivacyinteraction.types.ActionFulfilmentMethod
 import com.sudoplatform.sudoprivacyinteraction.types.ActionIntent
 import com.sudoplatform.sudoprivacyinteraction.types.ActionOrigin
+import com.sudoplatform.sudoprivacyinteraction.types.ActionStatus
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.InitiateActionInput
+import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListActionsForDataHolderInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAvailableActionsInput
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -73,6 +75,38 @@ class ActionIntegrationTest : BaseIntegrationTest() {
                 ActionFulfilmentMethod.entries shouldContain action.fulfilmentMethod
                 action.origin shouldNotBe null
                 ActionOrigin.entries shouldContain action.origin
+                // status is nullable (null when the user has never initiated this action); when
+                // present it must be a recognised value.
+                action.status?.let { ActionStatus.entries shouldContain it }
+            }
+        }
+
+    @Test
+    fun listsAvailableActionsIncludingCompletedWhenRequested() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+            val connectedVp = connectVirtualPresence("action-include-completed")
+
+            val dataHolderId = awaitFirstDataHolderId(connectedVp.id) ?: return@runBlocking
+
+            // Requesting includeCompleted = true must still return a well-formed list; it is a
+            // superset of the default (completed-omitted) view.
+            val result =
+                privacyInteractionClient.listAvailableActions(
+                    ListAvailableActionsInput(
+                        dataHolderId = dataHolderId,
+                        includeCompleted = true,
+                    ),
+                )
+
+            result shouldNotBe null
+            result.items shouldNotBe null
+
+            for (action in result.items) {
+                ActionIntent.entries shouldContain action.intent
+                ActionFulfilmentMethod.entries shouldContain action.fulfilmentMethod
+                ActionOrigin.entries shouldContain action.origin
+                action.status?.let { ActionStatus.entries shouldContain it }
             }
         }
 
@@ -116,6 +150,64 @@ class ActionIntegrationTest : BaseIntegrationTest() {
             val result = privacyInteractionClient.getAction("non-existent-action-id")
 
             result shouldBe null
+        }
+
+    @Test
+    fun listActionsForDataHolderReturnsAnEmptyListForADataHolderWithNoActions() =
+        runBlocking<Unit> {
+            val result =
+                privacyInteractionClient.listActionsForDataHolder(
+                    ListActionsForDataHolderInput(dataHolderId = "non-existent-data-holder-id"),
+                )
+
+            result shouldNotBe null
+            result.items shouldNotBe null
+            result.items.size shouldBe 0
+        }
+
+    @Test
+    fun listsActionHistoryAfterInitiatingAnAction() =
+        runBlocking<Unit> {
+            assumeTrue(isTestProviderAvailable())
+            val connectedVp = connectVirtualPresence("action-history")
+
+            val dataHolderId = awaitFirstDataHolderId(connectedVp.id) ?: return@runBlocking
+
+            val available = awaitFirstOrNull { listAvailableActions(dataHolderId) } ?: return@runBlocking
+
+            val initiated =
+                privacyInteractionClient.initiateAction(
+                    InitiateActionInput(
+                        dataHolderId = dataHolderId,
+                        intent = available.intent,
+                        fulfilmentMethod = available.fulfilmentMethod,
+                    ),
+                )
+
+            // The persisted history must eventually contain the action we just initiated.
+            val history =
+                awaitValueOrNull(
+                    condition = {
+                        privacyInteractionClient
+                            .listActionsForDataHolder(ListActionsForDataHolderInput(dataHolderId = dataHolderId))
+                            .items
+                            .any { it.id == initiated.id }
+                    },
+                    value = {
+                        privacyInteractionClient.listActionsForDataHolder(
+                            ListActionsForDataHolderInput(dataHolderId = dataHolderId),
+                        )
+                    },
+                ) ?: return@runBlocking
+
+            history shouldNotBe null
+            history.items shouldNotBe null
+
+            val found = history.items.first { it.id == initiated.id }
+            found.intent shouldBe initiated.intent
+            ActionIntent.entries shouldContain found.intent
+            ActionFulfilmentMethod.entries shouldContain found.fulfilmentMethod
+            ActionStatus.entries shouldContain found.status
         }
 
     @Test

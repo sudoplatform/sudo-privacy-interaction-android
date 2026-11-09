@@ -41,6 +41,7 @@ internal data class AvailableActionEntity(
     val origin: ActionOriginEntity,
     val title: String? = null,
     val description: String? = null,
+    val status: ActionStatusEntity? = null,
 )
 
 /**
@@ -85,6 +86,10 @@ internal enum class ActionIntentEntity {
     ACCESS_MY_DATA,
     DELETE_MY_DATA,
     LIMIT_DATA_USE,
+    SWAP_EMAIL,
+    SWAP_PHONE,
+    SWAP_VIRTUAL_CARD,
+    SAVE_IN_PASSWORD,
     OTHER,
     UNKNOWN,
 }

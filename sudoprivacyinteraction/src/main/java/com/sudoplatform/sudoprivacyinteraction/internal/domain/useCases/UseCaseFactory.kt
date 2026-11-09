@@ -16,6 +16,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.virtualP
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ConfirmActionOutcomeUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.GetActionUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.InitiateActionUseCase
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListActionsForDataHolderUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListAvailableActionsUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.analysisResult.GetAnalysisResultUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.analysisResult.ListAnalysisResultsUseCase
@@ -30,6 +31,7 @@ import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualP
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.ConnectVirtualPresenceWithRefreshTokenUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.DisconnectVirtualPresenceUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.ListVirtualPresencesUseCase
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.RefreshVirtualPresenceStateUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.virtualPresence.RescanVirtualPresenceUseCase
 
 /**
@@ -46,6 +48,8 @@ internal interface UseCaseFactory {
     fun createDisconnectVirtualPresenceUseCase(): DisconnectVirtualPresenceUseCase
 
     fun createRescanVirtualPresenceUseCase(): RescanVirtualPresenceUseCase
+
+    fun createRefreshVirtualPresenceStateUseCase(): RefreshVirtualPresenceStateUseCase
 
     fun createListVirtualPresencesUseCase(): ListVirtualPresencesUseCase
 
@@ -66,6 +70,8 @@ internal interface UseCaseFactory {
     fun createGetOrganizationAnalysisUseCase(): GetOrganizationAnalysisUseCase
 
     fun createListAvailableActionsUseCase(): ListAvailableActionsUseCase
+
+    fun createListActionsForDataHolderUseCase(): ListActionsForDataHolderUseCase
 
     fun createInitiateActionUseCase(): InitiateActionUseCase
 
@@ -115,6 +121,12 @@ internal class DefaultUseCaseFactory(
 
     override fun createRescanVirtualPresenceUseCase(): RescanVirtualPresenceUseCase =
         RescanVirtualPresenceUseCase(
+            virtualPresenceService = virtualPresenceService,
+            logger = logger,
+        )
+
+    override fun createRefreshVirtualPresenceStateUseCase(): RefreshVirtualPresenceStateUseCase =
+        RefreshVirtualPresenceStateUseCase(
             virtualPresenceService = virtualPresenceService,
             logger = logger,
         )
@@ -169,6 +181,12 @@ internal class DefaultUseCaseFactory(
 
     override fun createListAvailableActionsUseCase(): ListAvailableActionsUseCase =
         ListAvailableActionsUseCase(
+            actionService = actionService,
+            logger = logger,
+        )
+
+    override fun createListActionsForDataHolderUseCase(): ListActionsForDataHolderUseCase =
+        ListActionsForDataHolderUseCase(
             actionService = actionService,
             logger = logger,
         )

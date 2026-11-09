@@ -19,6 +19,8 @@ import com.sudoplatform.sudoprivacyinteraction.internal.data.common.transformers
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionService
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.InitiateActionInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListActionsForDataHolderInput
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListActionsForDataHolderOutput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListAvailableActionsInput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListAvailableActionsOutput
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.InitiateActionInput as InitiateActionInputGraphQL
@@ -121,7 +123,7 @@ internal class GraphQLActionService(
         logger.debug("listAvailable input: $input")
 
         try {
-            val queryResponse = apiClient.listAvailableActionsQuery(input.dataHolderId)
+            val queryResponse = apiClient.listAvailableActionsQuery(input.dataHolderId, input.includeCompleted)
 
             if (queryResponse.hasErrors()) {
                 logger.error("errors = ${queryResponse.errors}")
@@ -134,6 +136,36 @@ internal class GraphQLActionService(
 
             return ListAvailableActionsOutput(
                 items = availableActions.map { AvailableActionTransformer.fromGraphQLToEntity(it.availableAction) },
+                nextToken = newNextToken,
+            )
+        } catch (e: Throwable) {
+            logger.error("unexpected error $e")
+            when (e) {
+                is NotAuthorizedException ->
+                    throw SudoPrivacyInteractionClient.ActionException.AuthenticationException(cause = e)
+                else -> throw ErrorTransformer.interpretActionException(e)
+            }
+        }
+    }
+
+    override suspend fun listForDataHolder(input: ListActionsForDataHolderInput): ListActionsForDataHolderOutput {
+        logger.debug("listForDataHolder input: $input")
+
+        try {
+            val queryResponse =
+                apiClient.listActionsForDataHolderQuery(input.dataHolderId, input.limit, input.nextToken)
+
+            if (queryResponse.hasErrors()) {
+                logger.error("errors = ${queryResponse.errors}")
+                throw ErrorTransformer.interpretActionError(queryResponse.errors.first())
+            }
+
+            val queryResult = queryResponse.data?.listActionsForDataHolder
+            val actions = queryResult?.items ?: emptyList()
+            val newNextToken = queryResult?.nextToken
+
+            return ListActionsForDataHolderOutput(
+                items = actions.map { ActionTransformer.fromGraphQLToEntity(it.action) },
                 nextToken = newNextToken,
             )
         } catch (e: Throwable) {

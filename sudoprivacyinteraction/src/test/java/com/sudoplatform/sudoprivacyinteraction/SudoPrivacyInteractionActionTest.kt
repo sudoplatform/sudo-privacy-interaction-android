@@ -10,10 +10,12 @@ import com.sudoplatform.sudoprivacyinteraction.data.EntityDataFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionFulfilmentMethodEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionIntentEntity
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ActionStatusEntity
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListActionsForDataHolderOutput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.entities.action.ListAvailableActionsOutput
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.UseCaseFactory
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ConfirmActionOutcomeUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.InitiateActionUseCase
+import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListActionsForDataHolderUseCase
 import com.sudoplatform.sudoprivacyinteraction.internal.domain.useCases.action.ListAvailableActionsUseCase
 import com.sudoplatform.sudoprivacyinteraction.subscription.ActionSubscriber
 import com.sudoplatform.sudoprivacyinteraction.subscription.SubscriptionService
@@ -21,6 +23,7 @@ import com.sudoplatform.sudoprivacyinteraction.types.ActionFulfilmentMethod
 import com.sudoplatform.sudoprivacyinteraction.types.ActionIntent
 import com.sudoplatform.sudoprivacyinteraction.types.ActionStatus
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.InitiateActionInput
+import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListActionsForDataHolderInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAvailableActionsInput
 import com.sudoplatform.sudouser.SignInGuard
 import io.kotlintest.shouldBe
@@ -74,6 +77,16 @@ class SudoPrivacyInteractionActionTest : BaseTests() {
         }
     }
 
+    private val mockListForDataHolderUseCase by before {
+        mock<ListActionsForDataHolderUseCase>().stub {
+            onBlocking { execute(any()) } doReturn
+                ListActionsForDataHolderOutput(
+                    items = listOf(EntityDataFactory.getActionEntity()),
+                    nextToken = "mockNextToken",
+                )
+        }
+    }
+
     private val mockSubscriptionService by before { mock<SubscriptionService>() }
 
     private val mockSignInGuard by before { mock<SignInGuard>() }
@@ -83,6 +96,7 @@ class SudoPrivacyInteractionActionTest : BaseTests() {
             on { createListAvailableActionsUseCase() } doReturn mockListUseCase
             on { createInitiateActionUseCase() } doReturn mockInitiateUseCase
             on { createConfirmActionOutcomeUseCase() } doReturn mockConfirmUseCase
+            on { createListActionsForDataHolderUseCase() } doReturn mockListForDataHolderUseCase
         }
     }
 
@@ -108,6 +122,7 @@ class SudoPrivacyInteractionActionTest : BaseTests() {
             mockListUseCase,
             mockInitiateUseCase,
             mockConfirmUseCase,
+            mockListForDataHolderUseCase,
             mockSubscriptionService,
             mockSignInGuard,
         )
@@ -207,6 +222,49 @@ class SudoPrivacyInteractionActionTest : BaseTests() {
 
             verify(mockUseCaseFactory).createListAvailableActionsUseCase()
             verify(mockListUseCase).execute(any())
+            verify(mockSignInGuard).ensureSignedIn()
+        }
+
+    @Test
+    fun `listActionsForDataHolder() should return results when no error present`() =
+        runTest {
+            val deferredResult =
+                async(StandardTestDispatcher(testScheduler)) {
+                    client.listActionsForDataHolder(ListActionsForDataHolderInput(dataHolderId = mockDataHolderId))
+                }
+            deferredResult.start()
+            val result = deferredResult.await()
+
+            result.items.size shouldBe 1
+            result.items[0].id shouldBe mockActionId
+            result.items[0].intent shouldBe ActionIntent.DELETE_MY_DATA
+            result.nextToken shouldBe "mockNextToken"
+
+            verify(mockUseCaseFactory).createListActionsForDataHolderUseCase()
+            verify(mockListForDataHolderUseCase).execute(
+                check { it.dataHolderId shouldBe mockDataHolderId },
+            )
+            verify(mockSignInGuard).ensureSignedIn()
+        }
+
+    @Test
+    fun `listActionsForDataHolder() should throw when use case throws`() =
+        runTest {
+            mockListForDataHolderUseCase.stub {
+                onBlocking { execute(any()) } doThrow SudoPrivacyInteractionClient.ActionException.FailedException()
+            }
+
+            val deferredResult =
+                async(StandardTestDispatcher(testScheduler)) {
+                    shouldThrow<SudoPrivacyInteractionClient.ActionException.FailedException> {
+                        client.listActionsForDataHolder(ListActionsForDataHolderInput(dataHolderId = mockDataHolderId))
+                    }
+                }
+            deferredResult.start()
+            deferredResult.await()
+
+            verify(mockUseCaseFactory).createListActionsForDataHolderUseCase()
+            verify(mockListForDataHolderUseCase).execute(any())
             verify(mockSignInGuard).ensureSignedIn()
         }
 

@@ -64,10 +64,19 @@ query GetOrganizationAnalysis(
 }
 
 
-query ListAvailableActions($dataHolderId: ID!) {
-  listAvailableActions(dataHolderId: $dataHolderId) {
+query ListAvailableActions($dataHolderId: ID!, $includeCompleted: Boolean) {
+  listAvailableActions(dataHolderId: $dataHolderId, includeCompleted: $includeCompleted) {
     items {
       ...AvailableAction
+    }
+    nextToken
+  }
+}
+
+query ListActionsForDataHolder($dataHolderId: ID!, $limit: Int, $nextToken: String) {
+  listActionsForDataHolder(dataHolderId: $dataHolderId, limit: $limit, nextToken: $nextToken) {
+    items {
+      ...Action
     }
     nextToken
   }

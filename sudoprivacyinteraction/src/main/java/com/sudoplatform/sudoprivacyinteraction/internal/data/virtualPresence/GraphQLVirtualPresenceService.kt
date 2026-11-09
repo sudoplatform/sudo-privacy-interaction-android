@@ -209,4 +209,35 @@ internal class GraphQLVirtualPresenceService(
             }
         }
     }
+
+    override suspend fun refreshState(id: String): VirtualPresenceEntity {
+        logger.debug("refreshState input: $id")
+
+        try {
+            val mutationResponse = apiClient.refreshVirtualPresenceStateMutation(id)
+
+            if (mutationResponse.hasErrors()) {
+                logger.error("errors = ${mutationResponse.errors}")
+                throw ErrorTransformer.interpretVirtualPresenceError(mutationResponse.errors.first())
+            }
+
+            val result = mutationResponse.data?.refreshVirtualPresenceState?.virtualPresence
+            result?.let {
+                return VirtualPresenceTransformer.fromGraphQLToEntity(it)
+            }
+            logger.error("no virtual presence returned")
+            throw SudoPrivacyInteractionClient.VirtualPresenceException.FailedException(
+                StringConstants.NO_VIRTUAL_PRESENCE_ERROR_MSG,
+            )
+        } catch (e: Throwable) {
+            logger.error("unexpected error $e")
+            when (e) {
+                is NotAuthorizedException ->
+                    throw SudoPrivacyInteractionClient.VirtualPresenceException.AuthenticationException(
+                        cause = e,
+                    )
+                else -> throw ErrorTransformer.interpretVirtualPresenceException(e)
+            }
+        }
+    }
 }

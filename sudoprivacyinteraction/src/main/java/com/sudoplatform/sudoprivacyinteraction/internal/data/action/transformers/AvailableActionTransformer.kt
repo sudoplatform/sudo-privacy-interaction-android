@@ -23,6 +23,7 @@ internal object AvailableActionTransformer {
             origin = ActionOriginTransformer.fromGraphQLToEntity(data.origin),
             title = data.title,
             description = data.description,
+            status = data.status?.let { ActionStatusTransformer.fromGraphQLToEntity(it) },
         )
 
     fun fromEntityToApi(entity: AvailableActionEntity): AvailableAction =
@@ -33,5 +34,6 @@ internal object AvailableActionTransformer {
             origin = ActionOriginTransformer.fromEntityToApi(entity.origin),
             title = entity.title,
             description = entity.description,
+            status = entity.status?.let { ActionStatusTransformer.fromEntityToApi(it) },
         )
 }

@@ -117,4 +117,12 @@ internal interface VirtualPresenceService {
      * @return The rescanned [VirtualPresenceEntity].
      */
     suspend fun rescan(input: RescanVirtualPresenceInput): VirtualPresenceEntity
+
+    /**
+     * Validate a virtual presence's provider grant on demand and return its reconciled state.
+     *
+     * @param id [String] The unique identifier of the virtual presence to refresh.
+     * @return The reconciled [VirtualPresenceEntity].
+     */
+    suspend fun refreshState(id: String): VirtualPresenceEntity
 }

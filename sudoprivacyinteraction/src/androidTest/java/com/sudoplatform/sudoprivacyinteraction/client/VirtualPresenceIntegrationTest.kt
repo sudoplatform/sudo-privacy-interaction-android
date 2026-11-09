@@ -304,6 +304,43 @@ class VirtualPresenceIntegrationTest : BaseIntegrationTest() {
             rescannedVp.version shouldBeGreaterThanOrEqual connectedVp.version
         }
 
+    @Test
+    fun refreshesAConnectedVirtualPresenceStateSuccessfully() =
+        runBlocking {
+            assumeTrue(isTestProviderAvailable())
+            val relationshipProvider = resolveRelationshipProvider()
+            val providerIdentity = generateProviderIdentity("refresh-state")
+
+            val connectedVp =
+                privacyInteractionClient.connectVirtualPresenceWithRefreshToken(
+                    ConnectVirtualPresenceWithRefreshTokenInput(
+                        refreshToken = testRefreshToken,
+                        providerIdentity = providerIdentity,
+                        relationshipProvider = relationshipProvider,
+                    ),
+                )
+            connectedIds.add(connectedVp.id)
+
+            // Refreshing a presence whose grant is still valid returns the presence with its state
+            // reconciled (unchanged for a healthy test-provider grant).
+            val refreshedVp = privacyInteractionClient.refreshVirtualPresenceState(connectedVp.id)
+
+            refreshedVp shouldNotBe null
+            refreshedVp.id shouldBe connectedVp.id
+            refreshedVp.identifier shouldBe providerIdentity
+            refreshedVp.owner shouldBe connectedVp.owner
+            refreshedVp.state shouldNotBe null
+            refreshedVp.version shouldBeGreaterThanOrEqual connectedVp.version
+        }
+
+    @Test
+    fun throwsWhenRefreshingNonExistingVirtualPresenceState() =
+        runTest {
+            shouldThrowVirtualPresenceException {
+                privacyInteractionClient.refreshVirtualPresenceState("non-existent-virtual-presence-id")
+            }
+        }
+
     private suspend fun listAllVirtualPresences(limit: Int? = null): List<VirtualPresence> {
         val items = mutableListOf<VirtualPresence>()
         var nextToken: String? = null

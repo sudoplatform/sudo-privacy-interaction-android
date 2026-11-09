@@ -59,6 +59,9 @@ data class Action(
  * @property origin [ActionOrigin] Which source contributed this action.
  * @property title [String] Short presentation hint for the action's title.
  * @property description [String] Short presentation hint describing the action.
+ * @property status [ActionStatus] Lifecycle status of the most recent, non-superseded persisted
+ *  action for this intent on the data holder. `null` when the user has never initiated this
+ *  action, distinguishing "not yet started" (`null`) from "in progress" or "completed".
  */
 @Parcelize
 data class AvailableAction(
@@ -68,6 +71,7 @@ data class AvailableAction(
     val origin: ActionOrigin,
     val title: String? = null,
     val description: String? = null,
+    val status: ActionStatus? = null,
 ) : Parcelable
 
 /**
@@ -140,6 +144,30 @@ enum class ActionIntent {
 
     /** Opt out of sale / tracking, manage consent. */
     LIMIT_DATA_USE,
+
+    /**
+     * The user has replaced the account's email with a private email. Always available for an
+     * email presence; self-reported.
+     */
+    SWAP_EMAIL,
+
+    /**
+     * The user has replaced the account's phone number with a private number. Offered only when a
+     * signal indicates the data holder holds the user's phone number.
+     */
+    SWAP_PHONE,
+
+    /**
+     * The user has replaced the account's payment card with a virtual card. Offered only when the
+     * data holder is identified as collecting credit card data.
+     */
+    SWAP_VIRTUAL_CARD,
+
+    /**
+     * The user has saved this account in a password manager. Offered only when the data holder
+     * supports account creation.
+     */
+    SAVE_IN_PASSWORD,
 
     /** Anything unmapped; carries additionalInfo. */
     OTHER,

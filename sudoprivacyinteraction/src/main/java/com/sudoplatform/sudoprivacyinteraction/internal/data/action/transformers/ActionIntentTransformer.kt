@@ -21,6 +21,10 @@ internal object ActionIntentTransformer {
             ActionIntentGraphQL.ACCESS_MY_DATA -> ActionIntentEntity.ACCESS_MY_DATA
             ActionIntentGraphQL.DELETE_MY_DATA -> ActionIntentEntity.DELETE_MY_DATA
             ActionIntentGraphQL.LIMIT_DATA_USE -> ActionIntentEntity.LIMIT_DATA_USE
+            ActionIntentGraphQL.SWAP_EMAIL -> ActionIntentEntity.SWAP_EMAIL
+            ActionIntentGraphQL.SWAP_PHONE -> ActionIntentEntity.SWAP_PHONE
+            ActionIntentGraphQL.SWAP_VIRTUAL_CARD -> ActionIntentEntity.SWAP_VIRTUAL_CARD
+            ActionIntentGraphQL.SAVE_IN_PASSWORD -> ActionIntentEntity.SAVE_IN_PASSWORD
             ActionIntentGraphQL.OTHER -> ActionIntentEntity.OTHER
             else -> ActionIntentEntity.UNKNOWN
         }
@@ -31,6 +35,10 @@ internal object ActionIntentTransformer {
             ActionIntentEntity.ACCESS_MY_DATA -> ActionIntent.ACCESS_MY_DATA
             ActionIntentEntity.DELETE_MY_DATA -> ActionIntent.DELETE_MY_DATA
             ActionIntentEntity.LIMIT_DATA_USE -> ActionIntent.LIMIT_DATA_USE
+            ActionIntentEntity.SWAP_EMAIL -> ActionIntent.SWAP_EMAIL
+            ActionIntentEntity.SWAP_PHONE -> ActionIntent.SWAP_PHONE
+            ActionIntentEntity.SWAP_VIRTUAL_CARD -> ActionIntent.SWAP_VIRTUAL_CARD
+            ActionIntentEntity.SAVE_IN_PASSWORD -> ActionIntent.SAVE_IN_PASSWORD
             ActionIntentEntity.OTHER -> ActionIntent.OTHER
             ActionIntentEntity.UNKNOWN -> ActionIntent.UNKNOWN
         }
@@ -41,6 +49,10 @@ internal object ActionIntentTransformer {
             ActionIntent.ACCESS_MY_DATA -> ActionIntentEntity.ACCESS_MY_DATA
             ActionIntent.DELETE_MY_DATA -> ActionIntentEntity.DELETE_MY_DATA
             ActionIntent.LIMIT_DATA_USE -> ActionIntentEntity.LIMIT_DATA_USE
+            ActionIntent.SWAP_EMAIL -> ActionIntentEntity.SWAP_EMAIL
+            ActionIntent.SWAP_PHONE -> ActionIntentEntity.SWAP_PHONE
+            ActionIntent.SWAP_VIRTUAL_CARD -> ActionIntentEntity.SWAP_VIRTUAL_CARD
+            ActionIntent.SAVE_IN_PASSWORD -> ActionIntentEntity.SAVE_IN_PASSWORD
             ActionIntent.OTHER -> ActionIntentEntity.OTHER
             ActionIntent.UNKNOWN -> ActionIntentEntity.UNKNOWN
         }
@@ -51,6 +63,10 @@ internal object ActionIntentTransformer {
             ActionIntentEntity.ACCESS_MY_DATA -> ActionIntentGraphQL.ACCESS_MY_DATA
             ActionIntentEntity.DELETE_MY_DATA -> ActionIntentGraphQL.DELETE_MY_DATA
             ActionIntentEntity.LIMIT_DATA_USE -> ActionIntentGraphQL.LIMIT_DATA_USE
+            ActionIntentEntity.SWAP_EMAIL -> ActionIntentGraphQL.SWAP_EMAIL
+            ActionIntentEntity.SWAP_PHONE -> ActionIntentGraphQL.SWAP_PHONE
+            ActionIntentEntity.SWAP_VIRTUAL_CARD -> ActionIntentGraphQL.SWAP_VIRTUAL_CARD
+            ActionIntentEntity.SAVE_IN_PASSWORD -> ActionIntentGraphQL.SAVE_IN_PASSWORD
             ActionIntentEntity.OTHER -> ActionIntentGraphQL.OTHER
             ActionIntentEntity.UNKNOWN -> ActionIntentGraphQL.UNKNOWN__
         }

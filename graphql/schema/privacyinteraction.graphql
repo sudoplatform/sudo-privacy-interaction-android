@@ -175,6 +175,20 @@ enum ActionIntent {
   DELETE_MY_DATA
   # Opt out of sale / tracking, manage consent.
   LIMIT_DATA_USE
+  # The user has replaced the account's email with a
+  # private email. Always available for an email presence; self-reported.
+  SWAP_EMAIL
+  # The user has replaced the account's phone number
+  # with a private number. Offered only when a signal indicates the data holder
+  # holds the user's phone number.
+  SWAP_PHONE
+  # The user has replaced the account's payment card
+  # with a virtual card. Offered only when the data holder is identified as
+  # collecting credit card data.
+  SWAP_VIRTUAL_CARD
+  # The user has saved this account in a password
+  # manager. Offered only when the data holder supports account creation.
+  SAVE_IN_PASSWORD
   # Anything unmapped; carries additionalInfo.
   OTHER
 }
@@ -524,6 +538,11 @@ type AvailableAction {
   title: String
   # Short presentation hint describing the action.
   description: String
+  # Lifecycle status of the most recent, non-superseded persisted action for
+  # this intent on the data holder. Null when the user has never initiated this
+  # action, distinguishing "not yet started" (null) from "in progress" or
+  # "completed".
+  status: ActionStatus
 }
 
 # A persisted, initiated action instance scoped to a data holder relationship.
@@ -552,6 +571,11 @@ type Action {
 
 type AvailableActionConnection {
   items: [AvailableAction!]!
+  nextToken: String
+}
+
+type ActionConnection {
+  items: [Action!]!
   nextToken: String
 }
 
@@ -746,7 +770,23 @@ type Query {
   at query time by merging static, analysis, and discovery sources; not
   persisted. The owning virtual presence is derived from the data holder.
   """
-  listAvailableActions(dataHolderId: ID!): AvailableActionConnection!
+  listAvailableActions(
+    dataHolderId: ID!
+    includeCompleted: Boolean
+  ): AvailableActionConnection!
+
+  """
+  List the persisted action history for a data holder. Returns every action
+  that has been initiated against the data holder (all intents, all statuses,
+  every attempt), ordered newest-first. This is the executed-action history,
+  distinct from listAvailableActions, which returns the derived set of actions
+  a user could take.
+  """
+  listActionsForDataHolder(
+    dataHolderId: ID!
+    limit: Int
+    nextToken: String
+  ): ActionConnection!
 
   """
   Read a single initiated action by id. Resolves an in-flight delegated action
@@ -776,6 +816,15 @@ type Mutation {
     id: String!
     options: ScanOptionsInput
   ): VirtualPresence!
+
+  """
+  Validate a virtual presence's provider grant on demand and return its
+  reconciled state. If the provider confirms the grant has been revoked (e.g.
+  the user removed access in their provider account), the presence transitions
+  to NEEDS_REAUTH; otherwise its state is returned unchanged. Use before gating
+  access on a current CONNECTED state.
+  """
+  refreshVirtualPresenceState(id: String!): VirtualPresence!
 
   """
   Archive a data holder, removing it from the user's active list.

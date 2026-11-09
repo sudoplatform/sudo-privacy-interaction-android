@@ -63,7 +63,7 @@ abstract class BaseIntegrationTest {
         protected val entitlements =
             listOf(
                 Entitlement("sudoplatform.privacy-interaction.serviceUserEntitled", "test", 1),
-                Entitlement("sudoplatform.privacy-interaction.virtualPresenceMaxPerUser", "test", 5),
+                Entitlement("sudoplatform.privacy-interaction.virtualPresenceMaxPerUser", "test", 10),
             )
 
         @JvmStatic

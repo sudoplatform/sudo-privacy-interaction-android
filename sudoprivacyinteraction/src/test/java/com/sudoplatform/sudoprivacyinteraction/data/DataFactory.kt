@@ -18,6 +18,7 @@ import com.sudoplatform.sudoprivacyinteraction.graphql.GetDataHolderQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetOrganizationAnalysisQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetProviderConfigurationQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.InitiateActionMutation
+import com.sudoplatform.sudoprivacyinteraction.graphql.ListActionsForDataHolderQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListAnalysisResultsQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListAvailableActionsQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListDataHolderScanSummariesQuery
@@ -498,6 +499,7 @@ object DataFactory {
         origin: ActionOrigin = ActionOrigin.DISCOVERY,
         title: String? = "Unsubscribe",
         description: String? = "Opt out of marketing emails",
+        status: ActionStatus? = null,
     ): AvailableAction =
         AvailableAction(
             intent = intent,
@@ -506,6 +508,7 @@ object DataFactory {
             origin = origin,
             title = title,
             description = description,
+            status = status,
         )
 
     fun listAvailableActionsQueryResponse(
@@ -516,6 +519,20 @@ object DataFactory {
             ListAvailableActionsQuery.Data(
                 ListAvailableActionsQuery.ListAvailableActions(
                     items = availableActions.map { ListAvailableActionsQuery.Item("AvailableAction", it) },
+                    nextToken = nextToken,
+                ),
+            ),
+            null,
+        )
+
+    fun listActionsForDataHolderQueryResponse(
+        actions: List<Action> = listOf(getActionFragment()),
+        nextToken: String? = null,
+    ): GraphQLResponse<ListActionsForDataHolderQuery.Data> =
+        GraphQLResponse(
+            ListActionsForDataHolderQuery.Data(
+                ListActionsForDataHolderQuery.ListActionsForDataHolder(
+                    items = actions.map { ListActionsForDataHolderQuery.Item("Action", it) },
                     nextToken = nextToken,
                 ),
             ),

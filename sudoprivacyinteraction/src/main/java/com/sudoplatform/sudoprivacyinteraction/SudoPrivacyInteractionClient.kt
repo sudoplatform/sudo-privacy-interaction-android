@@ -31,6 +31,7 @@ import com.sudoplatform.sudoprivacyinteraction.types.inputs.ConnectVirtualPresen
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.GetDataHolderOptions
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.GetOrganizationAnalysisInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.InitiateActionInput
+import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListActionsForDataHolderInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAnalysisResultsInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListAvailableActionsInput
 import com.sudoplatform.sudoprivacyinteraction.types.inputs.ListDataHolderScanSummariesInput
@@ -391,6 +392,19 @@ interface SudoPrivacyInteractionClient : AutoCloseable {
     suspend fun rescanVirtualPresence(input: RescanVirtualPresenceInput): VirtualPresence
 
     /**
+     * Validate a virtual presence's provider grant on demand and return its reconciled state. If
+     * the provider confirms the grant has been revoked (e.g. the user removed access in their
+     * provider account), the presence transitions to [VirtualPresenceState.NEEDS_REAUTH];
+     * otherwise its state is returned unchanged. Use before gating access on a current
+     * [VirtualPresenceState.CONNECTED] state.
+     *
+     * @param id [String] The unique identifier of the virtual presence to refresh.
+     * @return The reconciled [VirtualPresence].
+     */
+    @Throws(VirtualPresenceException::class)
+    suspend fun refreshVirtualPresenceState(id: String): VirtualPresence
+
+    /**
      * List all virtual presences for the signed-in user.
      *
      * @param input [ListVirtualPresencesInput] Parameters used to retrieve a list of virtual
@@ -605,6 +619,18 @@ interface SudoPrivacyInteractionClient : AutoCloseable {
      */
     @Throws(ActionException::class)
     suspend fun listAvailableActions(input: ListAvailableActionsInput): ListOutput<AvailableAction>
+
+    /**
+     * List the persisted action history for a data holder. Returns every action that has been
+     * initiated against the data holder (all intents, all statuses, every attempt), ordered
+     * newest-first. This is the executed-action history, distinct from [listAvailableActions],
+     * which returns the derived set of actions a user could take.
+     *
+     * @param input [ListActionsForDataHolderInput] Parameters used to list the action history.
+     * @return A [ListOutput] of actions.
+     */
+    @Throws(ActionException::class)
+    suspend fun listActionsForDataHolder(input: ListActionsForDataHolderInput): ListOutput<Action>
 
     /**
      * Subscribe to action status events. The subscriber is notified when an action's status

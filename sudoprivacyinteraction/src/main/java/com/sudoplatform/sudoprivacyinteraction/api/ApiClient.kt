@@ -23,6 +23,7 @@ import com.sudoplatform.sudoprivacyinteraction.graphql.GetDataHolderQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetOrganizationAnalysisQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.GetProviderConfigurationQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.InitiateActionMutation
+import com.sudoplatform.sudoprivacyinteraction.graphql.ListActionsForDataHolderQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListAnalysisResultsQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListAvailableActionsQuery
 import com.sudoplatform.sudoprivacyinteraction.graphql.ListDataHolderScanSummariesQuery
@@ -32,6 +33,7 @@ import com.sudoplatform.sudoprivacyinteraction.graphql.OnActionStatusUpdateSubsc
 import com.sudoplatform.sudoprivacyinteraction.graphql.OnAnalysisResultUpdateSubscription
 import com.sudoplatform.sudoprivacyinteraction.graphql.OnDataHoldersUpdateSubscription
 import com.sudoplatform.sudoprivacyinteraction.graphql.OnVirtualPresenceUpdateSubscription
+import com.sudoplatform.sudoprivacyinteraction.graphql.RefreshVirtualPresenceStateMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.RescanVirtualPresenceMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.UnarchiveDataHolderMutation
 import com.sudoplatform.sudoprivacyinteraction.graphql.type.ConnectVirtualPresenceInput
@@ -133,16 +135,36 @@ open class ApiClient(
             ),
         )
 
-    open suspend fun listAvailableActionsQuery(dataHolderId: String): GraphQLResponse<ListAvailableActionsQuery.Data> =
+    open suspend fun listAvailableActionsQuery(
+        dataHolderId: String,
+        includeCompleted: Boolean?,
+    ): GraphQLResponse<ListAvailableActionsQuery.Data> =
         this.graphQLClient.query<ListAvailableActionsQuery, ListAvailableActionsQuery.Data>(
             ListAvailableActionsQuery.OPERATION_DOCUMENT,
-            mapOf("dataHolderId" to dataHolderId),
+            mapOf(
+                "dataHolderId" to dataHolderId,
+                "includeCompleted" to Optional.presentIfNotNull(includeCompleted),
+            ),
         )
 
     open suspend fun getActionQuery(id: String): GraphQLResponse<GetActionQuery.Data> =
         this.graphQLClient.query<GetActionQuery, GetActionQuery.Data>(
             GetActionQuery.OPERATION_DOCUMENT,
             mapOf("id" to id),
+        )
+
+    open suspend fun listActionsForDataHolderQuery(
+        dataHolderId: String,
+        limit: Int?,
+        nextToken: String?,
+    ): GraphQLResponse<ListActionsForDataHolderQuery.Data> =
+        this.graphQLClient.query<ListActionsForDataHolderQuery, ListActionsForDataHolderQuery.Data>(
+            ListActionsForDataHolderQuery.OPERATION_DOCUMENT,
+            mapOf(
+                "dataHolderId" to dataHolderId,
+                "limit" to Optional.presentIfNotNull(limit),
+                "nextToken" to Optional.presentIfNotNull(nextToken),
+            ),
         )
 
     // Mutations
@@ -170,6 +192,12 @@ open class ApiClient(
                 "id" to id,
                 "options" to Optional.presentIfNotNull(options),
             ),
+        )
+
+    open suspend fun refreshVirtualPresenceStateMutation(id: String): GraphQLResponse<RefreshVirtualPresenceStateMutation.Data> =
+        this.graphQLClient.mutate<RefreshVirtualPresenceStateMutation, RefreshVirtualPresenceStateMutation.Data>(
+            RefreshVirtualPresenceStateMutation.OPERATION_DOCUMENT,
+            mapOf("id" to id),
         )
 
     open suspend fun archiveDataHolderMutation(id: String): GraphQLResponse<ArchiveDataHolderMutation.Data> =

@@ -11,7 +11,10 @@ package com.sudoplatform.sudoprivacyinteraction.types.inputs
  * relationship.
  *
  * @property dataHolderId [String] The data holder relationship to list available actions for.
+ * @property includeCompleted [Boolean] When `true`, actions the user has already completed are
+ *  returned as well. By default completed actions are omitted.
  */
 data class ListAvailableActionsInput(
     val dataHolderId: String,
+    val includeCompleted: Boolean? = null,
 )
