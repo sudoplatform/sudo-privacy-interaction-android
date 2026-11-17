@@ -510,6 +510,24 @@
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "USE_PASSKEY",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "USE_STRONG_PASSWORD",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "USE_TWO_FACTOR_AUTH",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -1640,6 +1658,22 @@
             "deprecationReason": null
           },
           {
+            "name": "supportsPasskeys",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "SignalValue",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "supportsSubscriptions",
             "description": null,
             "args": [],
@@ -2078,6 +2112,18 @@
             "deprecationReason": null
           },
           {
+            "name": "firstInboundContactEpochMs",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -2094,17 +2140,13 @@
             "deprecationReason": null
           },
           {
-            "name": "mostRecentInteractionEpochMs",
+            "name": "mostRecentInboundContactEpochMs",
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2710,6 +2752,18 @@
             "deprecationReason": null
           },
           {
+            "name": "firstInboundContactEpochMs",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "id",
             "description": null,
             "args": [],
@@ -2726,17 +2780,13 @@
             "deprecationReason": null
           },
           {
-            "name": "mostRecentInteractionEpochMs",
+            "name": "mostRecentInboundContactEpochMs",
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4488,7 +4538,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "expiresInEpochMs",
+            "name": "expiresAtEpochMs",
             "description": null,
             "type": {
               "kind": "SCALAR",

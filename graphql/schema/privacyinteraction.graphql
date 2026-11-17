@@ -189,6 +189,15 @@ enum ActionIntent {
   # The user has saved this account in a password
   # manager. Offered only when the data holder supports account creation.
   SAVE_IN_PASSWORD
+  # The user has turned on two-factor authentication for this account. Offered
+  # only when the data holder supports two-factor authentication.
+  USE_TWO_FACTOR_AUTH
+  # The user has set up a passkey for this account. Offered only when the data
+  # holder supports passkeys.
+  USE_PASSKEY
+  # The user has set a strong, unique password on this account. Offered whenever
+  # the data holder supports account creation.
+  USE_STRONG_PASSWORD
   # Anything unmapped; carries additionalInfo.
   OTHER
 }
@@ -280,6 +289,7 @@ type CapabilitySignals {
   supportsOptOutOfSale: SignalValue!
   usesCookiesOrTracking: SignalValue!
   supportsTwoFactorAuth: SignalValue!
+  supportsPasskeys: SignalValue!
 }
 
 # Aggregated risk indicators derived from categories and capabilities.
@@ -455,8 +465,15 @@ type DataHolder {
   # Whether there is a compliance concern with this data holder.
   complianceConcern: Boolean!
 
-  # Time in milliseconds since 1970-01-01T00:00:00Z of the most recent interaction.
-  mostRecentInteractionEpochMs: Float!
+  # Time in milliseconds since 1970-01-01T00:00:00Z of the most recent inbound
+  # contact from this data holder. Null for data holders discovered before this
+  # field was persisted, until a subsequent scan backfills it.
+  mostRecentInboundContactEpochMs: Float
+
+  # Time in milliseconds since 1970-01-01T00:00:00Z of the earliest observed
+  # contact from this data holder. Null for data holders discovered before this
+  # signal was captured, until a subsequent scan backfills it.
+  firstInboundContactEpochMs: Float
 
   owner: ID!
   version: Int!
@@ -623,7 +640,8 @@ type DataHolderUpdateItem {
   name: String!
   protectionState: DataHolderProtectionState!
   complianceConcern: Boolean!
-  mostRecentInteractionEpochMs: Float!
+  mostRecentInboundContactEpochMs: Float
+  firstInboundContactEpochMs: Float
   owner: ID!
   version: Int!
   createdAtEpochMs: Float!
@@ -662,7 +680,9 @@ input RefreshTokenInput {
   refreshToken: String!
   providerIdentity: String!
   scopes: [String!]
-  expiresInEpochMs: Float
+  # Absolute expiry of the credential, in milliseconds since the Unix epoch.
+  # Defaults to one year after the request when not provided.
+  expiresAtEpochMs: Float
 }
 
 # Input to connectVirtualPresence mutation.

@@ -228,6 +228,7 @@ data class CapabilitySignals(
     val sellsPersonalInformation: SignalValue,
     val usesCookiesOrTracking: SignalValue,
     val supportsTwoFactorAuth: SignalValue,
+    val supportsPasskeys: SignalValue,
 ) : Parcelable
 
 /**

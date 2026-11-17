@@ -103,10 +103,11 @@ internal object EntityDataFactory {
         name: String = "Google",
         protectionState: DataHolderProtectionStateEntity = DataHolderProtectionStateEntity.MONITORED,
         complianceConcern: Boolean = false,
-        mostRecentInteractionAt: Date = Date(1L),
         version: Int = 1,
         createdAt: Date = Date(1L),
         updatedAt: Date = Date(1L),
+        mostRecentInboundContactAt: Date = Date(1L),
+        firstInboundContactAt: Date = Date(1L),
     ): DataHolderEntity =
         DataHolderEntity(
             id = id,
@@ -116,10 +117,11 @@ internal object EntityDataFactory {
             name = name,
             protectionState = protectionState,
             complianceConcern = complianceConcern,
-            mostRecentInteractionAt = mostRecentInteractionAt,
             version = version,
             createdAt = createdAt,
             updatedAt = updatedAt,
+            mostRecentInboundContactAt = mostRecentInboundContactAt,
+            firstInboundContactAt = firstInboundContactAt,
         )
 
     fun getDataHolderScanSummaryEntity(
@@ -197,6 +199,7 @@ internal object EntityDataFactory {
                     supportsOptOutOfSale = SignalValueEntity.NO,
                     usesCookiesOrTracking = SignalValueEntity.YES,
                     supportsTwoFactorAuth = SignalValueEntity.YES,
+                    supportsPasskeys = SignalValueEntity.YES,
                 ),
             riskIndicators =
                 RiskIndicatorsEntity(

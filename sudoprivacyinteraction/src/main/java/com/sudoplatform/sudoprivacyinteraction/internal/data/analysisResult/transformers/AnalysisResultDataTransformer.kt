@@ -88,6 +88,7 @@ internal object AnalysisResultDataTransformer {
                         supportsOptOutOfSale = SignalValueTransformer.fromGraphQLToEntity(c.supportsOptOutOfSale),
                         usesCookiesOrTracking = SignalValueTransformer.fromGraphQLToEntity(c.usesCookiesOrTracking),
                         supportsTwoFactorAuth = SignalValueTransformer.fromGraphQLToEntity(c.supportsTwoFactorAuth),
+                        supportsPasskeys = SignalValueTransformer.fromGraphQLToEntity(c.supportsPasskeys),
                     )
                 },
             riskIndicators =
@@ -174,6 +175,7 @@ internal object AnalysisResultDataTransformer {
                         sellsPersonalInformation = SignalValueTransformer.fromEntityToApi(c.supportsOptOutOfSale),
                         usesCookiesOrTracking = SignalValueTransformer.fromEntityToApi(c.usesCookiesOrTracking),
                         supportsTwoFactorAuth = SignalValueTransformer.fromEntityToApi(c.supportsTwoFactorAuth),
+                        supportsPasskeys = SignalValueTransformer.fromEntityToApi(c.supportsPasskeys),
                     )
                 },
             riskIndicators =

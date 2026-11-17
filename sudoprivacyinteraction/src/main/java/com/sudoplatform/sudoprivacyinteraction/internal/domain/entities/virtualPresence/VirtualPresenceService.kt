@@ -25,13 +25,13 @@ internal data class AuthCodeInput(
  * @property refreshToken [String] The refresh token value.
  * @property providerIdentity [String] The identity associated with the provider.
  * @property scopes [List] Optional OAuth scopes associated with the token.
- * @property expiresInEpochMs [Double] Optional expiration time in milliseconds since epoch.
+ * @property expiresAtEpochMs [Double] Optional absolute expiry in milliseconds since epoch.
  */
 internal data class RefreshTokenInput(
     val refreshToken: String,
     val providerIdentity: String,
     val scopes: List<String>? = null,
-    val expiresInEpochMs: Double? = null,
+    val expiresAtEpochMs: Double? = null,
 )
 
 /**

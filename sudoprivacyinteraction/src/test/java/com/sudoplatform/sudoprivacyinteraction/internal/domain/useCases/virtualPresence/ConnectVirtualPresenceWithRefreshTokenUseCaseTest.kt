@@ -64,7 +64,7 @@ class ConnectVirtualPresenceWithRefreshTokenUseCaseTest : BaseTests() {
                         refreshToken = mockRefreshToken,
                         providerIdentity = mockProviderIdentity,
                         scopes = mockScopes,
-                        expiresInEpochMs = mockExpiresInEpochMs,
+                        expiresAtEpochMs = mockExpiresAtEpochMs,
                         relationshipProvider = RelationshipProviderEntity.GMAIL_PROVIDER,
                     ),
                 )
@@ -78,7 +78,7 @@ class ConnectVirtualPresenceWithRefreshTokenUseCaseTest : BaseTests() {
                     input.refreshToken!!.refreshToken shouldBe mockRefreshToken
                     input.refreshToken.providerIdentity shouldBe mockProviderIdentity
                     input.refreshToken.scopes shouldBe mockScopes
-                    input.refreshToken.expiresInEpochMs shouldBe mockExpiresInEpochMs
+                    input.refreshToken.expiresAtEpochMs shouldBe mockExpiresAtEpochMs
                     input.authCode shouldBe null
                     input.relationshipProvider shouldBe RelationshipProviderEntity.GMAIL_PROVIDER
                 },
@@ -105,7 +105,7 @@ class ConnectVirtualPresenceWithRefreshTokenUseCaseTest : BaseTests() {
                     input.refreshToken!!.refreshToken shouldBe mockRefreshToken
                     input.refreshToken.providerIdentity shouldBe mockProviderIdentity
                     input.refreshToken.scopes shouldBe null
-                    input.refreshToken.expiresInEpochMs shouldBe null
+                    input.refreshToken.expiresAtEpochMs shouldBe null
                     input.relationshipProvider shouldBe null
                 },
             )

@@ -66,4 +66,5 @@ abstract class BaseTests : PropertyResetter by ActualPropertyResetter() {
     protected val mockProviderIdentity = "mockProviderIdentity"
     protected val mockScopes = listOf("scope1", "scope2")
     protected val mockExpiresInEpochMs = 1000.0
+    protected val mockExpiresAtEpochMs = 2000.0
 }

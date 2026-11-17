@@ -13,7 +13,8 @@ subscription OnDataHoldersUpdate($owner: ID!) {
       name
       protectionState
       complianceConcern
-      mostRecentInteractionEpochMs
+      mostRecentInboundContactEpochMs
+      firstInboundContactEpochMs
       owner
       version
       createdAtEpochMs

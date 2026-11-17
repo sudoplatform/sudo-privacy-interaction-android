@@ -169,6 +169,24 @@ enum class ActionIntent {
      */
     SAVE_IN_PASSWORD,
 
+    /**
+     * The user has turned on two-factor authentication for this account. Offered only when the
+     * data holder supports two-factor authentication.
+     */
+    USE_TWO_FACTOR_AUTH,
+
+    /**
+     * The user has set up a passkey for this account. Offered only when the data holder supports
+     * passkeys.
+     */
+    USE_PASSKEY,
+
+    /**
+     * The user has set a strong, unique password on this account. Offered whenever the data
+     * holder supports account creation.
+     */
+    USE_STRONG_PASSWORD,
+
     /** Anything unmapped; carries additionalInfo. */
     OTHER,
     UNKNOWN,

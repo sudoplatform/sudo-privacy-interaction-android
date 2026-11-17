@@ -25,7 +25,8 @@ fragment DataHolder on DataHolder {
   name
   protectionState
   complianceConcern
-  mostRecentInteractionEpochMs
+  mostRecentInboundContactEpochMs
+  firstInboundContactEpochMs
   owner
   version
   createdAtEpochMs
@@ -91,6 +92,7 @@ fragment AnalysisResultData on AnalysisResultData {
     supportsOptOutOfSale
     usesCookiesOrTracking
     supportsTwoFactorAuth
+    supportsPasskeys
   }
   riskIndicators {
     dataCollectionBreadth

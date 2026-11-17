@@ -178,7 +178,8 @@ object DataFactory {
         name: String = "Google",
         protectionState: DataHolderProtectionState = DataHolderProtectionState.MONITORED,
         complianceConcern: Boolean = false,
-        mostRecentInteractionEpochMs: Double = 1.0,
+        mostRecentInboundContactEpochMs: Double? = 1.0,
+        firstInboundContactEpochMs: Double? = 1.0,
         version: Int = 1,
         createdAtEpochMs: Double = 1.0,
         updatedAtEpochMs: Double = 1.0,
@@ -190,7 +191,8 @@ object DataFactory {
             name = name,
             protectionState = protectionState,
             complianceConcern = complianceConcern,
-            mostRecentInteractionEpochMs = mostRecentInteractionEpochMs,
+            mostRecentInboundContactEpochMs = mostRecentInboundContactEpochMs,
+            firstInboundContactEpochMs = firstInboundContactEpochMs,
             owner = owner,
             version = version,
             createdAtEpochMs = createdAtEpochMs,
@@ -327,6 +329,7 @@ object DataFactory {
                     supportsOptOutOfSale = SignalValue.NO,
                     usesCookiesOrTracking = SignalValue.YES,
                     supportsTwoFactorAuth = SignalValue.YES,
+                    supportsPasskeys = SignalValue.YES,
                 ),
             riskIndicators =
                 AnalysisResultData.RiskIndicators(

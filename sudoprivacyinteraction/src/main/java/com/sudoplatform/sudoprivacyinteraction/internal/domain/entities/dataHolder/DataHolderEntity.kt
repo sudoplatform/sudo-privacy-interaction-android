@@ -20,10 +20,11 @@ import java.util.Date
  * @property name [String] Display name of the data holder (e.g. "Google").
  * @property protectionState [DataHolderProtectionStateEntity] Current protection state.
  * @property complianceConcern [Boolean] Whether there is a compliance concern with this data holder.
- * @property mostRecentInteractionAt [Date] Date of the most recent interaction.
  * @property version [Int] Version of this entity. Increments on update.
  * @property createdAt [Date] Date for when the data holder was created.
  * @property updatedAt [Date] Date for when the data holder was last updated.
+ * @property mostRecentInboundContactAt [Date] Date of the most recent inbound contact.
+ * @property firstInboundContactAt [Date] Date of the earliest observed contact.
  */
 internal data class DataHolderEntity(
     val id: String,
@@ -33,10 +34,11 @@ internal data class DataHolderEntity(
     val name: String,
     val protectionState: DataHolderProtectionStateEntity,
     val complianceConcern: Boolean,
-    val mostRecentInteractionAt: Date,
     val version: Int,
     val createdAt: Date,
     val updatedAt: Date,
+    val mostRecentInboundContactAt: Date,
+    val firstInboundContactAt: Date,
 )
 
 /**

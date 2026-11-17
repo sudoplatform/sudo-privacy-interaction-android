@@ -58,7 +58,7 @@ internal class GraphQLVirtualPresenceService(
                                 refreshToken = it.refreshToken,
                                 providerIdentity = it.providerIdentity,
                                 scopes = Optional.presentIfNotNull(it.scopes),
-                                expiresInEpochMs = Optional.presentIfNotNull(it.expiresInEpochMs),
+                                expiresAtEpochMs = Optional.presentIfNotNull(it.expiresAtEpochMs),
                             )
                         },
                     ),

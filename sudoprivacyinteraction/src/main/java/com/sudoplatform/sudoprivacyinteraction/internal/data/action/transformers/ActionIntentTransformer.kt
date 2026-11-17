@@ -25,6 +25,9 @@ internal object ActionIntentTransformer {
             ActionIntentGraphQL.SWAP_PHONE -> ActionIntentEntity.SWAP_PHONE
             ActionIntentGraphQL.SWAP_VIRTUAL_CARD -> ActionIntentEntity.SWAP_VIRTUAL_CARD
             ActionIntentGraphQL.SAVE_IN_PASSWORD -> ActionIntentEntity.SAVE_IN_PASSWORD
+            ActionIntentGraphQL.USE_TWO_FACTOR_AUTH -> ActionIntentEntity.USE_TWO_FACTOR_AUTH
+            ActionIntentGraphQL.USE_PASSKEY -> ActionIntentEntity.USE_PASSKEY
+            ActionIntentGraphQL.USE_STRONG_PASSWORD -> ActionIntentEntity.USE_STRONG_PASSWORD
             ActionIntentGraphQL.OTHER -> ActionIntentEntity.OTHER
             else -> ActionIntentEntity.UNKNOWN
         }
@@ -39,6 +42,9 @@ internal object ActionIntentTransformer {
             ActionIntentEntity.SWAP_PHONE -> ActionIntent.SWAP_PHONE
             ActionIntentEntity.SWAP_VIRTUAL_CARD -> ActionIntent.SWAP_VIRTUAL_CARD
             ActionIntentEntity.SAVE_IN_PASSWORD -> ActionIntent.SAVE_IN_PASSWORD
+            ActionIntentEntity.USE_TWO_FACTOR_AUTH -> ActionIntent.USE_TWO_FACTOR_AUTH
+            ActionIntentEntity.USE_PASSKEY -> ActionIntent.USE_PASSKEY
+            ActionIntentEntity.USE_STRONG_PASSWORD -> ActionIntent.USE_STRONG_PASSWORD
             ActionIntentEntity.OTHER -> ActionIntent.OTHER
             ActionIntentEntity.UNKNOWN -> ActionIntent.UNKNOWN
         }
@@ -53,6 +59,9 @@ internal object ActionIntentTransformer {
             ActionIntent.SWAP_PHONE -> ActionIntentEntity.SWAP_PHONE
             ActionIntent.SWAP_VIRTUAL_CARD -> ActionIntentEntity.SWAP_VIRTUAL_CARD
             ActionIntent.SAVE_IN_PASSWORD -> ActionIntentEntity.SAVE_IN_PASSWORD
+            ActionIntent.USE_TWO_FACTOR_AUTH -> ActionIntentEntity.USE_TWO_FACTOR_AUTH
+            ActionIntent.USE_PASSKEY -> ActionIntentEntity.USE_PASSKEY
+            ActionIntent.USE_STRONG_PASSWORD -> ActionIntentEntity.USE_STRONG_PASSWORD
             ActionIntent.OTHER -> ActionIntentEntity.OTHER
             ActionIntent.UNKNOWN -> ActionIntentEntity.UNKNOWN
         }
@@ -67,6 +76,9 @@ internal object ActionIntentTransformer {
             ActionIntentEntity.SWAP_PHONE -> ActionIntentGraphQL.SWAP_PHONE
             ActionIntentEntity.SWAP_VIRTUAL_CARD -> ActionIntentGraphQL.SWAP_VIRTUAL_CARD
             ActionIntentEntity.SAVE_IN_PASSWORD -> ActionIntentGraphQL.SAVE_IN_PASSWORD
+            ActionIntentEntity.USE_TWO_FACTOR_AUTH -> ActionIntentGraphQL.USE_TWO_FACTOR_AUTH
+            ActionIntentEntity.USE_PASSKEY -> ActionIntentGraphQL.USE_PASSKEY
+            ActionIntentEntity.USE_STRONG_PASSWORD -> ActionIntentGraphQL.USE_STRONG_PASSWORD
             ActionIntentEntity.OTHER -> ActionIntentGraphQL.OTHER
             ActionIntentEntity.UNKNOWN -> ActionIntentGraphQL.UNKNOWN__
         }

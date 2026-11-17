@@ -90,6 +90,9 @@ internal enum class ActionIntentEntity {
     SWAP_PHONE,
     SWAP_VIRTUAL_CARD,
     SAVE_IN_PASSWORD,
+    USE_TWO_FACTOR_AUTH,
+    USE_PASSKEY,
+    USE_STRONG_PASSWORD,
     OTHER,
     UNKNOWN,
 }

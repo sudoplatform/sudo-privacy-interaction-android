@@ -46,7 +46,7 @@ class SudoPrivacyInteractionConnectVirtualPresenceWithRefreshTokenTest : BaseTes
             refreshToken = mockRefreshToken,
             providerIdentity = mockProviderIdentity,
             scopes = mockScopes,
-            expiresInEpochMs = mockExpiresInEpochMs,
+            expiresAtEpochMs = mockExpiresAtEpochMs,
             relationshipProvider = RelationshipProvider.GMAIL_PROVIDER,
         )
     }
@@ -132,7 +132,29 @@ class SudoPrivacyInteractionConnectVirtualPresenceWithRefreshTokenTest : BaseTes
                     useCaseInput.refreshToken shouldBe mockRefreshToken
                     useCaseInput.providerIdentity shouldBe mockProviderIdentity
                     useCaseInput.scopes shouldBe mockScopes
-                    useCaseInput.expiresInEpochMs shouldBe mockExpiresInEpochMs
+                    useCaseInput.expiresAtEpochMs shouldBe mockExpiresAtEpochMs
+                },
+            )
+            verify(mockSignInGuard).ensureSignedIn()
+        }
+
+    @Test
+    @Suppress("DEPRECATION")
+    fun `connectVirtualPresenceWithRefreshToken() should convert deprecated relative expiry to absolute`() =
+        runTest {
+            val before = System.currentTimeMillis()
+            client.connectVirtualPresenceWithRefreshToken(
+                input.copy(expiresAtEpochMs = null, expiresInEpochMs = mockExpiresInEpochMs),
+            )
+            val after = System.currentTimeMillis()
+
+            verify(mockUseCaseFactory).createConnectVirtualPresenceWithRefreshTokenUseCase()
+            verify(mockUseCase).execute(
+                check { useCaseInput ->
+                    val expiresAt = useCaseInput.expiresAtEpochMs
+                    expiresAt shouldNotBe null
+                    (expiresAt!! >= before + mockExpiresInEpochMs) shouldBe true
+                    (expiresAt <= after + mockExpiresInEpochMs) shouldBe true
                 },
             )
             verify(mockSignInGuard).ensureSignedIn()

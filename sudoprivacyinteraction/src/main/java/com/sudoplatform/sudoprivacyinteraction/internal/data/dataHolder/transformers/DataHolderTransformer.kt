@@ -33,10 +33,11 @@ internal object DataHolderTransformer {
             name = data.name,
             protectionState = DataHolderProtectionStateTransformer.fromGraphQLToEntity(data.protectionState),
             complianceConcern = data.complianceConcern,
-            mostRecentInteractionAt = data.mostRecentInteractionEpochMs.toDate(),
             version = data.version,
             createdAt = data.createdAtEpochMs.toDate(),
             updatedAt = data.updatedAtEpochMs.toDate(),
+            mostRecentInboundContactAt = (data.mostRecentInboundContactEpochMs ?: data.createdAtEpochMs).toDate(),
+            firstInboundContactAt = (data.firstInboundContactEpochMs ?: data.createdAtEpochMs).toDate(),
         )
 
     /**
@@ -55,10 +56,11 @@ internal object DataHolderTransformer {
             name = item.name,
             protectionState = DataHolderProtectionStateTransformer.fromGraphQLToEntity(item.protectionState),
             complianceConcern = item.complianceConcern,
-            mostRecentInteractionAt = item.mostRecentInteractionEpochMs.toDate(),
             version = item.version,
             createdAt = item.createdAtEpochMs.toDate(),
             updatedAt = item.updatedAtEpochMs.toDate(),
+            mostRecentInboundContactAt = (item.mostRecentInboundContactEpochMs ?: item.createdAtEpochMs).toDate(),
+            firstInboundContactAt = (item.firstInboundContactEpochMs ?: item.createdAtEpochMs).toDate(),
         )
 
     /**
@@ -68,6 +70,7 @@ internal object DataHolderTransformer {
      * @param latestScanSummary [DataHolderScanSummary] Optional latest scan summary to attach.
      * @return The public [DataHolder] type.
      */
+    @Suppress("DEPRECATION")
     fun fromEntityToApi(
         entity: DataHolderEntity,
         latestScanSummary: DataHolderScanSummary? = null,
@@ -80,10 +83,13 @@ internal object DataHolderTransformer {
             name = entity.name,
             protectionState = DataHolderProtectionStateTransformer.fromEntityToApi(entity.protectionState),
             complianceConcern = entity.complianceConcern,
-            mostRecentInteractionAt = entity.mostRecentInteractionAt,
+            // Replaced by mostRecentInboundContactAt; kept on the public type for compatibility.
+            mostRecentInteractionAt = entity.mostRecentInboundContactAt,
             version = entity.version,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
+            mostRecentInboundContactAt = entity.mostRecentInboundContactAt,
+            firstInboundContactAt = entity.firstInboundContactAt,
             latestScanSummary = latestScanSummary,
         )
 }

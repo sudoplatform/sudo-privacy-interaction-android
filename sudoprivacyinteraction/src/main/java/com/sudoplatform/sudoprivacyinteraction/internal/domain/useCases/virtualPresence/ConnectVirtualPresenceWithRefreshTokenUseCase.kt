@@ -20,7 +20,7 @@ internal data class ConnectVirtualPresenceWithRefreshTokenUseCaseInput(
     val refreshToken: String,
     val providerIdentity: String,
     val scopes: List<String>? = null,
-    val expiresInEpochMs: Double? = null,
+    val expiresAtEpochMs: Double? = null,
     val relationshipProvider: RelationshipProviderEntity? = null,
 )
 
@@ -40,7 +40,7 @@ internal class ConnectVirtualPresenceWithRefreshTokenUseCase(
                         refreshToken = input.refreshToken,
                         providerIdentity = input.providerIdentity,
                         scopes = input.scopes,
-                        expiresInEpochMs = input.expiresInEpochMs,
+                        expiresAtEpochMs = input.expiresAtEpochMs,
                     ),
                 relationshipProvider = input.relationshipProvider,
             ),

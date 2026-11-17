@@ -196,6 +196,7 @@ internal class DefaultSudoPrivacyInteractionClient(
         return VirtualPresenceTransformer.fromEntityToApi(result)
     }
 
+    @Suppress("DEPRECATION")
     override suspend fun connectVirtualPresenceWithRefreshToken(input: ConnectVirtualPresenceWithRefreshTokenInput): VirtualPresence {
         logger.debug("connectVirtualPresenceWithRefreshToken")
         ensureSignedIn()
@@ -204,12 +205,17 @@ internal class DefaultSudoPrivacyInteractionClient(
             input.relationshipProvider?.let {
                 RelationshipProviderTransformer.fromApiToEntity(it)
             }
+        // The service only accepts an absolute expiry. Convert the deprecated relative expiry here,
+        // at the public boundary. An explicit absolute expiry takes precedence.
+        val expiresAtEpochMs =
+            input.expiresAtEpochMs
+                ?: input.expiresInEpochMs?.let { System.currentTimeMillis() + it }
         val input =
             ConnectVirtualPresenceWithRefreshTokenUseCaseInput(
                 refreshToken = input.refreshToken,
                 providerIdentity = input.providerIdentity,
                 scopes = input.scopes,
-                expiresInEpochMs = input.expiresInEpochMs,
+                expiresAtEpochMs = expiresAtEpochMs,
                 relationshipProvider = relationshipProvider,
             )
         val result = useCase.execute(input)

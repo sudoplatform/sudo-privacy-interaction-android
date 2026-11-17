@@ -88,6 +88,7 @@ internal data class CapabilitySignalsEntity(
     val supportsOptOutOfSale: SignalValueEntity,
     val usesCookiesOrTracking: SignalValueEntity,
     val supportsTwoFactorAuth: SignalValueEntity,
+    val supportsPasskeys: SignalValueEntity,
 )
 
 internal data class RiskIndicatorsEntity(

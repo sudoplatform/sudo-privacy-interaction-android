@@ -22,13 +22,18 @@ import java.util.Date
  * @property name [String] Display name of the data holder (e.g. "Google").
  * @property protectionState [DataHolderProtectionState] Current protection state.
  * @property complianceConcern [Boolean] Whether there is a compliance concern with this data holder.
- * @property mostRecentInteractionAt [Date] Date of the most recent interaction.
+ * @property mostRecentInteractionAt [Date] Date of the most recent interaction. Populated from
+ *  [mostRecentInboundContactAt] when available, otherwise falls back to [createdAt].
  * @property version [Int] Version of this entity. Increments on update.
  * @property createdAt [Date] Date for when the data holder was created.
  * @property updatedAt [Date] Date for when the data holder was last updated.
  * @property latestScanSummary [DataHolderScanSummary] The most recent scan summary for this
  *  data holder, when requested via `getDataHolder`. `null` when not requested or when the data
  *  holder has no scan summaries.
+ * @property mostRecentInboundContactAt [Date] Date of the most recent inbound contact from this
+ *  data holder. Falls back to [createdAt] when the service has not recorded it.
+ * @property firstInboundContactAt [Date] Date of the earliest observed contact from this data
+ *  holder. Falls back to [createdAt] when the service has not recorded it.
  */
 @Parcelize
 data class DataHolder(
@@ -39,10 +44,16 @@ data class DataHolder(
     val name: String,
     val protectionState: DataHolderProtectionState,
     val complianceConcern: Boolean,
+    @Deprecated(
+        message = "Use mostRecentInboundContactAt instead.",
+        replaceWith = ReplaceWith("mostRecentInboundContactAt"),
+    )
     val mostRecentInteractionAt: Date,
     val version: Int,
     val createdAt: Date,
     val updatedAt: Date,
+    val mostRecentInboundContactAt: Date,
+    val firstInboundContactAt: Date,
     val latestScanSummary: DataHolderScanSummary? = null,
 ) : Parcelable
 
