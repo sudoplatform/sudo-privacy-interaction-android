@@ -146,7 +146,7 @@ internal class DefaultSudoPrivacyInteractionClient(
      * and allow us to retry. The value of `version` doesn't need to be kept up-to-date with the
      * version of the code.
      */
-    private val version: String = "1.0.0"
+    private val version: String = "1.4.1"
 
     override suspend fun setSignInCallback(callback: SudoPlatformSignInCallback?) {
         callbackMutex.withLock {
